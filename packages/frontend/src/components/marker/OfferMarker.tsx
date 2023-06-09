@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useContext } from 'react'
 import OverlayView from '../map/OverlayView'
 import { motion } from 'framer-motion'
 import { Offer } from '../../types/app'
 import { AnimatePresence } from 'framer-motion'
+import ZoomContext from '@shared/zoomContext'
 
 import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react'
 import { OfferPopUp } from './OfferPopUp'
@@ -17,9 +18,21 @@ interface OfferMarkerProps {
 }
 
 const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
+    const { zoomLevel } = useContext(ZoomContext)
+
     const price = useMemo(() => {
         return offer.price
     }, [offer])
+
+    const width = useMemo(() => {
+        console.log('zoomLevel', zoomLevel)
+        if (!zoomLevel) return '25%%';
+        if (zoomLevel == 15) return '20%';
+        if (zoomLevel == 14) return '15%';
+        if (zoomLevel == 13) return '10%';
+        if (zoomLevel <= 12) return '8%';
+        return '30%';
+    }, [zoomLevel]);
 
     const handleClick = useCallback(() => {
         onClick(offer)
@@ -47,7 +60,7 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
                                 damping: 20,
                             }}
                         >
-                            <OfferPopUp width="20%" />
+                            <OfferPopUp width={width} />
                         </motion.div>
                     </AnimatePresence>
                 </OverlayView>
