@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { HardhatExportContracts } from 'src/types/hardhat'
 import { useAsyncEffect } from 'use-async-effect'
 import { Chain, useNetwork } from 'wagmi'
-import { defaultChain } from './wagmiClient'
+import { defaultChain } from './wagmiConfig'
 
 export const useDeployments = () => {
   const { chain } = useNetwork()

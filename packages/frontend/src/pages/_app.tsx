@@ -6,7 +6,7 @@ import { CacheProvider } from '@emotion/react'
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { env } from '@shared/environment'
-import { chains, wagmiClient } from '@shared/wagmiClient'
+import { chains, wagmiConfig } from '@shared/wagmiConfig'
 import GlobalStyles from '@styles/GlobalStyles'
 import { DefaultSeo } from 'next-seo'
 import type { AppProps } from 'next/app'
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ChakraProvider>
           <GlobalStyles />
 
-          <WagmiConfig client={wagmiClient}>
+          <WagmiConfig config={wagmiConfig}>
             <RainbowKitProvider chains={chains} coolMode={true} showRecentTransactions={true} appInfo={{
               appName: 'EthPrague', // TODO
               learnMoreUrl: 'https://ethprague.com/images/cover.jpg', // TODO
