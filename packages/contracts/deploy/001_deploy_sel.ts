@@ -1,4 +1,3 @@
-import { parseEther } from 'ethers/lib/utils'
 import { DeployFunction } from 'hardhat-deploy/types'
 import { HardhatRuntimeEnvironment } from 'hardhat/types'
 
@@ -7,18 +6,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments
 
   const { deployer } = await getNamedAccounts()
-  console.log(`Deploying as ${deployer}…`)
+  console.log(`Deploying as ${deployer} on blockchain ${""}…`)
 
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000)
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS
-
-  await deploy('Lock', {
+  const deployResult = await deploy('Sel', {
     from: deployer,
-    args: [unlockTime],
-    value: parseEther('0.01'),
     log: true,
+    args: [1000],
   })
+
+  console.log(`Contract deployed at ${deployResult.address}`)
 }
-func.tags = ['Lock']
+func.tags = ['Sel']
 export default func
