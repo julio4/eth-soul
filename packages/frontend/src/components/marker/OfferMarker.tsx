@@ -2,6 +2,9 @@ import { useCallback, useMemo } from "react";
 import OverlayView from "../map/OverlayView";
 import { motion } from "framer-motion";
 import { Offer } from "../../types/app";
+import { AnimatePresence } from "framer-motion";
+
+import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react'
 
 import tw from "twin.macro";
 
@@ -28,6 +31,35 @@ const OfferMarker = ({
 
   return (
     <>
+      {map && highlight && (
+        <OverlayView
+          position={{
+            lat: offer.location.latitude as number,
+            lng: offer.location.longitude as number,
+          }}
+          map={map}
+          zIndex={99}
+        >
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+              }}
+            >
+              <Card tw="relative w-48 -left-16 h-32 -top-36 bg-white">
+                <CardBody>
+                  <Text tw="text-gray-600">View a summary of all your customers over the last month.</Text>
+                </CardBody>
+              </Card>
+            </motion.div>
+          </AnimatePresence>
+        </OverlayView>
+      )}
       {map && (
         <OverlayView
           position={{
@@ -49,7 +81,7 @@ const OfferMarker = ({
           >
             {highlight ? (
               <button
-                tw="rounded-full bg-black py-2 px-2 font-bold text-xs text-white transition-all hover:drop-shadow "
+                tw="rounded-full bg-gray-400 py-2 px-2 font-bold text-xs text-white transition-all hover:drop-shadow "
                 onClick={handleClick}
               >
                 {`T ${price}`}

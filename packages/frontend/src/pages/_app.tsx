@@ -27,14 +27,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <DefaultSeo
         dangerouslySetAllPagesToNoFollow={!env.isProduction}
         dangerouslySetAllPagesToNoIndex={!env.isProduction}
-        defaultTitle="ETHathon" // TODO
-        titleTemplate="%s | ETHathon" // TODO
-        description="EVM-based Smart Contract & DApp Development Boilerplate" // TODO
+        defaultTitle="EthPrague" // TODO
+        titleTemplate="%s | EthPrague" // TODO
+        description="EthPrague" // TODO
         openGraph={{
           type: 'website',
           locale: 'en',
           url: env.url,
-          site_name: 'ETHathon', // TODO
+          site_name: 'EthPrague', // TODO
           images: [
             {
               url: `${env.url}/images/cover.jpg`, // TODO
@@ -54,19 +54,21 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <CacheProvider value={cache}>
         <ChakraProvider>
-          <DarkMode>
-            <GlobalStyles />
+          <GlobalStyles />
 
-            <WagmiConfig client={wagmiClient}>
-              <RainbowKitProvider chains={chains} coolMode={true}>
-                <BaseLayout>
-                  <Component {...pageProps} />
-                </BaseLayout>
-              </RainbowKitProvider>
-            </WagmiConfig>
+          <WagmiConfig client={wagmiClient}>
+            <RainbowKitProvider chains={chains} coolMode={true} showRecentTransactions={true} appInfo={{
+              appName: 'EthPrague', // TODO
+              learnMoreUrl: 'https://ethprague.com/images/cover.jpg', // TODO
+              disclaimer: undefined,
+            }}>
+              <BaseLayout>
+                <Component {...pageProps} />
+              </BaseLayout>
+            </RainbowKitProvider>
+          </WagmiConfig>
 
-            <HotToastConfig />
-          </DarkMode>
+          <HotToastConfig />
         </ChakraProvider>
       </CacheProvider>
     </>

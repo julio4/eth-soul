@@ -14,7 +14,7 @@ interface MarkedMapProps {
   markers?: Offer[];
   center: google.maps.LatLngLiteral;
   zoom: number;
-  highlightedMarkerId?: number;
+  highlightedMarker?: Offer | null;
 }
 
 const MarkedMap = ({
@@ -24,7 +24,7 @@ const MarkedMap = ({
   center,
   markers,
   onMarkerClick,
-  highlightedMarkerId,
+  highlightedMarker,
 }: MarkedMapProps) => {
   const render = (status: Status) => {
     console.log("Map status", status)
@@ -56,12 +56,12 @@ const MarkedMap = ({
             >
 
               {markers?.map((marker) => (
-                <OfferMarker
-                  key={marker.id}
-                  offer={marker}
-                  onClick={onMarkerClick}
-                  highlight={highlightedMarkerId === marker.id}
-                />
+                  <OfferMarker
+                    key={marker.id}
+                    offer={marker}
+                    onClick={onMarkerClick}
+                    highlight={highlightedMarker?.id === marker.id}
+                  />
               ))}
 
             </Map>

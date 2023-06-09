@@ -21,7 +21,7 @@ export const TopBar = () => {
         <Spacer />
 
         {/* Rainbowkit Connect Button */}
-        <ConnectButton />
+        <ConnectButton showBalance={false} chainStatus={"icon"}/>
 
       </Flex>
     </div>
