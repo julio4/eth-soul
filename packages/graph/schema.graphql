@@ -1,0 +1,71 @@
+type Approval @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  spender: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OfferCanceled @entity(immutable: true) {
+  id: Bytes!
+  offerId: BigInt! # uint256
+  offerer: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OfferCreated @entity(immutable: true) {
+  id: Bytes!
+  offerId: BigInt! # uint256
+  offerer: Bytes! # address
+  tokens: BigInt! # uint256
+  hash: [Bytes!]! # bytes32[2]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PropositionAccepted @entity(immutable: true) {
+  id: Bytes!
+  offerId: BigInt! # uint256
+  offerer: Bytes! # address
+  requester: Bytes! # address
+  tokens: BigInt! # uint256
+  hash: [Bytes!]! # bytes32[2]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PropositionCanceled @entity(immutable: true) {
+  id: Bytes!
+  offerId: BigInt! # uint256
+  proposer: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PropositionMade @entity(immutable: true) {
+  id: Bytes!
+  offerId: BigInt! # uint256
+  proposer: Bytes! # address
+  tokens: BigInt! # uint256
+  hash: [Bytes!]! # bytes32[2]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Transfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

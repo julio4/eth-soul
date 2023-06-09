@@ -32,6 +32,11 @@ const config: HardhatUserConfig = {
       url: process.env.RPC_5 || 'https://rpc.ankr.com/eth_goerli',
       accounts,
     },
+    sepolia: {
+      chainId: 11155111,
+      url: process.env.RPC_11155111 || 'https://sepolia.infura.io/v3/',
+      accounts,
+    },
   },
   namedAccounts: {
     deployer: {
