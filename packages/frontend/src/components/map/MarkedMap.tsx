@@ -2,17 +2,19 @@
 import { FC, PropsWithChildren } from 'react'
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Map from './Map'
+import { Offer } from '../../types/app'
+import OfferMarker from '../marker/OfferMarker'
 
 import 'twin.macro'
 
 interface MarkedMapProps {
   onIdle?: (map: google.maps.Map) => void;
   onClick?: (e: google.maps.MapMouseEvent) => void;
-  // onMarkerClick: (payload: TODO) => void;
-  // markers?: TODO[];
+  onMarkerClick: (payload: Offer) => void;
+  markers?: Offer[];
   center: google.maps.LatLngLiteral;
   zoom: number;
-  highlightedMarkerId?: string;
+  highlightedMarkerId?: number;
 }
 
 const MarkedMap = ({
@@ -20,9 +22,9 @@ const MarkedMap = ({
   onIdle,
   zoom,
   center,
-  // markers,
-  // onMarkerClick,
-  // highlightedMarkerId,
+  markers,
+  onMarkerClick,
+  highlightedMarkerId,
 }: MarkedMapProps) => {
   const render = (status: Status) => {
     console.log("Map status", status)
@@ -52,7 +54,16 @@ const MarkedMap = ({
               zoomControl={false}
               clickableIcons={false}
             >
-              {/* markers here */}
+
+              {markers?.map((marker) => (
+                <OfferMarker
+                  key={marker.id}
+                  offer={marker}
+                  onClick={onMarkerClick}
+                  highlight={highlightedMarkerId === marker.id}
+                />
+              ))}
+
             </Map>
           </Wrapper>
         </main>
