@@ -18,6 +18,7 @@
     "deploy:mumbai": "pnpm hardhat deploy --network mumbai --export './deployments/80001.json' --write true",
     "deploy:goerli": "pnpm hardhat deploy --network goerli --export './deployments/5.json' --write true",
     "deploy:sepolia": "pnpm hardhat deploy --network sepolia --export './artifacts/contracts/Sel.sol/Sel.json' --write true",
+    "verify:sepolia": "pnpm hardhat etherscan-verify --network sepolia",
     "verify:mumbai": "source .env && pnpm hardhat etherscan-verify --network mumbai --api-key $POLYGONSCAN_API_KEY",
     "verify:goerli": "pnpm hardhat etherscan-verify --network goerli"
   },
@@ -28,7 +29,7 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.6",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13",
-    "@nomiclabs/hardhat-etherscan": "^3.1.2",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@openzeppelin/contracts": "^4.8.0",
     "@typechain/ethers-v5": "^10.1.1",
     "@typechain/hardhat": "^6.1.4",

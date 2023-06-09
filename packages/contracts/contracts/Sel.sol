@@ -19,7 +19,7 @@ contract Sel is ERC20 {
     _mint(msg.sender, _mintValue * 10 ** decimals());
   }
 
-  uint256 public offerId;
+  uint256 public latestOfferId;
   mapping(uint256 => Offer) private offers;
   mapping(address => uint256) private proposers;
 
@@ -52,30 +52,26 @@ contract Sel is ERC20 {
     return proposers[_address];
   }
 
-  function createOffer(uint256 _tokens, bytes32[2] memory _hash) public payable returns (uint256){
+  function createOffer(uint256 _tokens, bytes32[2] memory _hash) public payable{
     require(_tokens > 0, "You must offer at least 1 token"); // TODO : Delete this part
-    require(_hash[0] != 0, "You must provide a hash");
-    require(_hash[1] != 0, "You must provide a hash");
 
     _transfer(msg.sender, address(this), _tokens);
 
-    offerId++;
-    offers[offerId] = Offer(_hash[0], _hash[1], _tokens, msg.sender, true);
+    latestOfferId++;
+    offers[latestOfferId] = Offer(_hash[0], _hash[1], _tokens, msg.sender, true);
     _stack[msg.sender] += _tokens;
 
-    emit OfferCreated(offerId, msg.sender, _tokens, _hash);
-    return offerId;
+    emit OfferCreated(latestOfferId, msg.sender, _tokens, _hash);
   }
 
   function cancelOffer(uint256 _offerId) offerExistance(_offerId) public payable {
-    Offer storage offer = offers[_offerId];
+    Offer memory offer = offers[_offerId];
     require(offer.offerer == msg.sender, "You are not the offerer");
-    uint256 _value = offer.value;
 
     delete offers[_offerId];
-    _stack[msg.sender] -= _value;
+    _stack[msg.sender] -= offer.value;
     emit OfferCanceled(_offerId, msg.sender);
-    _transfer(address(this), msg.sender, _value);
+    _transfer(address(this), msg.sender, offer.value);
   }
 
   function makeProposition(uint256 _offerId) offerExistance(_offerId) public payable {
