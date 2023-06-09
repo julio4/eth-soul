@@ -5,7 +5,6 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 struct Offer {
   bytes32 hash1;
@@ -16,8 +15,8 @@ struct Offer {
 }
 
 contract Sel is ERC20 {
-  constructor() ERC20("Sel", "SEL") {
-    _mint(msg.sender, 1000 * 10 ** decimals());
+  constructor(uint256 _mintValue) ERC20("Sel", "SEL") {
+    _mint(msg.sender, _mintValue);
   }
 
   uint256 public offerId;
@@ -32,7 +31,7 @@ contract Sel is ERC20 {
   event PropositionCanceled(uint256 offerId, address proposer);
   event PropositionAccepted(uint256 offerId, address offerer, address requester, uint256 tokens, bytes32[2] hash);
 
-  modifier offer_existance(uint256 _offerId) {
+  modifier offerExistance(uint256 _offerId) {
     Offer memory offer = offers[_offerId];
 
     require(offer.offerer != address(0), "Offer does not exist");
@@ -40,16 +39,16 @@ contract Sel is ERC20 {
     _;
   }
 
-  function get_offer(uint256 _offer) public view returns (bytes32[2] memory, uint256, address, bool) {
+  function getOffer(uint256 _offer) public view returns (bytes32[2] memory, uint256, address, bool) {
     Offer storage offer = offers[_offer];
     return ([offer.hash1, offer.hash2], offer.value, offer.offerer, offer.active);
   }
 
-  function get_stacked_balance(address _address) public view returns (uint256) {
+  function getStackedBalance(address _address) public view returns (uint256) {
     return _stack[_address];
   }
 
-  function create_offer(uint256 _tokens, bytes32[2] memory _hash) public payable returns (uint256){
+  function createOffer(uint256 _tokens, bytes32[2] memory _hash) public payable returns (uint256){
     require(_tokens > 0, "You must offer at least 1 token"); // TODO : Delete this part
     require(_hash[0] != 0, "You must provide a hash");
     require(_hash[1] != 0, "You must provide a hash");
@@ -64,7 +63,7 @@ contract Sel is ERC20 {
     return offerId;
   }
 
-  function cancel_offer(uint256 _offerId) offer_existance(_offerId) public payable {
+  function cancelOffer(uint256 _offerId) offerExistance(_offerId) public payable {
     Offer storage offer = offers[_offerId];
 
     require(offer.offerer == msg.sender, "You are not the offerer");
@@ -75,7 +74,7 @@ contract Sel is ERC20 {
     _transfer(address(this), msg.sender, offer.value);
   }
 
-  function make_proposition(uint256 _offerId) offer_existance(_offerId) public payable {
+  function makeProposition(uint256 _offerId) offerExistance(_offerId) public payable {
     Offer memory offer = offers[_offerId];
 
     require(offer.offerer != msg.sender, "You can't request your own offer");
@@ -85,15 +84,15 @@ contract Sel is ERC20 {
     emit PropositionMade(_offerId, msg.sender, offer.value, [offer.hash1, offer.hash2]);
   }
 
-  function cancel_proposition() public payable {
+  function cancelProposition() public payable {
     uint256 _offerId = proposers[msg.sender];
     require(_offerId != 0, "You are not a proposer");
-    
+
     delete proposers[msg.sender];
     emit PropositionCanceled(_offerId, msg.sender);
   }
 
-  function accept_offer(uint256 _offerId, address proposer) offer_existance(_offerId) public payable {
+  function acceptOffer(uint256 _offerId, address proposer) offerExistance(_offerId) public payable {
     Offer storage offer = offers[_offerId];
 
     require(offer.offerer == msg.sender, "You are not the offerer");
