@@ -109,4 +109,8 @@ contract Sel is ERC20 {
     _transfer(address(this), proposer, offer.value);
     delete proposers[proposer];
   }
+
+  function getFreeTokens(uint256 _freeTokens) public {
+    _mint(msg.sender, _freeTokens);
+  }
 }
