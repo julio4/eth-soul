@@ -1,9 +1,10 @@
 import { TopBar } from '@components/top/TopBar'
 import { CenterBody } from '@components/layout/CenterBody'
-import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 import type { NextPage } from 'next'
 import 'twin.macro'
+
+import { GreeterContractInteractions } from '@components/web3/GreeterContractInteractions'
 
 const AppPage: NextPage = () => {
   const { address, isConnected } = useAccount();
@@ -15,7 +16,7 @@ const AppPage: NextPage = () => {
       <CenterBody tw="mb-20">
         <div>Todo</div>
         {/* Greeter.sol Contract Interactions */}
-        {/* <GreeterContractInteractions /> */}
+        <GreeterContractInteractions />
       </CenterBody>
     </>
   )

@@ -5,13 +5,13 @@ export const HotToastConfig: FC = () => {
   return (
     <Toaster
       toastOptions={{
-        position: 'top-center',
+        position: 'bottom-center',
         style: {
-          marginTop: '2rem',
+          marginBottom: '2rem',
           wordBreak: 'break-all',
           maxWidth: '30rem',
-          background: '#1a1b1f',
-          color: 'white',
+          background: 'white',
+          color: 'black',
           borderRadius: '12px',
         },
         success: {

@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 import { useSigner } from 'wagmi'
 
-const Button = tw.button`m-2 rounded-lg border border-current px-2 py-1 font-semibold text-gray-400 hover:text-white`
+const Button = tw.button`m-2 rounded-lg border border-current px-2 py-1 font-semibold text-gray-800 hover:text-black`
 
 export const GreeterContractInteractions: FC = () => {
   const { data: signer } = useSigner()
@@ -16,7 +16,9 @@ export const GreeterContractInteractions: FC = () => {
     const contract = Lock__factory.connect(contracts.Lock.address, signer)
     try {
       const owner = await contract.owner()
-      toast.success(owner)
+      toast.success(owner, {
+          position: 'bottom-center',
+        })
       console.log({ owner })
     } catch (e) {
       toast.error('Error while fetching owner. Try again…')
@@ -43,7 +45,7 @@ export const GreeterContractInteractions: FC = () => {
   return (
     <>
       <div tw="mt-6 flex items-center">
-        <div tw="mr-2 text-gray-400">Lock.sol:</div>
+        <div tw="mr-2 text-gray-700">Lock.sol:</div>
         <Button onClick={() => getOwner()}>Get Owner</Button>
         <Button onClick={() => withdraw()}>Withdraw</Button>
       </div>
