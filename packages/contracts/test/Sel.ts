@@ -7,7 +7,8 @@ describe('Sel', function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
   // and reset Hardhat Network to that snapshot in every test.
-  const INITIAL_OWNER_BALANCE = 1000;
+  const INITIAL_OWNER_BALANCE = BigInt(1000);
+  const DECIMAL_FACTOR = BigInt(10 ** 18);
   const HASH = ["0x0000000000000000000000000000000000000000000000000000000000000001", "0x0000000000000000000000000000000000000000000000000000000000000002"];
 
   async function deployment() {
@@ -29,25 +30,25 @@ describe('Sel', function () {
     it('Should mint 1000 token for the owner', async function () {
       const { sel, owner } = await loadFixture(deployment)
 
-      expect(await sel.balanceOf(owner.address)).to.equal(INITIAL_OWNER_BALANCE)
+      expect(await sel.balanceOf(owner.address)).to.equal(INITIAL_OWNER_BALANCE * DECIMAL_FACTOR)
     })
   })
 
   describe('Create an offer', function () {
     it('Should create an offer', async function () {
       const { sel, owner } = await loadFixture(deployment)
-      const value = 100;
+      const VALUE = BigInt(100) * DECIMAL_FACTOR;
 
-      await sel.createOffer(value, HASH)
-      expect(await sel.balanceOf(owner.address)).to.equal(INITIAL_OWNER_BALANCE - value)
-      expect(await sel.getStackedBalance(owner.address)).to.equal(value)
-      expect(await sel.balanceOf(sel.address)).to.equal(value)
+      await sel.createOffer(VALUE, HASH)
+      expect(await sel.balanceOf(owner.address)).to.equal(INITIAL_OWNER_BALANCE * DECIMAL_FACTOR - VALUE)
+      expect(await sel.getStackedBalance(owner.address)).to.equal(VALUE)
+      expect(await sel.balanceOf(sel.address)).to.equal(VALUE)
 
       const offer = await sel.getOffer(1)
 
       expect(offer[0][0]).to.equal(HASH[0])
       expect(offer[0][1]).to.equal(HASH[1])
-      expect(offer[1]).to.equal(value)
+      expect(offer[1]).to.equal(VALUE)
       expect(offer[2]).to.equal(owner.address)
       expect(offer[3]).to.equal(true)
     })
@@ -82,7 +83,7 @@ describe('Sel', function () {
       expect(offer[3]).to.equal(false);
 
       expect(await _sel.getStackedBalance(_owner.address)).to.equal(0);
-      expect(await _sel.balanceOf(_owner.address)).to.equal(INITIAL_OWNER_BALANCE);
+      expect(await _sel.balanceOf(_owner.address)).to.equal(INITIAL_OWNER_BALANCE * DECIMAL_FACTOR);
       expect(await _sel.balanceOf(_sel.address)).to.equal(0);
     });
   })
@@ -91,7 +92,7 @@ describe('Sel', function () {
     let _sel: Contract;
     let _owner: Signer;
     let _otherAccounts: Signer[];
-    const VALUE = 100;
+    const VALUE = BigInt(100) * DECIMAL_FACTOR;
     const validOfferId = 1;
 
     this.beforeEach(async () => {
@@ -118,7 +119,7 @@ describe('Sel', function () {
     let _owner: any;
     let _otherAccounts: Signer[];
 
-    const VALUE = 100;
+    const VALUE = BigInt(100) * DECIMAL_FACTOR;
     const validOfferId = 1;
 
     this.beforeEach(async () => {
@@ -149,7 +150,7 @@ describe('Sel', function () {
     let _otherAccounts: any[];
     const validOfferId = 1;
 
-    const VALUE = 100;
+    const VALUE = BigInt(100) * DECIMAL_FACTOR;
 
     this.beforeEach(async () => {
       const { sel, owner, otherAccounts } = await loadFixture(deployment);
@@ -167,7 +168,7 @@ describe('Sel', function () {
       await _sel.acceptOffer(1, _otherAccounts[0].address);
 
       expect(await _sel.getStackedBalance(_owner.address)).to.equal(0);
-      expect(await _sel.balanceOf(_owner.address)).to.equal(INITIAL_OWNER_BALANCE - VALUE);
+      expect(await _sel.balanceOf(_owner.address)).to.equal(INITIAL_OWNER_BALANCE * DECIMAL_FACTOR - VALUE);
       expect(await _sel.balanceOf(_otherAccounts[0].address)).to.equal(VALUE);
 
       const offer = await _sel.getOffer(validOfferId);
