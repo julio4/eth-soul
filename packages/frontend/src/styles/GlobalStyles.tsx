@@ -18,7 +18,7 @@ const customStyles = css`
 
   /* Progress Bar */
   #nprogress > .bar {
-    ${tw`bg-black`}
+    ${tw`bg-green-500`}
   }
   #nprogress > .spinner {
     ${tw`hidden!`}

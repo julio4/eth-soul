@@ -1,7 +1,7 @@
 import { HomePageTitle } from '@components/home/HomePageTitle'
 import { TopBar } from '@components/top/TopBar'
 import { CenterBody } from '@components/layout/CenterBody'
-import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 import type { NextPage } from 'next'
 import 'twin.macro'
@@ -11,7 +11,8 @@ const HomePage: NextPage = () => {
   const { address, isConnected } = useAccount();
   return (
     <>
-      {/* <TopBanner /> */}
+      {/* Top banner ? */}
+
       <TopBar />
 
       <CenterBody tw="mb-20">

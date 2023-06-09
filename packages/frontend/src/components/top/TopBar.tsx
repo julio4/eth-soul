@@ -6,9 +6,9 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export const TopBar = () => {
   return (
-    <>
+    <div tw='sticky top-0 left-0 z-10 bg-white/10 backdrop-blur-lg'>
       <Flex
-        tw="z-10 items-center whitespace-pre-wrap py-2 px-2 text-center font-semibold backdrop-blur-lg text-sm text-black/75 hover:text-black"
+        tw="items-center whitespace-pre-wrap py-2 px-2 text-center font-semibold text-sm text-black/75 hover:text-black"
       >
         <Link
           href={'/'}
@@ -24,6 +24,6 @@ export const TopBar = () => {
         <ConnectButton />
 
       </Flex>
-    </>
+    </div>
   )
 }

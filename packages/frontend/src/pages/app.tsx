@@ -1,23 +1,22 @@
+import { useEffect, useRef, useState } from 'react'
 import { TopBar } from '@components/top/TopBar'
-import { CenterBody } from '@components/layout/CenterBody'
-import { useAccount } from 'wagmi'
+import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
+
 import 'twin.macro'
 
-import { GreeterContractInteractions } from '@components/web3/GreeterContractInteractions'
-
 const AppPage: NextPage = () => {
-  const { address, isConnected } = useAccount();
+  const [center, setCenter] = useState<google.maps.LatLngLiteral>({
+    lat: 50.10340217817493,
+    lng: 14.450536191137255
+  });
+
+  const [zoom, setZoom] = useState<number>(15);
+
   return (
     <>
-      {/* <TopBanner /> */}
       <TopBar />
-
-      <CenterBody tw="mb-20">
-        <div>Todo</div>
-        {/* Greeter.sol Contract Interactions */}
-        <GreeterContractInteractions />
-      </CenterBody>
+      <MarkedMap zoom={zoom} center={center}/>
     </>
   )
 }
