@@ -3,7 +3,7 @@ import { BaseLayout } from '@components/layout/BaseLayout'
 import { HotToastConfig } from '@components/layout/HotToastConfig'
 import { cache } from '@emotion/css'
 import { CacheProvider } from '@emotion/react'
-import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { env } from '@shared/environment'
 import { chains, wagmiClient } from '@shared/wagmiClient'
@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ],
         }}
         twitter={{
-          handle: '@scio_xyz', // TODO
+          handle: '@julio4__',
         }}
       />
 
@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <GlobalStyles />
 
             <WagmiConfig client={wagmiClient}>
-              <RainbowKitProvider chains={chains} theme={darkTheme()} coolMode={true}>
+              <RainbowKitProvider chains={chains} coolMode={true}>
                 <BaseLayout>
                   <Component {...pageProps} />
                 </BaseLayout>

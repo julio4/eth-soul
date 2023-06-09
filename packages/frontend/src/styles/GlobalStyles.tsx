@@ -7,7 +7,7 @@ const customStyles = css`
     ${tw`scroll-smooth antialiased`}
   }
   body {
-    ${tw`bg-black text-white`}
+    ${tw`bg-white text-black`}
     ${tw`relative h-screen min-h-screen`}
   }
 
@@ -18,7 +18,7 @@ const customStyles = css`
 
   /* Progress Bar */
   #nprogress > .bar {
-    ${tw`bg-white`}
+    ${tw`bg-black`}
   }
   #nprogress > .spinner {
     ${tw`hidden!`}
