@@ -6,13 +6,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments
 
   const { deployer } = await getNamedAccounts()
-  console.log(`Deploying as ${deployer}…`)
+  console.log(`Deploying as ${deployer} on blockchain ${""}…`)
 
-  await deploy('Sel', {
+  const deployResult = await deploy('Sel', {
     from: deployer,
     log: true,
     args: [1000],
   })
+
+  console.log(`Contract deployed at ${deployResult.address}`)
 }
 func.tags = ['Sel']
 export default func

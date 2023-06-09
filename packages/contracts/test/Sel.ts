@@ -1,17 +1,21 @@
 import { loadFixture } from '@nomicfoundation/hardhat-network-helpers'
 import { expect } from 'chai'
+import { Contract, Signer } from 'ethers';
 import { ethers } from 'hardhat'
 
 describe('Sel', function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshopt in every test.
+  // and reset Hardhat Network to that snapshot in every test.
+  const INITIAL_OWNER_BALANCE = 1000;
+  const HASH = ["0x0000000000000000000000000000000000000000000000000000000000000001", "0x0000000000000000000000000000000000000000000000000000000000000002"];
+
   async function deployment() {
     // Contracts are deployed using the first signer/account by default
     const [owner, firstAccount, secondAccount] = await ethers.getSigners()
 
     const Sel = await ethers.getContractFactory('Sel')
-    const sel = await Sel.deploy(1000)
+    const sel = await Sel.deploy(INITIAL_OWNER_BALANCE)
     return {
       sel, owner, otherAccounts:
         [
@@ -25,91 +29,151 @@ describe('Sel', function () {
     it('Should mint 1000 token for the owner', async function () {
       const { sel, owner } = await loadFixture(deployment)
 
-      expect(await sel.balanceOf(owner.address)).to.equal(1000)
+      expect(await sel.balanceOf(owner.address)).to.equal(INITIAL_OWNER_BALANCE)
     })
-
-    it('Should create an offer', async function () {
-      // const { sel, owner } = await loadFixture(deployment)
-
-      // await sel.createOffer(100, 1000)
-      // expect(await sel.balanceOf(owner.address)).to.equal(900)
-    })
-
-    // it('Should set the right owner', async function () {
-    //   const { lock, owner } = await loadFixture(deployOneYearLockFixture)
-
-    //   expect(await lock.owner()).to.equal(owner.address)
-    // })
-
-    // it('Should receive and store the funds to lock', async function () {
-    //   const { lock, lockedAmount } = await loadFixture(deployOneYearLockFixture)
-
-    //   expect(await ethers.provider.getBalance(lock.address)).to.equal(lockedAmount)
-    // })
-
-    // it('Should fail if the unlockTime is not in the future', async function () {
-    //   // We don't use the fixture here because we want a different deployment
-    //   const latestTime = await time.latest()
-    //   const Lock = await ethers.getContractFactory('Lock')
-    //   await expect(Lock.deploy(latestTime, { value: 1 })).to.be.revertedWith(
-    //     'Unlock time should be in the future'
-    //   )
-    // })
   })
 
-  // describe('Withdrawals', function () {
-  //   describe('Validations', function () {
-  //     it('Should revert with the right error if called too soon', async function () {
-  //       const { lock } = await loadFixture(deployOneYearLockFixture)
+  describe('Create an offer', function () {
+    it('Should create an offer', async function () {
+      const { sel, owner } = await loadFixture(deployment)
+      const value = 100;
 
-  //       await expect(lock.withdraw()).to.be.revertedWith("You can't withdraw yet")
-  //     })
+      await sel.createOffer(value, HASH)
+      expect(await sel.balanceOf(owner.address)).to.equal(INITIAL_OWNER_BALANCE - value)
+      expect(await sel.getStackedBalance(owner.address)).to.equal(value)
+      expect(await sel.balanceOf(sel.address)).to.equal(value)
 
-  //     it('Should revert with the right error if called from another account', async function () {
-  //       const { lock, unlockTime, otherAccount } = await loadFixture(deployOneYearLockFixture)
+      const offer = await sel.getOffer(1)
 
-  //       // We can increase the time in Hardhat Network
-  //       await time.increaseTo(unlockTime)
+      expect(offer[0][0]).to.equal(HASH[0])
+      expect(offer[0][1]).to.equal(HASH[1])
+      expect(offer[1]).to.equal(value)
+      expect(offer[2]).to.equal(owner.address)
+      expect(offer[3]).to.equal(true)
+    })
+  })
 
-  //       // We use lock.connect() to send a transaction from another account
-  //       await expect(lock.connect(otherAccount).withdraw()).to.be.revertedWith(
-  //         "You aren't the owner"
-  //       )
-  //     })
+  describe('Cancel an offer', function () {
+    let _sel: Contract;
+    let _owner: any;
+    let _otherAccounts: Signer[];
 
-  //     it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
-  //       const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture)
+    const VALUE = 100;
 
-  //       // Transactions are sent using the first signer by default
-  //       await time.increaseTo(unlockTime)
+    this.beforeEach(async () => {
+      const { sel, owner, otherAccounts } = await loadFixture(deployment);
 
-  //       await expect(lock.withdraw()).not.to.be.reverted
-  //     })
-  //   })
+      await sel.createOffer(VALUE, HASH);
+      _sel = sel;
+      _owner = owner;
+      _otherAccounts = otherAccounts;
+    })
 
-  //   describe('Events', function () {
-  //     it('Should emit an event on withdrawals', async function () {
-  //       const { lock, unlockTime, lockedAmount } = await loadFixture(deployOneYearLockFixture)
+    it('Should cancel an offer', async function () {
 
-  //       await time.increaseTo(unlockTime)
+      await _sel.cancelOffer(1);
 
-  //       await expect(lock.withdraw()).to.emit(lock, 'Withdrawal').withArgs(lockedAmount, anyValue) // We accept any value as `when` arg
-  //     })
-  //   })
+      let offer = await _sel.getOffer(1);
 
-  //   describe('Transfers', function () {
-  //     it('Should transfer the funds to the owner', async function () {
-  //       const { lock, unlockTime, lockedAmount, owner } = await loadFixture(
-  //         deployOneYearLockFixture
-  //       )
+      expect(parseInt(offer[0][0], 16)).to.equal(0);
+      expect(parseInt(offer[0][1], 16)).to.equal(0);
+      expect(offer[1]).to.equal(0);
+      expect(parseInt(offer[2], 16)).to.equal(0);
+      expect(offer[3]).to.equal(false);
 
-  //       await time.increaseTo(unlockTime)
+      expect(await _sel.getStackedBalance(_owner.address)).to.equal(0);
+      expect(await _sel.balanceOf(_owner.address)).to.equal(INITIAL_OWNER_BALANCE);
+      expect(await _sel.balanceOf(_sel.address)).to.equal(0);
+    });
+  })
 
-  //       await expect(lock.withdraw()).to.changeEtherBalances(
-  //         [owner, lock],
-  //         [lockedAmount, -lockedAmount]
-  //       )
-  //     })
-  //   })
-  // })
+  describe('Make proposition', function () {
+    let _sel: Contract;
+    let _owner: Signer;
+    let _otherAccounts: Signer[];
+    const VALUE = 100;
+    const validOfferId = 1;
+
+    this.beforeEach(async () => {
+      const { sel, owner, otherAccounts } = await loadFixture(deployment)
+
+      await sel.createOffer(VALUE, HASH)
+      _sel = sel;
+      _owner = owner;
+      _otherAccounts = otherAccounts;
+    })
+
+    it('Should make a proposition', async function () {
+      await _sel
+        .connect(_otherAccounts[0])
+        .makeProposition(validOfferId)
+
+      const propositionId = await _sel.getProposition((_otherAccounts[0] as any).address)
+      expect(propositionId).to.equal(validOfferId)
+    })
+  })
+
+  describe('Cancel proposition', function () {
+    let _sel: Contract;
+    let _owner: any;
+    let _otherAccounts: Signer[];
+
+    const VALUE = 100;
+    const validOfferId = 1;
+
+    this.beforeEach(async () => {
+      const { sel, owner, otherAccounts } = await loadFixture(deployment);
+
+      await sel.createOffer(VALUE, HASH);
+
+      _sel = sel;
+      _owner = owner;
+      _otherAccounts = otherAccounts;
+
+      await _sel
+        .connect(_otherAccounts[0])
+        .makeProposition(validOfferId)
+    })
+
+    it('Should cancel proposition', async function () {
+      await _sel.connect(_otherAccounts[0]).cancelProposition();
+
+      const propositionId = await _sel.getProposition((_otherAccounts[0] as any).address)
+      expect(propositionId).to.equal(0);
+    });
+  })
+
+  describe('Accept an offer', function () {
+    let _sel: Contract;
+    let _owner: any;
+    let _otherAccounts: any[];
+    const validOfferId = 1;
+
+    const VALUE = 100;
+
+    this.beforeEach(async () => {
+      const { sel, owner, otherAccounts } = await loadFixture(deployment);
+
+      await sel.createOffer(VALUE, HASH);
+      await sel
+        .connect(otherAccounts[0])
+        .makeProposition(validOfferId)
+      _sel = sel;
+      _owner = owner;
+      _otherAccounts = otherAccounts;
+    })
+
+    it('Should accept an offer', async function () {
+      await _sel.acceptOffer(1, _otherAccounts[0].address);
+
+      expect(await _sel.getStackedBalance(_owner.address)).to.equal(0);
+      expect(await _sel.balanceOf(_owner.address)).to.equal(INITIAL_OWNER_BALANCE - VALUE);
+      expect(await _sel.balanceOf(_otherAccounts[0].address)).to.equal(VALUE);
+
+      const offer = await _sel.getOffer(validOfferId);
+      const proposer = await _sel.getProposition(_otherAccounts[0].address);
+      expect(offer[3]).to.equal(false);
+      expect(proposer).to.equal(0);
+    });
+  })
 })

@@ -20,8 +20,8 @@ contract Sel is ERC20 {
   }
 
   uint256 public offerId;
-  mapping(uint256 => Offer) public offers;
-  mapping(address => uint256) public proposers;
+  mapping(uint256 => Offer) private offers;
+  mapping(address => uint256) private proposers;
 
   mapping(address => uint256) private _stack;
 
@@ -48,6 +48,10 @@ contract Sel is ERC20 {
     return _stack[_address];
   }
 
+  function getProposition(address _address) public view returns (uint256) {
+    return proposers[_address];
+  }
+
   function createOffer(uint256 _tokens, bytes32[2] memory _hash) public payable returns (uint256){
     require(_tokens > 0, "You must offer at least 1 token"); // TODO : Delete this part
     require(_hash[0] != 0, "You must provide a hash");
@@ -65,13 +69,13 @@ contract Sel is ERC20 {
 
   function cancelOffer(uint256 _offerId) offerExistance(_offerId) public payable {
     Offer storage offer = offers[_offerId];
-
     require(offer.offerer == msg.sender, "You are not the offerer");
+    uint256 _value = offer.value;
 
     delete offers[_offerId];
-    _stack[msg.sender] -= offer.value;
+    _stack[msg.sender] -= _value;
     emit OfferCanceled(_offerId, msg.sender);
-    _transfer(address(this), msg.sender, offer.value);
+    _transfer(address(this), msg.sender, _value);
   }
 
   function makeProposition(uint256 _offerId) offerExistance(_offerId) public payable {
@@ -99,9 +103,10 @@ contract Sel is ERC20 {
     require(proposers[proposer] == _offerId, "The provided address is not a proposer");
 
     offer.active = false;
-    delete proposers[proposer];
     emit PropositionAccepted(_offerId, offer.offerer, proposer, offer.value, [offer.hash1, offer.hash2]);
 
-    _transfer(msg.sender, proposer, offer.value);
+    _stack[offer.offerer] -= offer.value;
+    _transfer(address(this), proposer, offer.value);
+    delete proposers[proposer];
   }
 }
