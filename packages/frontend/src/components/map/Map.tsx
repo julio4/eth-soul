@@ -5,7 +5,8 @@ import {
   useEffect,
   useRef,
   useState,
-  ReactNode
+  ReactNode,
+  useCallback
 } from "react";
 
 import { useDeepCompareEffectForMaps } from "./useDeepCompareEffectForMaps";
@@ -24,6 +25,7 @@ interface MapProps extends google.maps.MapOptions {
   onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
   children?: ReactNode;
+  onZoomChange?: (zoom: number) => void;
 }
 
 const Map = ({
@@ -31,18 +33,42 @@ const Map = ({
   onClick,
   onIdle,
   children,
+  onZoomChange,
   ...options
 }: MapProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
+  const [zoomLevel, setZoomLevel] = useState<number>(options.zoom || 0);
+
+  useEffect(() => {
+    setZoomLevel(options.zoom || 0);
+  }, [options.zoom]);
+
+  const handleIdle = useCallback(() => {
+    const currentZoom = map?.getZoom();
+    if (currentZoom !== undefined) {
+      setZoomLevel(currentZoom);
+        onZoomChange && onZoomChange(currentZoom);
+    }
+    onIdle && onIdle(map);
+  }, [map, onIdle, onZoomChange]);
 
   useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {
+      const newMap = new window.google.maps.Map(ref.current, {
         styles: mapStyle,
-      }));
+      });
+      newMap.addListener("zoom_changed", () => {
+        const zoom = newMap.getZoom();
+        if (zoom !== undefined) {
+          setZoomLevel(zoom);
+          onZoomChange && onZoomChange(zoom);
+        }
+      });
+  
+      setMap(newMap);
     }
-  }, [ref, map]);
+  }, [ref, map, onZoomChange]);
 
   useDeepCompareEffectForMaps(() => {
     if (map) {
@@ -61,20 +87,20 @@ const Map = ({
       }
 
       if (onIdle) {
-        map.addListener("idle", () => onIdle(map));
+        map.addListener("idle", handleIdle);
       }
     }
-  }, [map, onClick, onIdle]);
+  }, [map, onClick, handleIdle]);
 
   return (
     <>
-      <div ref={ref} className={className} tw="h-screen"/>
+      <div ref={ref} className={className} tw="h-screen" />
 
       {map && Children.map(children, (child) => {
-          if (isValidElement(child)) {
-            return cloneElement(child, { map });
-          }
-        })
+        if (isValidElement(child)) {
+          return cloneElement(child, { map });
+        }
+      })
       }
     </>
   )

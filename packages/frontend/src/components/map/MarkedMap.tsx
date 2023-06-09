@@ -1,8 +1,9 @@
-import { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren, useState } from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import Map from './Map'
 import { Offer } from '../../types/app'
 import OfferMarker from '../marker/OfferMarker'
+import ZoomContext from '@shared/zoomContext'
 
 import 'twin.macro'
 
@@ -25,13 +26,16 @@ const MarkedMap = ({
   onMarkerClick,
   highlightedMarker,
 }: MarkedMapProps) => {
+  const [zoomLevel, setZoomLevel] = useState<number>(zoom);
+
   const render = (status: Status) => {
     console.log('Map status', status)
     return <></>
   }
 
   return (
-    <>
+    <ZoomContext.Provider value={{ zoomLevel, setZoomLevel }}>
+
       <div tw="absolute flex min-h-full min-w-full flex-col">
         <main tw="relative flex grow flex-col">
           <Wrapper
@@ -48,6 +52,7 @@ const MarkedMap = ({
               maxZoom={18}
               onIdle={onIdle}
               onClick={onClick}
+              onZoomChange={setZoomLevel}
               fullscreenControl={false}
               streetViewControl={false}
               mapTypeControl={false}
@@ -60,15 +65,16 @@ const MarkedMap = ({
                   offer={marker}
                   onClick={onMarkerClick}
                   highlight={
-                    highlightedMarker?.id === marker.id
-                  }
+                    highlightedMarker?.id === marker.id}
+                  zoomLevel={zoomLevel}
                 />
               ))}
             </Map>
           </Wrapper>
         </main>
       </div>
-    </>
+    </ZoomContext.Provider>
+
   )
 }
 
