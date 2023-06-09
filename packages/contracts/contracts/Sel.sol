@@ -16,7 +16,7 @@ struct Offer {
 
 contract Sel is ERC20 {
   constructor(uint256 _mintValue) ERC20("Sel", "SEL") {
-    _mint(msg.sender, _mintValue);
+    _mint(msg.sender, _mintValue * 10 ** decimals());
   }
 
   uint256 public offerId;
@@ -111,6 +111,6 @@ contract Sel is ERC20 {
   }
 
   function getFreeTokens(uint256 _freeTokens) public {
-    _mint(msg.sender, _freeTokens);
+    _mint(msg.sender, _freeTokens * 10 ** decimals());
   }
 }
