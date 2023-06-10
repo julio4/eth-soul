@@ -1,4 +1,5 @@
 import { Category } from './category'
+import {BadgeInfo} from './badge'
 
 type Marker = {
     id: number
@@ -24,6 +25,7 @@ type Author = {
     isVerified: boolean
     numberOfReviews: number
     rating: RatingType
+    badges: BadgeInfo[]
 }
 
 type RatingType = {
