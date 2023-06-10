@@ -3,12 +3,20 @@ import { useState, useCallback } from 'react'
 import { TopBar } from '@components/top/TopBar'
 import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
-import { Offer } from '../types/app'
+import { Offer, Author } from '../types/app'
 import { Category } from '../types/category'
 
 import 'twin.macro'
 
 const AppPage: NextPage = () => {
+
+  const defaultAuthor: Author = {
+    id: 1,
+    name: 'Jean V.',
+    isVerified: true,
+    numberOfReviews: 17,
+    rating: 4.5,
+  };
   const markers: Offer[] = [
     {
       id: 1,
@@ -17,7 +25,8 @@ const AppPage: NextPage = () => {
         latitude: 50.102425406026136,
         longitude: 14.449577761673018,
       },
-      category: Category.PET_CARE
+      category: Category.PET_CARE,
+      author: defaultAuthor,
     },
     {
       id: 2,
@@ -26,7 +35,8 @@ const AppPage: NextPage = () => {
         latitude: 50.106576158326526,
         longitude: 14.4458621243181541
       },
-      category: Category.LENDING_HOME_SERVICES
+      category: Category.LENDING_HOME_SERVICES,
+      author: defaultAuthor,
     },
     {
       id: 3,
@@ -35,7 +45,8 @@ const AppPage: NextPage = () => {
         latitude: 50.107593822962535,
         longitude: 14.453795834816791
       },
-      category: Category.EDUCATION_TUTORING
+      category: Category.EDUCATION_TUTORING,
+      author: defaultAuthor,
     },
   ];
 
