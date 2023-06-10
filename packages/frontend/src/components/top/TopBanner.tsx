@@ -4,8 +4,8 @@ import { HiOutlineExternalLink } from 'react-icons/hi'
 import 'twin.macro'
 
 export const TopBanner: FC = () => {
-  const title = 'LET\'S SEL IT'
-  const desc = 'An ETHPrague Solarpunk Hackathon Project'
+  const title = 'Soul'
+  const desc = 'ETHPrague Solarpunk Hackathon Project'
   const href = 'https://github.com/julio4/prague'
 
   return (

@@ -10,7 +10,7 @@ import { fetchBalance } from '@wagmi/core'
 
 import logo from "../../../public/images/Logo.svg"
 
-export const TopBar = () => {
+export const TopBar = ({ hideBg = false}: { hideBg?: boolean }) => {
   const { address, isConnected } = useAccount();
   const [balance, setBalance] = useState<bigint | null>(null);
 
@@ -27,7 +27,11 @@ export const TopBar = () => {
   }, [address]);
 
   return (
-    <div tw='sticky top-0 left-0 z-10 bg-transparent backdrop-blur-lg'>
+    <div tw='sticky top-0 left-0 z-10 bg-transparent backdrop-blur-lg'
+      css={{
+        backdropFilter: hideBg ? "none" : "blur(16px)"
+      }}
+    >
       <Flex
         tw="items-center whitespace-pre-wrap py-2 px-2 text-center font-semibold text-sm text-black/75 hover:text-black"
       >

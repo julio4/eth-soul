@@ -8,6 +8,14 @@ import 'twin.macro'
 import Link from 'next/link'
 import { useAppoloClient } from '@hooks/AppoloClientHook/useAppoloClient'
 import { QueriesTypes } from '@hooks/AppoloClientHook/types'
+import MarkedMap from '@components/map/MarkedMap'
+import { Offer } from '@types/app'
+import { TopBanner } from '@components/top/TopBanner'
+
+const center = {
+  lat: 50.10340217817493,
+  lng: 14.450536191137255
+}
 
 const HomePage: NextPage = () => {
   const { address, isConnected } = useAccount();
@@ -18,10 +26,21 @@ const HomePage: NextPage = () => {
   return (
     <>
       {/* Top banner ? */}
+      {/* <TopBanner /> */}
 
-      <TopBar />
+      <TopBar hideBg={true}/>
 
-      <CenterBody tw="mb-20">
+      <MarkedMap
+        zoom={15}
+        center={center}
+        markers={[]} onMarkerClick={function (payload: Offer): void {
+          throw new Error('Function not implemented.')
+        }}
+        tw='z-0'
+      />
+
+
+      <CenterBody tw="absolute w-full backdrop-blur-lg min-h-screen">
         {/* Title */}
         <HomePageTitle />
 

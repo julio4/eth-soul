@@ -14,7 +14,7 @@ export const HomePageTitle: FC = () => {
 
   return (
     <>
-      <div tw="flex flex-col items-center text-center font-mono">
+      <div tw="flex flex-col items-center text-center font-mono z-50">
         <Link
           href={githubHref}
           target="_blank"
@@ -26,12 +26,15 @@ export const HomePageTitle: FC = () => {
             src={cover}
             alt={title}
             width={600}
+            css={{
+              borderRadius: '1rem',
+            }}
           />
           <h1 tw="mt-4 font-black text-3xl tracking-tight underline-offset-4 group-hover:underline">
             {title}
           </h1>
         </Link>
-        <p tw="mt-1 text-gray-700">{desc}</p>
+        <p tw="mt-1 text-xl text-gray-700">{desc}</p>
       </div>
     </>
   )
