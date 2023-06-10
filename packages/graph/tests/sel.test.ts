@@ -7,10 +7,8 @@ import {
   afterAll
 } from "matchstick-as/assembly/index"
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { Approval } from "../generated/schema"
-import { Approval as ApprovalEvent } from "../generated/Sel/Sel"
-import { handleApproval } from "../src/sel"
-import { createApprovalEvent } from "./sel-utils"
+import { handleApproval, handleOfferCanceled, handleOfferCreated } from "../src/sel"
+import { createApprovalEvent, createCreateOfferEvent, createOfferCanceledEvent } from "./sel-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
@@ -33,30 +31,58 @@ describe("Describe entity assertions", () => {
   // For more test scenarios, see:
   // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
 
-  test("Approval created and stored", () => {
-    assert.entityCount("Approval", 1)
+  // test("Approval created and stored", () => {
+  //   assert.entityCount("Approval", 1)
 
-    // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
-    assert.fieldEquals(
-      "Approval",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "owner",
-      "0x0000000000000000000000000000000000000001"
-    )
-    assert.fieldEquals(
-      "Approval",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "spender",
-      "0x0000000000000000000000000000000000000001"
-    )
-    assert.fieldEquals(
-      "Approval",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "value",
-      "234"
-    )
+  //   // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
+  //   assert.fieldEquals(
+  //     "Approval",
+  //     "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+  //     "owner",
+  //     "0x0000000000000000000000000000000000000001"
+  //   )
+  //   assert.fieldEquals(
+  //     "Approval",
+  //     "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+  //     "spender",
+  //     "0x0000000000000000000000000000000000000001"
+  //   )
+  //   assert.fieldEquals(
+  //     "Approval",
+  //     "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+  //     "value",
+  //     "234"
+  //   )
 
-    // More assert options:
-    // https://thegraph.com/docs/en/developer/matchstick/#asserts
+  //   // More assert options:
+  //   // https://thegraph.com/docs/en/developer/matchstick/#asserts
+  // })
+
+  test("createCreateOfferEvent", () => {
+    let offerId = BigInt.fromI32(234)
+    let offerId2 = BigInt.fromI32(235)
+    let tokens = BigInt.fromI32(234)
+    let offerer = Address.fromString("0x0000000000000000000000000000000000000002")
+
+    let event = createCreateOfferEvent(offerId, tokens, offerer)
+    handleOfferCreated(event)
+    let event2 = createCreateOfferEvent(offerId2, tokens, offerer)
+    handleOfferCreated(event2)
+    assert.entityCount("OfferCreated", 2)
+    assert.entityCount("Offer", 2)
+  })
+
+  test("createOfferCanceledEvent", () => {
+    let offerId = BigInt.fromI32(234)
+    let offerer = Address.fromString("0x0000000000000000000000000000000000000003")
+    let tokens = BigInt.fromI32(234)
+
+    let eventCreate = createCreateOfferEvent(offerId, tokens, offerer)
+    handleOfferCreated(eventCreate)
+
+    let event = createOfferCanceledEvent(offerId, offerer)
+    handleOfferCanceled(event)
+    assert.entityCount("OfferCanceled", 1)
+    assert.entityCount("Offer", 2)
   })
 })

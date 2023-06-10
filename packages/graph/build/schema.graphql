@@ -28,6 +28,18 @@ type OfferCreated @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
+type Offer @entity(immutable: true) {
+  id: Bytes!
+  offerId: BigInt! # uint256
+  offerer: Bytes! # address
+  tokens: BigInt! # uint256
+  hash: [Bytes!]! # bytes32[2]
+  isActive: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
 type PropositionAccepted @entity(immutable: true) {
   id: Bytes!
   offerId: BigInt! # uint256

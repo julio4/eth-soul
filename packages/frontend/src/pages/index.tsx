@@ -13,7 +13,7 @@ const HomePage: NextPage = () => {
   const { address, isConnected } = useAccount();
 
   // const { queries } = useAppoloClient();
-  // queries[QueriesTypes.OfferProposals]({ first: 10, offerId: 1 });
+  // queries[QueriesTypes.Offers]({ first: 10 });
 
   return (
     <>
