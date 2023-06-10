@@ -14,13 +14,16 @@ const CarouselPictures: React.FC<CarouselPicturesProps> = ({ images }) => {
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
         }
+        else {
+            setCurrentIndex(images.length - 1);
+        }
     };
 
     const nextImage = () => {
         if (currentIndex < images.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
-            setCurrentIndex(images.length - 1);
+            setCurrentIndex(0);
         }
     };
 
