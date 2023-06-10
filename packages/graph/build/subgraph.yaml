@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xb4ab8C36c53E036d3eB222a6af4E1DdF97e6ABe9"
       abi: Sel
-      startBlock: 0
+      startBlock: 3658032
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -20,7 +20,9 @@ dataSources:
         - PropositionAccepted
         - PropositionCanceled
         - PropositionMade
+        - Offer
         - Transfer
+        - Offer
       abis:
         - name: Sel
           file: Sel/abis/Sel.json

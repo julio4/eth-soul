@@ -1,3 +1,4 @@
+import { Bytes, BigInt } from "@graphprotocol/graph-ts"
 import {
   Approval as ApprovalEvent,
   OfferCanceled as OfferCanceledEvent,
@@ -36,7 +37,6 @@ export function handleApproval(event: ApprovalEvent): void {
 export function handleOfferCanceled(event: OfferCanceledEvent): void {
   const id = event.transaction.hash.concatI32(event.params.offerId.toI32())
   let entity = new OfferCanceled(id)
-  let offerEntity = Offer.load(id)
 
   entity.offerId = event.params.offerId
   entity.offerer = event.params.offerer
@@ -45,17 +45,25 @@ export function handleOfferCanceled(event: OfferCanceledEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
+  
+  let offerEntity = Offer.load(offerIdToBytes(event.params.offerId))
 
-  if (offerEntity != null) {
-    offerEntity.isActive = false;
-    offerEntity.save()
+  if (offerEntity == null) {
+    throw new Error("You cannot cancel an offer that does not exist.")
   }
+
+  offerEntity.isActive = false;
+  offerEntity.save()
+}
+
+export function offerIdToBytes(offerId: BigInt): Bytes {
+  return Bytes.fromI32(offerId.toI32())
 }
 
 export function handleOfferCreated(event: OfferCreatedEvent): void {
   const id = event.transaction.hash.concatI32(event.params.offerId.toI32())
   let entity = new OfferCreated(id)
-  let offerEntity = new Offer(id)
+  let offerEntity = new Offer(offerIdToBytes(event.params.offerId))
 
   entity.offerId = event.params.offerId
   offerEntity.offerId = event.params.offerId
