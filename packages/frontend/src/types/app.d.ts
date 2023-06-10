@@ -18,6 +18,15 @@ type Offer = Marker & {
     images?: string[]
 }
 
+type RawOffer = {
+    id: string;
+    offerId: number;
+    offerer: string;
+    isActive: boolean;
+    hash: string[2];
+    tokens: number;
+}
+
 type Author = {
     id: number
     name: string
@@ -35,4 +44,4 @@ type RatingType = {
 }
     
 
-export { Marker, Offer, Author, RatingType }
+export { Marker, Offer, Author, RatingType, RawOffer }

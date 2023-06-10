@@ -3,7 +3,7 @@ import { useState, useCallback, useLayoutEffect, useRef, useEffect } from 'react
 import { TopBar } from '@components/top/TopBar'
 import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
-import { Offer, Author } from '../types/app'
+import { Offer, Author, RawOffer } from '../types/app'
 import { Category, CategoryDetails } from '../types/category'
 import { motion } from 'framer-motion'
 import { generateAuthor } from '../utils/randomAuthor'
@@ -31,6 +31,19 @@ import {
 } from '@chakra-ui/react'
 
 import 'twin.macro'
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
+
+const OffersQuery = `query ($first: Int)
+{
+  offers(where: { isActive: true }, first: $first) {
+    id
+    offerId
+    offerer
+    isActive
+    hash
+    tokens
+  }
+}`
 
 const CreateModeModal = ({ createMode, setCreateMode, targetPos, setTargetPos }: {
   createMode: boolean,
@@ -170,6 +183,41 @@ const CreateModeModal = ({ createMode, setCreateMode, targetPos, setTargetPos }:
 }
 
 const AppPage: NextPage = () => {
+
+  const client = new ApolloClient({
+    uri: process.env.GRAPHQL_ENDPOINT,
+    cache: new InMemoryCache()
+  });
+
+  const [rawOffers, setRawOffers] = useState<RawOffer[]>([]);
+
+  const queryOffers = async () => {
+    client
+      .query({
+        query: gql(OffersQuery),
+        variables: {
+          first: 100
+        }
+      })
+      .then((data) => {
+        setRawOffers(data.data)
+      })
+      .catch((err) => {
+        console.log('Error fetching data: ', err)
+      })
+  }
+
+  useEffect(() => {
+    queryOffers()
+  }, [])
+
+
+  useEffect(() => {
+    const offers = rawOffers.map((rawOffer) => {
+
+    })
+  }, [rawOffers])
+
 
   const markers: Offer[] = [
     {
