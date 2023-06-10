@@ -36,7 +36,7 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
         author: 'Antoine',
     }
 
-    const [heartFilled, setHeartFilled] = useState(false)
+    // const [heartFilled, setHeartFilled] = useState(false)
 
     return (
         <Box
@@ -46,19 +46,12 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
             w={width}
             position={'relative'}
             zIndex={100}
-            transform={
-                zoomLevel > 15 ? 'translate(-40%, -130%)' :
-                zoomLevel == 15 ? 'translate(-35%, -140%)' :
-                    zoomLevel == 14 ? 'translate(-35%, -150%)' : 'translate(-35%, -130%)'
-            }
+            transform={'translate(-43%, -105%)'}
         >
             <Flex direction="column">
                 <Box
-                    w="100%"
-                    h="100%"
-                    borderRadius={
-                        zoomLevel > 13 ? '16px 16px 0 0' : '16px'
-                    }
+                    tw='relative w-full h-full'
+                    borderRadius={'16px 16px 0 0'}
                     overflow="hidden"
                     position="relative"
                     boxSizing="border-box"
@@ -76,28 +69,16 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                         <PopoverTrigger>
                             <Box
                                 position="absolute"
-                                top={
-                                    zoomLevel >= 16 ? '15%' :
-                                        zoomLevel == 15 ? '20%' :
-                                            zoomLevel == 14 ? '25%'
-                                                : '20%'
-                                }
-                                right={
-                                    zoomLevel >= 16 ? '12%' :
-                                        zoomLevel == 15 ? '16%' :
-                                            zoomLevel == 14 ? '19%'
-                                                : '16%'
-                                }
+                                top={'15%'} 
+                                right={'17%'}
                                 transform="translate(50%, -50%)"
                                 bg="white"
                                 borderRadius="lg"
                                 boxShadow="lg"
-                                p={
-                                    zoomLevel >= 14 ? 2 : 1
-                                }
+                                p={2}
                                 cursor="pointer"
                             >
-                                {heartFilled ? (
+                                {/* {heartFilled ? (
                                     <BsHeartFill
                                         size={
                                             zoomLevel >= 15 ? 24 :
@@ -115,44 +96,39 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                                         color="grey"
                                         onClick={() => setHeartFilled(true)}
                                     />
-                                )}
+                                )} */}
+                                100 SEL
                             </Box>
                         </PopoverTrigger>
                     </Popover>
                 </Box>
 
-                {
-                    zoomLevel > 13 && (
-
-                        <Center
-                            flexDirection="column"
-                            textAlign="center"
-                            h="100%"
-                            px={4}
-                            py={3}
-                            cursor="pointer"
+                <Center
+                    flexDirection="column"
+                    textAlign="center"
+                    h="100%"
+                    px={4}
+                    py={3}
+                    cursor="pointer"
+                >
+                    <Flex
+                        justifyContent="flex-start"
+                        w="100%"
+                        alignItems={'center'}
+                    >
+                        <BsTools size={18} color="gray" />
+                        <Text
+                            fontSize={'lg'}
+                            fontWeight="medium"
+                            color={useColorModeValue('gray.700', 'white')}
+                            width={'100%'}
+                            pl={2}
                         >
-                            <Flex
-                                justifyContent="flex-start"
-                                w="100%"
-                                alignItems={'center'}
-                            >
-                                <BsTools size={18} color="gray" />
-                                <Text
-                                    fontSize={
-                                        zoomLevel > 14 ? 'xl' : 'lg'
-                                    }
-                                    fontWeight="medium"
-                                    color={useColorModeValue('gray.700', 'white')}
-                                    width={'100%'}
-                                    pl={2}
-                                >
-                                    Babysitting
-                                </Text>
-                            </Flex>
-                        </Center>
-                    )
-                }
+                            Babysitting
+                        </Text>
+                    </Flex>
+                </Center>
+
             </Flex>
         </Box>
     )
