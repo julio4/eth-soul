@@ -43,7 +43,7 @@ const generateAuthor = (): Author => {
       average: Math.round(average * 10) / 10,
     },
     avatar: hasAvatar ? getAvatar(avatarNumber) : undefined,
-    badges,
+    badges
 
   };
 };

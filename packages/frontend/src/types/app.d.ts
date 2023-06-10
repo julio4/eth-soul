@@ -25,7 +25,7 @@ type Author = {
     isVerified: boolean
     numberOfReviews: number
     rating: RatingType
-    badges: BadgeInfo[]
+    badges?: BadgeInfo[]
 }
 
 type RatingType = {

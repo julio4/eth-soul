@@ -7,31 +7,31 @@ interface BadgeInfo {
 
 const ProBadgeDetails: Record<Category, BadgeInfo> = {
     [Category.REPAIR_MAINTENANCE]: {
-        text: 'Tool Master',
+        text: '🔧 Tool Master',
         color: '#00008b', // Dark blue color
     },
     [Category.LENDING_HOME_SERVICES]: {
-        text: 'Home Hero',
+        text: '🏠 Home Hero',
         color: '#90ee90', // Light green color
     },
     [Category.EDUCATION_TUTORING]: {
-        text: 'Tutoring Guru',
+        text: '📚 Tutoring Guru',
         color: '#ffa500', // Orange color
     },
     [Category.TRANSPORT_SERVICES]: {
-        text: 'Route Runner"',
+        text: '🚗 Route Runner',
         color: '#87ceeb', // Sky blue color
     },
     [Category.PET_CARE]: {
-        text: 'Paw Partner',
+        text: '🐶 Paw Partner',
         color: '#8b4513', // Brown color
     },
     [Category.EVENTS_CONSULTING]: {
-        text: 'Party Pioneer',
+        text: '🎉 Party Pioneer',
         color: '#800080', // Purple color
     },
     [Category.TECHNOLOGY]: {
-        text: "Tech' expert",
+        text: "💻 Tech expert",
         color: '#808080', // Gray color
     },
 }
