@@ -48,7 +48,7 @@ const MarkedMap = ({
             <Map
               center={center}
               zoom={zoom}
-              minZoom={2}
+              minZoom={14}
               maxZoom={18}
               onIdle={onIdle}
               onClick={onClick}
