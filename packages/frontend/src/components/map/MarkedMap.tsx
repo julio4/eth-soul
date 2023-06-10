@@ -66,7 +66,6 @@ const MarkedMap = ({
                   onClick={onMarkerClick}
                   highlight={
                     highlightedMarker?.id === marker.id}
-                  zoomLevel={zoomLevel}
                 />
               ))}
             </Map>

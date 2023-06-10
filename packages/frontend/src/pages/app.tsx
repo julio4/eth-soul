@@ -4,6 +4,7 @@ import { TopBar } from '@components/top/TopBar'
 import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
 import { Offer } from '../types/app'
+import { Category } from '../types/category'
 
 import 'twin.macro'
 
@@ -14,8 +15,9 @@ const AppPage: NextPage = () => {
       price: 1000,
       location: {
         latitude: 50.102425406026136,
-        longitude: 14.449577761673018, 
+        longitude: 14.449577761673018,
       },
+      category: Category.PET_CARE
     },
     {
       id: 2,
@@ -24,6 +26,7 @@ const AppPage: NextPage = () => {
         latitude: 50.106576158326526,
         longitude: 14.4458621243181541
       },
+      category: Category.LENDING_HOME_SERVICES
     },
     {
       id: 3,
@@ -32,6 +35,7 @@ const AppPage: NextPage = () => {
         latitude: 50.107593822962535,
         longitude: 14.453795834816791
       },
+      category: Category.EDUCATION_TUTORING
     },
   ];
 

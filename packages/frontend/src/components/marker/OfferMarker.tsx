@@ -25,7 +25,6 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
     }, [offer])
 
     const width = useMemo(() => {
-        console.log('zoomLevel', zoomLevel)
         if (!zoomLevel) return '25%%';
         if (zoomLevel == 15) return '20%';
         if (zoomLevel == 14) return '15%';
