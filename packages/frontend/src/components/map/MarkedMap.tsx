@@ -4,7 +4,7 @@ import Map from './Map'
 import { Offer } from '../../types/app'
 import OfferMarker from '../marker/OfferMarker'
 import GoogleMapsMarker from '@components/marker/GoogleMapsMarker'
-import ZoomContext from '@shared/zoomContext'
+import ZoomContext from '@utils/zoomContext'
 import { DetailedOffer } from '../offer/DetailedOffer'
 
 import 'twin.macro'

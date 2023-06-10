@@ -12,7 +12,7 @@ import {
     Card,
     CardBody,
 } from '@chakra-ui/react'
-import ZoomContext from '@shared/zoomContext'
+import ZoomContext from '@utils/zoomContext'
 
 import { Category, CategoryDetails } from '@types/category'
 
@@ -93,7 +93,7 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%', offer }) => {
                                         onClick={() => setHeartFilled(true)}
                                     />
                                 )} */}
-                                100 SEL
+                                {offer.price}
                             </Box>
                         </PopoverTrigger>
                     </Popover>
