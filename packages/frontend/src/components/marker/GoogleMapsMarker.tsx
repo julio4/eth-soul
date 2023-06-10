@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
 export default function GoogleMapsMarker({
+  onDrag,
   ...options
-}: google.maps.MarkerOptions) {
+}: google.maps.MarkerOptions & { onDrag?: (e: google.maps.KmlMouseEvent) => void }) {
   const [marker, setMarker] = useState<google.maps.Marker>();
 
   useEffect(() => {
@@ -19,6 +20,9 @@ export default function GoogleMapsMarker({
   useEffect(() => {
     if (marker) {
       marker.setOptions(options);
+      if (onDrag) {
+        marker.addListener("dragend", onDrag);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [marker]);
