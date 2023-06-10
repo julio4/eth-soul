@@ -6,7 +6,7 @@ const API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjow
 const storage = new Web3Storage({ token: API_TOKEN });
 
 
-const makeFilesFromOffer = (offer: Offer, image: File): File[] => {
+const makeFilesFromOffer = (offer: Offer, image?: File): File[] => {
   // You can create File objects from a Buffer of binary data
   // see: https://nodejs.org/api/buffer.html
   // Here we're just storing a JSON object, but you can store images,
@@ -16,7 +16,7 @@ const makeFilesFromOffer = (offer: Offer, image: File): File[] => {
   const files = [
     // new File(['contents-of-file-1'], 'plain-utf8.txt'),
     new File([buffer], 'offerData'),
-    new File([image], 'offerImg'),
+    // new File([image], 'offerImg'),
   ]
 
   return files
@@ -43,19 +43,8 @@ const storeWithProgress = async (files: File[]) => {
   return await storage.put(files, { onRootCidReady, onStoredChunk });
 }
 
-export const storeOffer = async (image: File) => {
-  const offerToStore: Offer = {
-    coordinates: {
-      longitude: 14.4378005,
-      latitude: 50.0755381
-    },
-    title: 'Babysitting',
-    description: 'Babysit my child between 6pm and 8pm',
-    category: 'cat',
-    pseudo: 'myPseudo',
-    imageLink: ''
-  }
-  const filesToUpload = makeFilesFromOffer(offerToStore, image);
+export const storeOffer = async (offer: Offer) => {
+  const filesToUpload = makeFilesFromOffer(offer);
 
   return await storeWithProgress(filesToUpload);
 }

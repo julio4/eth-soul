@@ -1,5 +1,5 @@
 import { Category } from './category'
-import {BadgeInfo} from './badge'
+import { BadgeInfo } from './badge'
 
 type Marker = {
     id: number
@@ -12,7 +12,7 @@ type Marker = {
 type Offer = Marker & {
     price: number
     category: Category
-    author: Author
+    author?: Author
     title: string
     description: string
     images?: string[]
@@ -23,9 +23,14 @@ type RawOffer = {
     offerId: number;
     offerer: string;
     isActive: boolean;
-    hash: string[2];
+    hash: string[];
     tokens: number;
 }
+
+type PopulatedOffer = {
+    offerer: string;
+    isActive: boolean;
+} & Offer;
 
 type Author = {
     id: number
@@ -42,6 +47,6 @@ type RatingType = {
     average: number
     numberOfReviews: number
 }
-    
 
-export { Marker, Offer, Author, RatingType, RawOffer }
+
+export { Marker, Offer, Author, RatingType, RawOffer, PopulatedOffer }

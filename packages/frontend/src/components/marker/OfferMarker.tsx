@@ -38,7 +38,7 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
     onClick(offer);
   }, [onClick, offer]);
 
-  const categoryEmoji = CategoryDetails[offer.category as Category].emoji
+  const categoryEmoji = offer.category ? CategoryDetails[offer.category as Category].emoji : '🏠';
 
   return (
     <>
