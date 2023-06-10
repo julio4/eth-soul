@@ -36,6 +36,7 @@ const generateAuthor = (): Author => {
   return {
     id: Math.floor(Math.random() * 1000),
     name: 'Jean V.',
+    description: "I'm a software engineer and I love to travel. I've been to 30+ countries and I'm always looking for new adventures. Let's help each other to make the best out of our neighborhood!",
     isVerified: randomBoolean(),
     numberOfReviews: Math.floor(Math.random() * 100),
     rating: {

@@ -19,7 +19,7 @@ export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
     const renderDescription = (description: string) => {
         const lines = description.split('<br/>');
         return lines.map((line, index) => (
-            <Text key={index} fontWeight="medium" fontSize="md" color="gray.900" mb={2}>
+            <Text key={index} fontWeight={600} color={'gray.500'} mb={2} fontSize="md">
                 {line}
             </Text>
         ));
@@ -35,7 +35,7 @@ export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
 
             <TabPanels>
                 <TabPanel px={4}>
-                    <Text fontWeight="medium" fontSize="md" color="gray.900" mb={2}>
+                    <Text mb={2}>
                         {renderDescription(offer.description)}
                     </Text>
                 </TabPanel>
