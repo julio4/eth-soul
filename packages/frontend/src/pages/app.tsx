@@ -15,7 +15,10 @@ const AppPage: NextPage = () => {
     name: 'Jean V.',
     isVerified: true,
     numberOfReviews: 17,
-    rating: 4.5,
+    rating: {
+      numberOfReviews: 17,
+      average: 4.5,
+    },
   };
   const markers: Offer[] = [
     {

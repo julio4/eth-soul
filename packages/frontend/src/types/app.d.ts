@@ -18,7 +18,13 @@ type Author = {
     avatarUrl?: string
     isVerified: boolean
     numberOfReviews: number
-    rating: number
+    rating: RatingType
 }
 
-export { Marker, Offer, Author }
+type RatingType = {
+    average: number
+    numberOfReviews: number
+}
+    
+
+export { Marker, Offer, Author, RatingType }
