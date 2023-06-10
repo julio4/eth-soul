@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { OfferProposalsQueryVariables, useAppoloClientReturnType } from "./types";
+import { OfferProposalsQueryVariables, OffersQueryVariables, useAppoloClientReturnType } from "./types";
 import OfferProposalQuery from "../../queries/OfferProposals.graphql";
+import OffersQuery from "../../queries/Offers.graphql";
 
 export const useAppoloClient: () => useAppoloClientReturnType = () => {
     const client = new ApolloClient({
@@ -24,8 +25,13 @@ export const useAppoloClient: () => useAppoloClientReturnType = () => {
         return query(OfferProposalQuery.loc?.source.body ?? "", variables);
     }
 
+    const queryOffers = async (variables: OffersQueryVariables) => {
+        return query(OffersQuery.loc?.source.body ?? "", variables);
+    }
+
     const queries = {
         OfferProposals: queryOfferProposals,
+        Offers: queryOffers
     }
 
     return {

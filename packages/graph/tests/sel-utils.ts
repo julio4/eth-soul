@@ -8,7 +8,7 @@ import {
   PropositionCanceled,
   PropositionMade,
   Transfer
-} from "../generated/Sel/Sel"
+} from "../schema/Sel/Sel"
 
 export function createApprovalEvent(
   owner: Address,
@@ -30,6 +30,32 @@ export function createApprovalEvent(
   )
 
   return approvalEvent
+}
+
+export function createCreateOfferEvent(
+  offerId: BigInt,
+  tokens: BigInt,
+  offerer: Address,
+): OfferCreated {
+  let event = changetype<OfferCreated>(newMockEvent())
+
+  event.parameters = new Array()
+
+  event.parameters.push(
+    new ethereum.EventParam("offerId", ethereum.Value.fromUnsignedBigInt(offerId))
+  )
+  event.parameters.push(
+    new ethereum.EventParam("offerer", ethereum.Value.fromAddress(offerer))
+  )
+  event.parameters.push(
+    new ethereum.EventParam("tokens", ethereum.Value.fromUnsignedBigInt(tokens))
+  )
+
+  event.parameters.push(
+    new ethereum.EventParam("hash", ethereum.Value.fromBytesArray([new Bytes(0), new Bytes(1)]))
+  )
+
+  return event
 }
 
 export function createOfferCanceledEvent(
