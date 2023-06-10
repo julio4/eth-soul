@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 interface ZoomContextType {
-  zoomLevel: number | null;
+  zoomLevel: number;
   setZoomLevel: Dispatch<SetStateAction<number>> | null;
 }
 
