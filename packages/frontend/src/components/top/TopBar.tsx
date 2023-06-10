@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Flex, Spacer } from '@chakra-ui/react'
 import 'twin.macro'
 
@@ -6,9 +7,10 @@ import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
 import { fetchBalance } from '@wagmi/core'
-import { TOKEN_ADDRESS } from '../../utils/const'
 
-export const TopBar = () => {
+import logo from "../../../public/images/Logo.svg"
+
+export const TopBar = ({ hideBg = false}: { hideBg?: boolean }) => {
   const { address, isConnected } = useAccount();
   const [balance, setBalance] = useState<bigint | null>(null);
 
@@ -25,16 +27,25 @@ export const TopBar = () => {
   }, [address]);
 
   return (
-    <div tw='sticky top-0 left-0 z-10 bg-white/10 backdrop-blur-lg'>
+    <div tw='sticky top-0 left-0 z-10 bg-transparent backdrop-blur-lg'
+      css={{
+        backdropFilter: hideBg ? "none" : "blur(16px)"
+      }}
+    >
       <Flex
         tw="items-center whitespace-pre-wrap py-2 px-2 text-center font-semibold text-sm text-black/75 hover:text-black"
       >
         <Link
           href={'/'}
           className="group"
-          tw="cursor-pointer ml-4"
+          tw="cursor-pointer ml-4 rounded-xl"
         >
-          Logo/Title
+          <Image
+            priority
+            src={logo}
+            alt="Sould"
+            height={40}
+          />
         </Link>
 
         <Spacer />

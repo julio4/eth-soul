@@ -1,30 +1,171 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useLayoutEffect, useRef, useEffect } from 'react'
 import { TopBar } from '@components/top/TopBar'
 import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
 import { Offer, Author } from '../types/app'
-import { Category } from '../types/category'
+import { Category, CategoryDetails } from '../types/category'
 import { motion } from 'framer-motion'
 import { generateAuthor } from '../utils/randomAuthor'
+import toast from 'react-hot-toast'
+
+import { IoClose } from 'react-icons/io5'
+
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Flex,
+  Button,
+  Icon,
+  Textarea,
+  Select,
+  Grid,
+  Box,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Spacer,
+} from '@chakra-ui/react'
 
 import 'twin.macro'
-import { randomBytes } from 'crypto'
 
-const ToggleEditMode = ({ createMode, setCreateMode }: {
+const CreateModeModal = ({ createMode, setCreateMode, targetPos, setTargetPos }: {
   createMode: boolean,
-  setCreateMode: (createMode: boolean) => void
+  setCreateMode: (createMode: boolean) => void,
+  targetPos: google.maps.LatLng | null,
+  setTargetPos: (targetPos: google.maps.LatLng | null) => void,
 }) => {
+
+  const onToggleCreateMode = useCallback(() => {
+    if (!createMode) {
+      setTargetPos(null)
+      toast.success('Click on the map to create a new offer')
+    }
+    setCreateMode(!createMode)
+  }, [setTargetPos, setCreateMode, createMode])
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState<string | number>('auto')
+  const [width, setWidth] = useState<string | number>('auto')
+
+  const isFormOpen = createMode && targetPos
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        setHeight(containerRef.current.offsetHeight)
+        setWidth(containerRef.current.offsetWidth)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isFormOpen])
+
+  useEffect(() => {
+    if (isFormOpen) {
+        setHeight('auto')
+        setWidth('auto')
+    }
+  }, [isFormOpen])
+
   return (
-    <motion.button
-      tw="absolute bottom-0 right-0 m-8 p-5 rounded-full text-3xl bg-white/30 backdrop-blur-md shadow-xl"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      transition={{ duration: 0.1 }}
-      onClick={() => setCreateMode(!createMode)}
-    >
-      {createMode ? '✖️' : '🆕'}
-    </motion.button>
+    <div>
+      <motion.div
+        ref={containerRef}
+        tw="absolute right-0 m-8 p-5 rounded-2xl text-3xl bg-white/70 backdrop-blur-md shadow-xl"
+        transition={{ duration: 0.2 }}
+        animate={{ height, width }}
+        {...(!isFormOpen && {
+          whileHover: { scale: 1.1 },
+          whileTap: { scale: 0.9 },
+        })}
+      >
+
+        {!isFormOpen ? (
+          <button
+            onClick={onToggleCreateMode}
+          >
+            {createMode ? '✖️' : '🆕'}
+          </button>
+        ) : (
+          <div
+          >
+            <FormControl>
+              <Flex>
+                <Spacer />
+                <Button
+                  onClick={onToggleCreateMode}
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Close form"
+                >
+                  <Icon as={IoClose} />
+                </Button>
+              </Flex>
+
+              <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+                <Box>
+                  <FormLabel>Title</FormLabel>
+                  <Input type='text' />
+
+                  <FormLabel>Price</FormLabel>
+                  <NumberInput step={10} defaultValue={100} min={1}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+
+                  <FormLabel>Description</FormLabel>
+                  <Textarea 
+                    maxBlockSize={200}
+                  />
+                </Box>
+
+                <Box>
+                  <FormLabel>Category</FormLabel>
+                  <Select>
+                    {
+                      Object
+                        .values(Category)
+                        .map((category) => {
+                          const details = CategoryDetails[category]
+                          return (
+                            <option key={category} value={category}>
+                              {details.emoji} {details.description}
+                            </option>
+                          )
+                        })
+                    }
+                  </Select>
+
+                  <FormLabel htmlFor="images">Images</FormLabel>
+                  <Input type='file'/>
+
+                  <Button
+                    colorScheme="green"
+                    position="fixed"
+                    bottom="4"
+                    right="4"
+                    width={"46%"}
+                  >
+                    Confirm
+                  </Button>
+
+                </Box>
+              </Grid>
+            </FormControl>
+          </div>
+        )}
+      </motion.div >
+    </div >
   )
 }
 
@@ -153,6 +294,7 @@ const AppPage: NextPage = () => {
   const [zoom, setZoom] = useState<number>(15);
   const [highlightedMarker, setHighlightedMarker] = useState<Offer | null>(null);
   const [createMode, setCreateMode] = useState<boolean>(false);
+  const [targetPos, setTargetPos] = useState<google.maps.LatLng | null>(null);
 
   const onMarkerClick = useCallback(
     (payload: Offer) => {
@@ -165,7 +307,6 @@ const AppPage: NextPage = () => {
     [highlightedMarker]
   );
 
-  const [targetPos, setTargetPos] = useState<google.maps.LatLng | null>(null);
 
   const onMapClick = useCallback(
     (event: google.maps.MapMouseEvent) => {
@@ -190,7 +331,10 @@ const AppPage: NextPage = () => {
         targetPos={targetPos}
         setTargetPos={setTargetPos}
       />
-      <ToggleEditMode createMode={createMode} setCreateMode={setCreateMode} />
+      <CreateModeModal
+        createMode={createMode} setCreateMode={setCreateMode}
+        targetPos={targetPos} setTargetPos={setTargetPos}
+      />
     </>
   )
 }

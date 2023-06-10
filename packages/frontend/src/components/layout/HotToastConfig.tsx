@@ -5,9 +5,9 @@ export const HotToastConfig: FC = () => {
   return (
     <Toaster
       toastOptions={{
-        position: 'bottom-center',
+        position: 'top-center',
         style: {
-          marginBottom: '2rem',
+          marginTop: '3rem',
           wordBreak: 'break-all',
           maxWidth: '30rem',
           background: 'white',
