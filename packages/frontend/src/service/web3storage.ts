@@ -56,8 +56,6 @@ export const retrieveOffer = async (cid: string) => {
 
   offer.imageLink = `https:/${cid}.ipfs.w3s.link/offerImg`;
 
-  console.log(offer);
-
   return offer;
 }
 

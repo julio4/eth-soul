@@ -1,6 +1,6 @@
-query ($first: Int, $offerId: BigInt)
+query ($offerId: BigInt)
 {
-  propositionMades(where: { offerId: $offerId }, first: $first) {
+  propositionMades(where: { offerId: $offerId }) {
     id
     offerId
     proposer
