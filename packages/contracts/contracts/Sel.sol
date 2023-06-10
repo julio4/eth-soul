@@ -25,6 +25,11 @@ contract Sel is ERC20 {
 
   mapping(address => uint256) private _stack;
 
+  mapping(address => uint256) private _userActivities;
+
+  // See doc to understand mathematic formula chosen
+  uint256[] private _taxConstants = [50, 110, 155, 185];
+
   event OfferCreated(uint256 offerId, address offerer, uint256 tokens, bytes32[2] hash);
   event OfferCanceled(uint256 offerId, address offerer);
   event PropositionMade(uint256 offerId, address proposer, uint256 tokens, bytes32[2] hash);
@@ -52,9 +57,29 @@ contract Sel is ERC20 {
     return proposers[_address];
   }
 
+  function _applyTaxIfNecessary(address user) internal {
+    uint256 weekInactives = _userActivities[user]++;  // = inactives + 1
+    if (_userActivities[user] > 1) {
+      uint256 tax = _taxConstants[weekInactives - 1] / 100 * balanceOf(user);
+      _burn(user, tax);
+    }
+  }
+
+  function transfer(address recipient, uint256 amount) public override returns (bool) {
+    _applyTaxIfNecessary(msg.sender);
+    require(msg.sender == address(this), "Direct transfers not allowed");
+    return super.transfer(recipient, amount);
+  }
+
+  function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {
+    _applyTaxIfNecessary(sender);
+    require(msg.sender == address(this), "Indirect transfers not allowed");
+    return super.transferFrom(sender, recipient, amount);
+  }
+
   function createOffer(uint256 _tokens, bytes32[2] memory _hash) public payable{
     require(_tokens > 0, "You must offer at least 1 token"); // TODO : Delete this part
-
+    _applyTaxIfNecessary(msg.sender);
     _transfer(msg.sender, address(this), _tokens);
 
     latestOfferId++;
@@ -93,6 +118,7 @@ contract Sel is ERC20 {
   }
 
   function acceptOffer(uint256 _offerId, address proposer) offerExistance(_offerId) public payable {
+    _applyTaxIfNecessary(msg.sender);
     Offer storage offer = offers[_offerId];
 
     require(offer.offerer == msg.sender, "You are not the offerer");
@@ -104,6 +130,9 @@ contract Sel is ERC20 {
     _stack[offer.offerer] -= offer.value;
     _transfer(address(this), proposer, offer.value);
     delete proposers[proposer];
+
+    _userActivities[msg.sender] = 0;
+    _userActivities[proposer] = 0;
   }
 
   function getFreeTokens(uint256 _freeTokens) public {
