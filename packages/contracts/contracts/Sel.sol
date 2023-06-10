@@ -15,8 +15,16 @@ struct Offer {
 }
 
 contract Sel is ERC20 {
+  address private owner;
+
   constructor(uint256 _mintValue) ERC20("Sel", "SEL") {
     _mint(msg.sender, _mintValue * 10 ** decimals());
+    owner = msg.sender;
+  }
+
+  modifier onlyOwner() {
+    require(msg.sender == owner, "Only the owner can call this function");
+    _;
   }
 
   uint256 public latestOfferId;
@@ -26,6 +34,10 @@ contract Sel is ERC20 {
   mapping(address => uint256) private _stack;
 
   mapping(address => uint256) private _userActivities;
+  mapping(address => mapping(address => bool)) private _boostedInteractionUsed;
+
+  uint256 constant private inflationBuyerDiscount = 25;
+  uint256 constant private inflationSellerBonus = 35;
 
   // See doc to understand mathematic formula chosen
   uint256[] private _taxConstants = [50, 110, 155, 185];
@@ -35,6 +47,7 @@ contract Sel is ERC20 {
   event PropositionMade(uint256 offerId, address proposer, uint256 tokens, bytes32[2] hash);
   event PropositionCanceled(uint256 offerId, address proposer);
   event PropositionAccepted(uint256 offerId, address offerer, address requester, uint256 tokens, bytes32[2] hash);
+  event InteractionsReset(uint256 newVersion);
 
   modifier offerExistance(uint256 _offerId) {
     Offer memory offer = offers[_offerId];
@@ -128,11 +141,30 @@ contract Sel is ERC20 {
     emit PropositionAccepted(_offerId, offer.offerer, proposer, offer.value, [offer.hash1, offer.hash2]);
 
     _stack[offer.offerer] -= offer.value;
-    _transfer(address(this), proposer, offer.value);
+    
+    if (!_boostedInteractionUsed[msg.sender][proposer]) {
+          uint256 buyerAmount = offer.value * (100 - inflationBuyerDiscount) / 100;
+          uint256 sellerAmount = offer.value * (100 + inflationSellerBonus) / 100;
+          _transfer(address(this), proposer, buyerAmount);
+          _mint(offer.offerer, sellerAmount);
+          _boostedInteractionUsed[msg.sender][proposer] = false;
+      } else {
+        _transfer(address(this), proposer, offer.value);
+    }
+
     delete proposers[proposer];
 
     _userActivities[msg.sender] = 0;
     _userActivities[proposer] = 0;
+  }
+
+    function resetInteractions() public onlyOwner {
+    for (uint256 i = 1; i <= latestOfferId; i++) {
+      Offer memory offer = offers[i];
+      _boostedInteractionUsed[offer.offerer][msg.sender] = false;
+    }
+
+    emit InteractionsReset(latestOfferId);
   }
 
   function getFreeTokens(uint256 _freeTokens) public {
