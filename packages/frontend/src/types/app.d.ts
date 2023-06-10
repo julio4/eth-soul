@@ -20,7 +20,7 @@ type Offer = Marker & {
 type Author = {
     id: number
     name: string
-    avatarUrl?: string
+    avatar?: StaticImageData
     isVerified: boolean
     numberOfReviews: number
     rating: RatingType

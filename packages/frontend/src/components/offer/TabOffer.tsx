@@ -1,39 +1,65 @@
 import React, { FC, useState } from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Text } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box } from '@chakra-ui/react';
 import { Offer } from '@types/app';
+import Image from 'next/image';
+import CarouselPictures from '@components/image/carouselPictures';
+import noImage from 'public/images/no-images.png';
 
 type TabOfferProps = {
-  offer: Offer;
+    offer: Offer;
 };
 
 export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
-  const [activeTab, setActiveTab] = useState(0); // État pour suivre l'index de l'onglet actif
+    const [activeTab, setActiveTab] = useState(0);
+    const handleTabChange = (index: number) => {
+        setActiveTab(index);
+    };
 
-  const handleTabChange = (index: number) => {
-    setActiveTab(index);
-  };
+    const renderDescription = (description: string) => {
+        const lines = description.split('<br/>');
+        return lines.map((line, index) => (
+            <Text key={index} fontWeight="medium" fontSize="md" color="gray.900" mb={2}>
+                {line}
+            </Text>
+        ));
+    };
 
-  return (
-    <Tabs width="100%" variant="enclosed" isLazy onChange={handleTabChange} index={activeTab}>
-      <TabList>
-        <Tab flexGrow={1} fontWeight={activeTab === 0 ? 'bold' : 'normal'}>Description</Tab>
-        <Tab flexGrow={1} fontWeight={activeTab === 1 ? 'bold' : 'normal'}>Pictures</Tab>
-        <Tab flexGrow={1} fontWeight={activeTab === 2 ? 'bold' : 'normal'}>Profile</Tab>
-      </TabList>
+    return (
+        <Tabs width="100%" variant="enclosed" isLazy onChange={handleTabChange} index={activeTab}>
+            <TabList>
+                <Tab flexGrow={1} fontWeight={activeTab === 0 ? 'bold' : 'normal'}>Description</Tab>
+                <Tab flexGrow={1} fontWeight={activeTab === 1 ? 'bold' : 'normal'}>Pictures</Tab>
+                <Tab flexGrow={1} fontWeight={activeTab === 2 ? 'bold' : 'normal'}>Profile</Tab>
+            </TabList>
 
-      <TabPanels>
-        <TabPanel px={6}>
-          <Text fontWeight="medium" fontSize="md" color="gray.900" mb={2}>
-            {offer.description}
-          </Text>
-        </TabPanel>
-        <TabPanel>
-          <p>two!</p>
-        </TabPanel>
-        <TabPanel>
-          <p>three!</p>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
+            <TabPanels>
+                <TabPanel px={4}>
+                    <Text fontWeight="medium" fontSize="md" color="gray.900" mb={2}>
+                        {renderDescription(offer.description)}
+                    </Text>
+                </TabPanel>
+                <TabPanel style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    {offer.images ? (
+                        <CarouselPictures images={offer.images} />
+                    ) : (
+                    <Box
+                        width="100%"
+                        height="100%"
+                        position="relative"
+                        overflow="hidden"
+                        justifyContent="center"
+                        alignItems="center"
+                        display="flex"
+                        mt={4}
+                    >
+                        <Image alt="No picture" src={noImage} style={{ borderRadius: '8px' }} />
+                    </Box>
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    <p>three!</p>
+                </TabPanel>
+            </TabPanels>
+        </Tabs>
+    );
 };

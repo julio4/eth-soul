@@ -4,9 +4,13 @@
 /**
  * @type {import('next').NextConfig}
  **/
-const nextConfig = {}
-
-// eslint-disable-next-line
-const withTM = require('next-transpile-modules')(['@ethathon/contracts']) // TODO
-
-module.exports = withTM(nextConfig)
+const nextConfig = {
+    images: {
+      domains: ['ipfs.io', 'images.unsplash.com'],
+    },
+  };
+  
+  // eslint-disable-next-line
+  const withTM = require('next-transpile-modules')(['@ethathon/contracts']) // TODO
+  
+  module.exports = withTM(nextConfig);

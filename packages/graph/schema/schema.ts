@@ -904,6 +904,19 @@ export class Offer extends Entity {
       store.set("Offer", id.toBytes().toHexString(), this);
     }
   }
+  
+  get offerId(): BigInt {
+    let value = this.get("offerId");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set offerId(value: BigInt) {
+    this.set("offerId", Value.fromBigInt(value));
+  }
 
   static loadInBlock(id: Bytes): Offer | null {
     return changetype<Offer | null>(
