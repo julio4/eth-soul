@@ -1,0 +1,10 @@
+query ($first: Int, $offerId: BigInt)
+{
+  propositionMades(where: { offerId: $offerId }, first: $first) {
+    id
+    offerId
+    proposer
+    tokens
+    hash
+  }
+}
