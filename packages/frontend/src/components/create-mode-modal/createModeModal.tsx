@@ -1,8 +1,9 @@
 import { useState, useCallback, useLayoutEffect, useRef, useEffect } from 'react'
-import { Category, CategoryDetails } from '../types/category'
+import { Category, CategoryDetails } from '../../types/category'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { IoClose } from 'react-icons/io5'
+import 'twin.macro'
 
 import {
   FormControl,

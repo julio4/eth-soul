@@ -15,7 +15,7 @@ import Web3 from 'web3'
 import { retrieveOffer, storeOffer } from '@service/web3storage'
 import { CONTRACT_ADDRESS, THE_GRAPH_URL } from '@utils/const'
 import { useContractRead, useContractWrite } from "wagmi"
-import CreateModeModal from "./createModeModal"
+import CreateModeModal from "../components/create-mode-modal/createModeModal"
 
 const OffersQuery = `query ($first: Int)
 {
