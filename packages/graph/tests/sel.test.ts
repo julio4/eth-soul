@@ -4,11 +4,13 @@ import {
   test,
   clearStore,
   beforeAll,
-  afterAll
+  afterAll,
+  beforeEach
 } from "matchstick-as/assembly/index"
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { handleApproval, handleOfferCanceled, handleOfferCreated } from "../src/sel"
+import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts"
+import { offerIdToBytes, handleApproval, handleOfferCanceled, handleOfferCreated } from "../src/sel"
 import { createApprovalEvent, createCreateOfferEvent, createOfferCanceledEvent } from "./sel-utils"
+import { Offer } from "../schema/schema"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
@@ -58,6 +60,9 @@ describe("Describe entity assertions", () => {
   //   // https://thegraph.com/docs/en/developer/matchstick/#asserts
   // })
 
+  // beforeEach(() => {
+  //   mock
+
   test("createCreateOfferEvent", () => {
     let offerId = BigInt.fromI32(234)
     let offerId2 = BigInt.fromI32(235)
@@ -73,16 +78,21 @@ describe("Describe entity assertions", () => {
   })
 
   test("createOfferCanceledEvent", () => {
-    let offerId = BigInt.fromI32(234)
+    let offerId = BigInt.fromI32(1)
     let offerer = Address.fromString("0x0000000000000000000000000000000000000003")
     let tokens = BigInt.fromI32(234)
 
     let eventCreate = createCreateOfferEvent(offerId, tokens, offerer)
     handleOfferCreated(eventCreate)
 
+    const id = eventCreate.transaction.hash.concatI32(eventCreate.params.offerId.toI32())
+    const offer = Offer.load(offerIdToBytes(offerId))
+
     let event = createOfferCanceledEvent(offerId, offerer)
     handleOfferCanceled(event)
     assert.entityCount("OfferCanceled", 1)
-    assert.entityCount("Offer", 2)
+    assert.entityCount("Offer", 3)
+
+    assert.fieldEquals("Offer", offerIdToBytes(offerId).toHexString(), 'isActive', 'false')
   })
 })

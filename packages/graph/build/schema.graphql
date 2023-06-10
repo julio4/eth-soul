@@ -28,7 +28,7 @@ type OfferCreated @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type Offer @entity(immutable: true) {
+type Offer @entity(immutable: false) {
   id: Bytes!
   offerId: BigInt! # uint256
   offerer: Bytes! # address
