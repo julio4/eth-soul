@@ -59,6 +59,8 @@ const CreateModeModal = ({
   price,
   setPrice,
   confirm,
+  file,
+  setFile,
 }: {
   createMode: boolean,
   setCreateMode: (createMode: boolean) => void,
@@ -69,10 +71,12 @@ const CreateModeModal = ({
   description: string,
   setDescription: (description: string) => void,
   category: Category,
-  setCategory: (category: Category | null) => void,
+  setCategory: (category: Category) => void,
   price: number,
   setPrice: (price: number) => void,
   confirm: () => void,
+  file: File | null,
+  setFile: (file: File | null) => void,
 }) => {
   const onToggleCreateMode = useCallback(() => {
     if (!createMode) {
@@ -191,10 +195,8 @@ const CreateModeModal = ({
                         })
                     }
                   </Select>
-
                   <FormLabel htmlFor="images">Images</FormLabel>
-                  <Input type='file' />
-
+                  <Input type='file'/>
                   <Button
                     colorScheme="green"
                     position="fixed"
@@ -230,11 +232,10 @@ const AppPage: NextPage = () => {
   const [description, setDescription] = useState<string>('')
   const [category, setCategory] = useState<Category>(Category.EDUCATION_TUTORING)
   const [price, setPrice] = useState<number>(0)
+  const [file, setFile] = useState<File | null>(null)
 
   const confirm = async () => {
-    console.log("confirm")
     console.log("title", title, "description", description, "category", category, "price", price, "targetPos", targetPos)
-
     // const cid = await storeOffer({
     //   coordinates: {
     //     latitude: targetPos?.lat() as number,
@@ -245,26 +246,16 @@ const AppPage: NextPage = () => {
     //   category: JSON.stringify(category),
     //   pseudo: 'pseudo',
     //   imageLink: 'imageLink'
-    // })
-    const cid = "bafybeifzoteu2ud3uqvzybjdgmhps4dalmskpnicxz7fettijsigbokv64"
-    console.log("cid", cid)
+    // },
+    // )
 
-    const hash1 = Web3.utils.asciiToHex(cid.slice(0, 32))
-    const hash2pre = Web3.utils.asciiToHex(cid.slice(32, 64))
-    const hash2pre2 = hash2pre.slice(2, 64).padStart(122 - hash2pre.length - 2, "0")
-    const hash2 = "0x" + hash2pre2
-    console.log("hash1", hash1, "hash2", hash2)
+    // const hash1 = Web3.utils.asciiToHex(cid.slice(0, 32))
+    // const hash2_pre = Web3.utils.asciiToHex(cid.slice(32, 64))
+    // const hash2 = "0x" + hash2_pre.slice(2, 64).padStart(122 - hash2_pre.length - 2, "0")
 
-    const cid1 = Web3.utils.hexToAscii(hash1)
-    const cid2 = Web3.utils.hexToAscii(hash2).slice(5)
-    const cidr = cid1 + cid2;
+    // console.log("hash1", hash1, "hash2", hash2)
 
-    console.log("cid1", cid1)
-    console.log("cid2", cid2)
-
-    console.log(cidr === cid)
-
-
+    // ... Continue ...
   }
 
   const queryOffers = async () => {
@@ -500,6 +491,7 @@ const AppPage: NextPage = () => {
         category={category} setCategory={setCategory}
         price={price} setPrice={setPrice}
         confirm={confirm}
+        file={file} setFile={setFile}
       />
     </>
   )
