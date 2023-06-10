@@ -6,9 +6,15 @@ import { useAccount } from 'wagmi'
 import type { NextPage } from 'next'
 import 'twin.macro'
 import Link from 'next/link'
+import { useAppoloClient } from '@hooks/AppoloClientHook/useAppoloClient'
+import { QueriesTypes } from '@hooks/AppoloClientHook/types'
 
 const HomePage: NextPage = () => {
   const { address, isConnected } = useAccount();
+
+  // const { queries } = useAppoloClient();
+  // queries[QueriesTypes.OfferProposals]({ first: 10, offerId: 1 });
+
   return (
     <>
       {/* Top banner ? */}
@@ -23,7 +29,7 @@ const HomePage: NextPage = () => {
         {isConnected && (
           <div tw='mt-4'>
             <Link href="/app">
-              <Button 
+              <Button
                 colorScheme='green'
               >
                 Go to app

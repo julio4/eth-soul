@@ -17,10 +17,10 @@
     "baseUrl": ".",
     "paths": {
       "@*": ["./src/*"]
-    }
+    },
   },
   "references": [{ "path": "../contracts" }],
-  "include": ["next-env.d.ts", "**/*.js", "**/*.ts", "**/*.tsx", "**/*.json"],
+  "include": ["next-env.d.ts", "**/*.js", "**/*.ts", "**/*.tsx", "**/*.json", "**/*.graphql"],
   "exclude": ["node_modules", ".next", "out"],
   "types": ["src/types"]
 }
