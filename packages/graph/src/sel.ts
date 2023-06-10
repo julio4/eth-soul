@@ -45,7 +45,7 @@ export function handleOfferCanceled(event: OfferCanceledEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
-  
+
   let offerEntity = Offer.load(offerIdToBytes(event.params.offerId))
 
   if (offerEntity == null) {
@@ -92,7 +92,6 @@ export function handlePropositionAccepted(
 ): void {
   const id = event.transaction.hash.concatI32(event.params.offerId.toI32())
   let entity = new PropositionAccepted(id)
-  let offerEntity = Offer.load(id)
 
   entity.offerId = event.params.offerId
   entity.offerer = event.params.offerer
@@ -106,10 +105,14 @@ export function handlePropositionAccepted(
 
   entity.save()
 
-  if (offerEntity != null) {
-    offerEntity.isActive = false;
-    offerEntity.save()
+  let offerEntity = Offer.load(offerIdToBytes(event.params.offerId))
+
+  if (offerEntity == null) {
+    throw new Error("You cannot accept an offer that does not exist.")
   }
+
+  offerEntity.isActive = false;
+  offerEntity.save()
 }
 
 export function handlePropositionCanceled(
