@@ -23,18 +23,14 @@ import { AuthorOffer } from './AuthorOffer';
 
 type DetailedOfferProps = {
     offer: Offer;
+    isOpen: boolean;
+    onClose: () => void;
 };
 
-export const DetailedOffer: FC<DetailedOfferProps> = ({ offer }) => {
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
+export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }) => {
     const btnRef = React.useRef();
-
     return (
         <>
-            <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-                Open
-            </Button>
             <Drawer
                 isOpen={isOpen}
                 placement='right'

@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from 'react'
+import { FC, PropsWithChildren, useState, useEffect } from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import Map from './Map'
 import { Offer } from '../../types/app'
@@ -7,6 +7,7 @@ import ZoomContext from '@shared/zoomContext'
 import { DetailedOffer } from '../offer/DetailedOffer'
 
 import 'twin.macro'
+import { useDisclosure } from '@chakra-ui/react'
 
 interface MarkedMapProps {
   onIdle?: (map: google.maps.Map) => void
@@ -28,6 +29,16 @@ const MarkedMap = ({
   highlightedMarker,
 }: MarkedMapProps) => {
   const [zoomLevel, setZoomLevel] = useState<number>(zoom);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (highlightedMarker) {
+      onOpen();
+    } else {
+      onClose();
+    }
+  }, [highlightedMarker, onOpen, onClose]);
 
   const render = (status: Status) => {
     console.log('Map status', status)
@@ -70,7 +81,11 @@ const MarkedMap = ({
                 />
               ))}
             </Map>
-              <DetailedOffer offer={highlightedMarker} />
+            {
+              highlightedMarker && (
+                <DetailedOffer offer={highlightedMarker} isOpen={isOpen} onClose={onClose} />
+              )
+            }
           </Wrapper>
         </main>
       </div>
