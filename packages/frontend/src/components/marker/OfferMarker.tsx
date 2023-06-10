@@ -1,14 +1,16 @@
-import { useCallback, useMemo, useContext } from 'react'
+import { useCallback, useMemo, useContext, useEffect, useRef } from 'react'
 import OverlayView from '../map/OverlayView'
 import { motion } from 'framer-motion'
 import { Offer } from '../../types/app'
 import { AnimatePresence } from 'framer-motion'
 import ZoomContext from '@shared/zoomContext'
+import { CategoryDetails, Category } from '../../types/category'
 
 import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react'
 import { OfferPopUp } from './OfferPopUp'
 
 import tw from 'twin.macro'
+import PinIcon from './PinIcon'
 
 interface OfferMarkerProps {
     offer: Offer
@@ -86,21 +88,7 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
                             damping: 20,
                         }}
                     >
-                        {highlight ? (
-                            <button
-                                tw="rounded-full bg-gray-400 py-2 px-2 font-bold text-xs text-white transition-all hover:drop-shadow"
-                                onClick={handleClick}
-                            >
-                                {`T ${price}`}
-                            </button>
-                        ) : (
-                            <button
-                                tw="rounded-full bg-white py-2 px-2 font-bold text-xs text-gray-600 transition-all hover:(scale-105 drop-shadow)"
-                                onClick={handleClick}
-                            >
-                                {`T ${price}`}
-                            </button>
-                        )}
+                        <PinIcon category={offer.category} />
                     </motion.div>
                 </OverlayView>
             )}

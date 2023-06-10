@@ -4,6 +4,13 @@ import { RiHandHeartLine, RiComputerLine } from 'react-icons/ri'
 import { IoSchoolOutline, IoPawOutline } from 'react-icons/io5'
 import { BiParty } from 'react-icons/bi'
 
+import bluePin from '../../public/icons/location-pin-blue.png';
+import greenPin from '../../public/icons/location-pin-greene.png';
+import cyanPin from '../../public/icons/location-pin-cyan.png';
+import purplePin from '../../public/icons/location-pin-purple.png';
+import yellowPin from '../../public/icons/location-pin-yellow.png';
+import { StaticImageData } from 'next/image'
+
 enum Category {
     REPAIR_MAINTENANCE = 'REPAIR_MAINTENANCE',
     LENDING_HOME_SERVICES = 'LENDING_HOME_SERVICES',
@@ -15,46 +22,46 @@ enum Category {
 }
 
 interface CategoryInfo {
-    color: string
     description: string
     icon: IconType
+    iconPin: StaticImageData
 }
 
 const CategoryDetails: Record<Category, CategoryInfo> = {
     [Category.REPAIR_MAINTENANCE]: {
-        color: '#00008B', // DarkBlue
         description: 'Repair & Maintenance Services',
         icon: AiOutlineTool,
+        iconPin: bluePin,
     },
     [Category.LENDING_HOME_SERVICES]: {
-        color: '#008000', // Green
         description: 'Lending & Home Services',
         icon: RiHandHeartLine,
+        iconPin: greenPin,
     },
     [Category.EDUCATION_TUTORING]: {
-        color: '#FFFF00', // Yellow
         description: 'Education & Tutoring',
         icon: IoSchoolOutline,
+        iconPin: yellowPin,
     },
     [Category.TRANSPORT_SERVICES]: {
-        color: '#FF0000', // Red
         description: 'Transport Services',
         icon: AiOutlineCar,
+        iconPin: purplePin
     },
     [Category.PET_CARE]: {
-        color: '#800080', // Purple
         description: 'Pet Care',
         icon: IoPawOutline,
+        iconPin: purplePin
     },
     [Category.EVENTS_CONSULTING]: {
-        color: '#FFA500', // Orange
         description: 'Events & Consulting',
         icon: BiParty,
+        iconPin: cyanPin
     },
     [Category.TECHNOLOGY]: {
-        color: '#00BFFF', // DeepSkyBlue
         description: 'Technology Services',
         icon: RiComputerLine,
+        iconPin: cyanPin
     },
 }
 
