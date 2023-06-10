@@ -50,7 +50,7 @@ const Map = ({
       setZoomLevel(currentZoom);
         onZoomChange && onZoomChange(currentZoom);
     }
-    onIdle && onIdle(map);
+    onIdle && map && onIdle(map);
   }, [map, onIdle, onZoomChange]);
 
   useEffect(() => {

@@ -43,27 +43,16 @@ const storeWithProgress = async (files: File[]) => {
   return await storage.put(files, { onRootCidReady, onStoredChunk });
 }
 
-export const storeOffer = async (image: File) => {
-  const offerToStore: Offer = {
-    coordinates: {
-      longitude: 14.4378005,
-      latitude: 50.0755381
-    },
-    title: 'Babysitting',
-    description: 'Babysit my child between 6pm and 8pm',
-    category: 'cat',
-    pseudo: 'myPseudo',
-    imageLink: ''
-  }
-  const filesToUpload = makeFilesFromOffer(offerToStore, image);
+export const storeOffer = async (offer: Offer, image: File) => {
+  const filesToUpload = makeFilesFromOffer(offer, image);
 
   return await storeWithProgress(filesToUpload);
 }
 
 export const retrieveOffer = async (cid: string) => {
   const offer: Offer = await fetch(`https:/${cid}.ipfs.w3s.link/offerData`)
-  .then((res) => res.json())
-  .then((res) => res);
+    .then((res) => res.json())
+    .then((res) => res);
 
   offer.imageLink = `https:/${cid}.ipfs.w3s.link/offerImg`;
 

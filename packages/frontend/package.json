@@ -46,6 +46,7 @@
     "use-async-effect": "^2.2.7",
     "viem": "^1.0.2",
     "wagmi": "^1.1.1",
+    "web3": "^4.0.1",
     "web3.storage": "^4.5.4"
   },
   "devDependencies": {
