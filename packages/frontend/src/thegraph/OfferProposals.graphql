@@ -1,0 +1,9 @@
+query OfferProposals {
+  propositionMades(where: { offerId: 1 }, first: 10) {
+    id
+    offerId
+    proposer
+    tokens
+    hash
+  }
+}

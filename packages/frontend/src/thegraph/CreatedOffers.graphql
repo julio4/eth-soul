@@ -1,0 +1,8 @@
+query CreatedOffers {
+  offerCreateds(first: 5) {
+    id
+    offerId
+    offerer
+    blockNumber
+  }
+}
