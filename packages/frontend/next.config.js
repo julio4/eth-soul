@@ -6,7 +6,7 @@
  **/
 const nextConfig = {
     images: {
-      domains: ['ipfs.io', 'images.unsplash.com', 'holycitysinner.com'],
+      domains: ['ipfs.io', 'images.unsplash.com'],
     },
   };
   

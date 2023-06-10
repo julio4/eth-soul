@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box } from '@chakra-ui/react';
 import { Offer } from '@types/app';
 import Image from 'next/image';
+import CarouselPictures from '@components/image/carouselPictures';
 import noImage from 'public/images/no-images.png';
 
 type TabOfferProps = {
@@ -39,22 +40,20 @@ export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
                 </TabPanel>
                 <TabPanel style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {offer.images ? (
-                        offer.images.map((image, index) => (
-                            <Image key={index} alt="Pictures of the offer" width={500} height={500} src={image} />
-                        ))
+                        <CarouselPictures images={offer.images} />
                     ) : (
-                        <Box
-                            width="100%"
-                            height="100%"
-                            position="relative"
-                            overflow="hidden"
-                            justifyContent="center"
-                            alignItems="center"
-                            display="flex"
-                            mt={4}
-                        >
-                            <Image alt="No picture" src={noImage} style={{ borderRadius: '8px' }} />
-                        </Box>
+                    <Box
+                        width="100%"
+                        height="100%"
+                        position="relative"
+                        overflow="hidden"
+                        justifyContent="center"
+                        alignItems="center"
+                        display="flex"
+                        mt={4}
+                    >
+                        <Image alt="No picture" src={noImage} style={{ borderRadius: '8px' }} />
+                    </Box>
                     )}
                 </TabPanel>
                 <TabPanel>

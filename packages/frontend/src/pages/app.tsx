@@ -20,6 +20,11 @@ const AppPage: NextPage = () => {
           latitude: 50.102425406026136,
           longitude: 14.449577761673018,
         },
+        images: [
+          "https://images.unsplash.com/photo-1522276498395-f4f68f7f8454?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZG9nJTIwbG92ZXJ8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+          "https://images.unsplash.com/photo-1530700131180-d43d9b8cc41f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=834&q=80",
+          "https://images.unsplash.com/photo-1511657304136-7d9f56e0d574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=465&q=80",
+        ],
         category: Category.PET_CARE,
         author: generateAuthor(),
         title: 'Dog walking',

@@ -13,6 +13,7 @@ const randomBoolean = (): boolean => {
 const generateAuthor = (): Author => {
   const hasAvatar = Math.random() < 0.7;
   const avatarNumber = Math.floor(Math.random() * 5) + 1;
+  const average = (Math.random() * (5 - 3.5)) + 3.5;
 
   return {
     id: Math.floor(Math.random() * 1000),
@@ -21,7 +22,7 @@ const generateAuthor = (): Author => {
     numberOfReviews: Math.floor(Math.random() * 100),
     rating: {
       numberOfReviews: Math.floor(Math.random() * 100),
-      average: Math.random() * 5,
+      average: Math.round(average * 10) / 10, // Arrondir à une décimale
     },
     avatar: hasAvatar ? getAvatar(avatarNumber) : undefined,
   };
