@@ -11,7 +11,8 @@ import {
     Text,
     useDisclosure,
     Box,
-    Flex
+    Flex,
+    Divider,
 } from '@chakra-ui/react'
 import React, { FC } from 'react';
 import Image from 'next/image';
@@ -20,6 +21,7 @@ import avatarImage from 'public/images/people/personne1.jpeg';
 
 import { Offer } from '../../types/app';
 import { AuthorOffer } from './AuthorOffer';
+import { TabOffer } from './TabOffer';
 
 type DetailedOfferProps = {
     offer: Offer;
@@ -54,7 +56,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                     </DrawerHeader>
 
                     <DrawerBody px={0}>
-                        <Box position="relative" mb={14} height={"20%"}>
+                        <Box position="relative" mb={12} height={"20%"}>
                             <Box
                                 width="100%"
                                 height="100%"
@@ -84,9 +86,11 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                                 </Box>
                             </Flex>
                         </Box>
-                        <Box px={5}>
+                        <Box px={5} mb={5}>
                             <AuthorOffer offer={offer} />
                         </Box>
+                        {/* <Divider mt={2} /> */}
+                        <TabOffer />
 
                     </DrawerBody>
 
@@ -94,7 +98,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                         <Button variant='outline' mr={3} onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button colorScheme='blue'>Save</Button>
+                        <Button colorScheme='blue'>Contact</Button>
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
