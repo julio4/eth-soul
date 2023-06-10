@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import ZoomContext from '@shared/zoomContext'
 
-import { FC, useState, useContext } from 'react'
+import { FC, useState, useContext, useEffect } from 'react'
 
 import { BsHeart, BsHeartFill, BsTools } from 'react-icons/bs'
 import AvatarPhoto from 'public/images/people/personne1.jpeg'
@@ -47,9 +47,10 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
             position={'relative'}
             zIndex={100}
             transform={
-                zoomLevel > 14 ? 'translate(-40%, -105%)' :
-                    zoomLevel == 14 ? 'translate(-35%, -107%)' : 'translate(-35%, -107%)'
-            }            
+                zoomLevel > 15 ? 'translate(-40%, -130%)' :
+                zoomLevel == 15 ? 'translate(-35%, -140%)' :
+                    zoomLevel == 14 ? 'translate(-35%, -150%)' : 'translate(-35%, -130%)'
+            }
         >
             <Flex direction="column">
                 <Box
@@ -75,7 +76,6 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                         <PopoverTrigger>
                             <Box
                                 position="absolute"
-                                // top="20%"
                                 top={
                                     zoomLevel >= 16 ? '15%' :
                                         zoomLevel == 15 ? '20%' :
