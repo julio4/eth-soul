@@ -14,14 +14,19 @@ import {
     Flex,
     Divider,
 } from '@chakra-ui/react'
+
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import React, { FC } from 'react';
 import Image from 'next/image';
 import defaultCover from 'public/images/default-cover-offer.jpg';
 import defaultAvatar from 'public/images/people/avatar_default.jpeg';
+import { CONTRACT_ADDRESS } from '@utils/const';
+import abiContract from '@assets/abi/sel.json'
 
 import { Offer } from '../../types/app';
 import { AuthorOffer } from './AuthorOffer';
 import { TabOffer } from './TabOffer';
+import { AbiItem } from 'viem';
 
 type DetailedOfferProps = {
     offer: Offer;
@@ -31,6 +36,22 @@ type DetailedOfferProps = {
 
 export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }) => {
     const btnRef = React.useRef();
+
+    // Call makeProposition function
+    const { data, isLoading, isSuccess, write: createMakeProposition } = useContractWrite({
+        address: CONTRACT_ADDRESS,
+        abi: abiContract,
+        functionName: 'makeProposition',
+    });
+
+    const sendOffer = async () => {
+        createMakeProposition({
+            args: [offer.id]
+        });
+    }
+
+
+
     return (
         <>
             <Drawer
@@ -85,28 +106,26 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                                 <Box borderRadius="full" overflow="hidden">
                                     {
                                         offer.author.avatar ?
-                                        <Image src={offer.author.avatar} alt='avatar' width={84} height={84} />
-                                        :
-                                        <Image src={defaultAvatar} alt='avatar' width={84} height={84} />
+                                            <Image src={offer.author.avatar} alt='avatar' width={84} height={84} />
+                                            :
+                                            <Image src={defaultAvatar} alt='avatar' width={84} height={84} />
                                     }
                                 </Box>
                             </Flex>
                         </Box>
                         <Box px={10} mb={5}>
                             <AuthorOffer offer={offer} />
-                        <TabOffer offer={offer} />
+                            <TabOffer offer={offer} />
                         </Box>
 
                     </DrawerBody>
 
                     <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onClose}>
-                            Cancel
-                        </Button>
-                        <Button colorScheme='blue'>Contact</Button>
+                        <Button colorScheme='blue' onClick={sendOffer}>
+                            Propose Your Help</Button>
                     </DrawerFooter>
                 </DrawerContent>
-            </Drawer>
+            </Drawer >
         </>
     )
 };
