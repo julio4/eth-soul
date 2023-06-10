@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import React, { FC } from 'react';
 import Image from 'next/image';
-import defaultCover from 'public/images/cover_grenoble.jpeg';
+import defaultCover from 'public/images/default-cover-offer.jpg';
 import defaultAvatar from 'public/images/people/avatar_default.jpeg';
 
 import { Offer } from '../../types/app';
