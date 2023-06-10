@@ -3,6 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box } from '@chakra-ui/r
 import { Offer } from '@types/app';
 import Image from 'next/image';
 import CarouselPictures from '@components/image/carouselPictures';
+import { ShortProfilePage } from '@components/profile/ShortProfilePage';
 import noImage from 'public/images/no-images.png';
 
 type TabOfferProps = {
@@ -42,22 +43,22 @@ export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
                     {offer.images ? (
                         <CarouselPictures images={offer.images} />
                     ) : (
-                    <Box
-                        width="100%"
-                        height="100%"
-                        position="relative"
-                        overflow="hidden"
-                        justifyContent="center"
-                        alignItems="center"
-                        display="flex"
-                        mt={4}
-                    >
-                        <Image alt="No picture" src={noImage} style={{ borderRadius: '8px' }} />
-                    </Box>
+                        <Box
+                            width="100%"
+                            height="100%"
+                            position="relative"
+                            overflow="hidden"
+                            justifyContent="center"
+                            alignItems="center"
+                            display="flex"
+                            mt={4}
+                        >
+                            <Image alt="No picture" src={noImage} style={{ borderRadius: '8px' }} />
+                        </Box>
                     )}
                 </TabPanel>
                 <TabPanel>
-                    <p>three!</p>
+                    <ShortProfilePage author={offer.author} />
                 </TabPanel>
             </TabPanels>
         </Tabs>

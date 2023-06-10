@@ -7,20 +7,15 @@ import {
     Stack,
     Button,
     Link,
-    Badge,
     useColorModeValue,
     ChakraProvider,
     Divider,
     Card,
     CardBody,
     Icon,
-  } from '@chakra-ui/react';
+} from '@chakra-ui/react';
 
-  import {
-    PhoneIcon
-  } from '@chakra-ui/icons';
-  
-  export default function ProfilePage() {
+export function ProfilePage() {
     return (
         <ChakraProvider>
             <Box
@@ -31,26 +26,26 @@ import {
                 rounded={'lg'}
                 p={6}
                 textAlign={'center'}>
-            <Center py={6}>
-                <Avatar
-                    size={'xl'}
-                    src={
-                    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'
-                    }
-                    alt={'Avatar Alt'}
-                    mb={4}
-                    pos={'relative'}
+                <Center py={6}>
+                    <Avatar
+                        size={'xl'}
+                        src={
+                            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'
+                        }
+                        alt={'Avatar Alt'}
+                        mb={4}
+                        pos={'relative'}
 
-                />
-            </Center>
-            <Center>
-                <Heading textAlign="right" fontSize={'2xl'} fontFamily={'body'}>
-                    Jean DUPONT
-                </Heading>
-                {/* <Text fontWeight={600} color={'gray.500'} mb={4}>
+                    />
+                </Center>
+                <Center>
+                    <Heading textAlign="right" fontSize={'2xl'} fontFamily={'body'}>
+                        Jean DUPONT
+                    </Heading>
+                    {/* <Text fontWeight={600} color={'gray.500'} mb={4}>
                     
                 </Text> */}
-            </Center>
+                </Center>
                 <Box textAlign="left">
                     <Heading as="h6" size="xs" mt={5}>
                         My activity
@@ -79,16 +74,14 @@ import {
                     </Heading>
                 </Box>
                 <Card mt={5}>
-                    <PhoneIcon />
                     <Text>
                         06 12 34 56 78
                     </Text>
                 </Card>
-            <Center>
-                
-            </Center>
+                <Center>
+
+                </Center>
             </Box>
         </ChakraProvider>
     );
-  }
-  
+}
