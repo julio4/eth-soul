@@ -7,6 +7,6 @@
 const nextConfig = {}
 
 // eslint-disable-next-line
-const withTM = require('next-transpile-modules')(['@ethathon/contracts']) // TODO
+const withTM = require('next-transpile-modules')(['@ethathon/contracts', 'react-apple-emojis']) // TODO
 
 module.exports = withTM(nextConfig)

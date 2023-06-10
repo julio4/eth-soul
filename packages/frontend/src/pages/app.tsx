@@ -17,6 +17,7 @@ const AppPage: NextPage = () => {
     numberOfReviews: 17,
     rating: 4.5,
   };
+
   const markers: Offer[] = [
     {
       id: 1,
