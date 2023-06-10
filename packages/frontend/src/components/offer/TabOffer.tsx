@@ -1,30 +1,39 @@
-import React, { FC } from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Text } from '@chakra-ui/react'
+import React, { FC, useState } from 'react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Text } from '@chakra-ui/react';
+import { Offer } from '@types/app';
 
-export const TabOffer: FC = () => {
+type TabOfferProps = {
+  offer: Offer;
+};
 
-    return (
-        <Tabs width="100%" variant="enclosed" isLazy>
-            <TabList>
-                <Tab flexGrow={1}>Description</Tab>
-                <Tab flexGrow={1}>Pictures</Tab>
-                <Tab flexGrow={1}>Profile</Tab>
-            </TabList>
+export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
+  const [activeTab, setActiveTab] = useState(0); // État pour suivre l'index de l'onglet actif
 
-            <TabPanels>
-                <TabPanel px={6}>
-                    <Text fontWeight="medium" fontSize="sm" color="gray.900" mb={2} >
-                        Friendly neighborhood bike enthusiast offering affordable repair services. From flat tires to squeaky brakes, I'll fix it all. Convenient and reliable service, right at your doorstep. Pedal with confidence and enjoy the ride!
-                    </Text>
+  const handleTabChange = (index: number) => {
+    setActiveTab(index);
+  };
 
-                </TabPanel>
-                <TabPanel>
-                    <p>two!</p>
-                </TabPanel>
-                <TabPanel>
-                    <p>three!</p>
-                </TabPanel>
-            </TabPanels>
-        </Tabs>
-    )
-}
+  return (
+    <Tabs width="100%" variant="enclosed" isLazy onChange={handleTabChange} index={activeTab}>
+      <TabList>
+        <Tab flexGrow={1} fontWeight={activeTab === 0 ? 'bold' : 'normal'}>Description</Tab>
+        <Tab flexGrow={1} fontWeight={activeTab === 1 ? 'bold' : 'normal'}>Pictures</Tab>
+        <Tab flexGrow={1} fontWeight={activeTab === 2 ? 'bold' : 'normal'}>Profile</Tab>
+      </TabList>
+
+      <TabPanels>
+        <TabPanel px={6}>
+          <Text fontWeight="medium" fontSize="md" color="gray.900" mb={2}>
+            {offer.description}
+          </Text>
+        </TabPanel>
+        <TabPanel>
+          <p>two!</p>
+        </TabPanel>
+        <TabPanel>
+          <p>three!</p>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+};

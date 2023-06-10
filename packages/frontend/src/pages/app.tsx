@@ -31,6 +31,8 @@ const AppPage: NextPage = () => {
       },
       category: Category.PET_CARE,
       author: defaultAuthor,
+      title: 'Dog walking',
+      description: "Calling all dog lovers! Need someone to give your furry friend some exercise? Look no further! I'm a fitness enthusiast who adores dogs and is ready to take your pup on exciting walks. With me, your canine companion will get the exercise and attention they need. Let's keep those tails wagging!",
     },
     {
       id: 2,
@@ -41,6 +43,8 @@ const AppPage: NextPage = () => {
       },
       category: Category.LENDING_HOME_SERVICES,
       author: defaultAuthor,
+      title: "Handy Tools for Borrow!",
+      description: "DIY enthusiasts, I've got you covered! I'm a handy neighbor with a collection of tools ready to lend a helping hand. From hammers to drills, you can borrow the tools you need for your home projects. No need to invest in expensive equipment—simply borrow and get the job done. Let's tackle those DIY dreams together!",
     },
     {
       id: 3,
@@ -51,6 +55,8 @@ const AppPage: NextPage = () => {
       },
       category: Category.EDUCATION_TUTORING,
       author: defaultAuthor,
+      title: "Tutoring Services for Academic Success!",
+      description: "Struggling with your studies? Don't worry, I'm here to help! As an experienced and dedicated tutor, I offer personalized tutoring services to help you excel in your academic pursuits. From math and science to language arts, I'll provide the guidance and support you need to achieve your goals. Let's unlock your full potential and achieve academic success together!"
     },
   ];
 

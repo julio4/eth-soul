@@ -12,6 +12,9 @@ type Offer = Marker & {
     price: number
     category: Category
     author: Author
+    title: string
+    description: string
+    images?: string[]
 }
 
 type Author = {

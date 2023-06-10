@@ -38,6 +38,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                 placement='right'
                 onClose={onClose}
                 finalFocusRef={btnRef}
+                size="md"
             >
                 <DrawerOverlay />
                 <DrawerContent>
@@ -46,7 +47,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                         <Box>
                             <Flex align="flex-start" flexDirection={'row'} alignItems="center">
                                 <Text width={"70%"}>
-                                    Réparation vélo
+                                    {offer.title}
                                 </Text>
                                 <Flex flexDirection={'column'} alignItems="flex-end">
                                     <Text fontWeight="light" fontSize="sm" color="gray.500" >2 days ago</Text>
@@ -90,7 +91,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                             <AuthorOffer offer={offer} />
                         </Box>
                         {/* <Divider mt={2} /> */}
-                        <TabOffer />
+                        <TabOffer offer={offer} />
 
                     </DrawerBody>
 
