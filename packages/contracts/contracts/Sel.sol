@@ -234,6 +234,7 @@ contract Sel is ERC20 {
         emit InteractionsReset(latestOfferId);
     }
 
+    // Faucet for testing purposes
     function getFreeTokens(uint256 _freeTokens) public {
         _mint(msg.sender, _freeTokens * 10 ** decimals());
     }
