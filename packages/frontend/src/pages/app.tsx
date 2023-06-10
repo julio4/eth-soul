@@ -5,8 +5,26 @@ import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
 import { Offer, Author } from '../types/app'
 import { Category } from '../types/category'
+import { motion } from 'framer-motion'
 
 import 'twin.macro'
+
+const ToggleEditMode = ({ createMode, setCreateMode }: {
+  createMode: boolean,
+  setCreateMode: (createMode: boolean) => void
+}) => {
+  return (
+    <motion.button
+      tw="absolute bottom-0 right-0 m-8 p-5 rounded-full text-3xl bg-white/30 backdrop-blur-md shadow-xl"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      transition={{ duration: 0.1 }}
+      onClick={() => setCreateMode(!createMode)}
+    >
+      {createMode ? '✖️' : '🆕'}
+    </motion.button>
+  )
+}
 
 const AppPage: NextPage = () => {
 
@@ -64,10 +82,9 @@ const AppPage: NextPage = () => {
     lat: 50.10340217817493,
     lng: 14.450536191137255
   });
-
   const [zoom, setZoom] = useState<number>(15);
-
   const [highlightedMarker, setHighlightedMarker] = useState<Offer | null>(null);
+  const [createMode, setCreateMode] = useState<boolean>(false);
 
   const onMarkerClick = useCallback(
     (payload: Offer) => {
@@ -80,6 +97,17 @@ const AppPage: NextPage = () => {
     [highlightedMarker]
   );
 
+  const [targetPos, setTargetPos] = useState<google.maps.LatLng | null>(null);
+
+  const onMapClick = useCallback(
+    (event: google.maps.MapMouseEvent) => {
+      if (event.latLng === null) return;
+      console.log("Map clicked to ", event.latLng.toString());
+      setTargetPos(event.latLng);
+    },
+    [setTargetPos] 
+  );
+
   return (
     <>
       <TopBar />
@@ -88,8 +116,13 @@ const AppPage: NextPage = () => {
         center={center}
         markers={markers}
         onMarkerClick={onMarkerClick}
+        onClick={onMapClick}
         highlightedMarker={highlightedMarker}
+        clickable={createMode}
+        targetPos={targetPos}
+        setTargetPos={setTargetPos}
       />
+      <ToggleEditMode createMode={createMode} setCreateMode={setCreateMode} />
     </>
   )
 }

@@ -3,11 +3,13 @@ import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import Map from './Map'
 import { Offer } from '../../types/app'
 import OfferMarker from '../marker/OfferMarker'
+import GoogleMapsMarker from '@components/marker/GoogleMapsMarker'
 import ZoomContext from '@shared/zoomContext'
 import { DetailedOffer } from '../offer/DetailedOffer'
 
 import 'twin.macro'
 import { useDisclosure } from '@chakra-ui/react'
+import { AnimatePresence } from 'framer-motion'
 
 interface MarkedMapProps {
   onIdle?: (map: google.maps.Map) => void
@@ -17,6 +19,9 @@ interface MarkedMapProps {
   center: google.maps.LatLngLiteral
   zoom: number
   highlightedMarker?: Offer | null
+  clickable?: boolean
+  targetPos?: google.maps.LatLng | null
+  setTargetPos?: (pos: google.maps.LatLng) => void
 }
 
 const MarkedMap = ({
@@ -27,6 +32,9 @@ const MarkedMap = ({
   markers,
   onMarkerClick,
   highlightedMarker,
+  clickable = false,
+  targetPos,
+  setTargetPos
 }: MarkedMapProps) => {
   const [zoomLevel, setZoomLevel] = useState<number>(zoom);
 
@@ -43,6 +51,14 @@ const MarkedMap = ({
   const render = (status: Status) => {
     console.log('Map status', status)
     return <></>
+  }
+
+  const handleOnTargetDrag = (e: google.maps.KmlMouseEvent) => {
+    if (e.latLng === null) return;
+    if (setTargetPos) {
+      setTargetPos(e.latLng);
+      console.log('Target position dragged to', e.latLng.toJSON())
+    }
   }
 
   return (
@@ -63,15 +79,21 @@ const MarkedMap = ({
               minZoom={14}
               maxZoom={18}
               onIdle={onIdle}
-              onClick={onClick}
+              onClick={(e) => {
+                if (!clickable) return
+                if (onClick)
+                  onClick(e)
+              }}
               onZoomChange={setZoomLevel}
               fullscreenControl={false}
               streetViewControl={false}
               mapTypeControl={false}
               zoomControl={false}
               clickableIcons={false}
+              draggableCursor={clickable ? 'crosshair' : 'default'}
+              disableDoubleClickZoom={clickable}
             >
-              {markers?.map((marker) => (
+              {!clickable && markers?.map((marker) => (
                 <OfferMarker
                   key={marker.id}
                   offer={marker}
@@ -80,6 +102,14 @@ const MarkedMap = ({
                     highlightedMarker?.id === marker.id}
                 />
               ))}
+              {clickable && targetPos && (
+                <GoogleMapsMarker
+                  key={100 + targetPos?.lat() + targetPos?.lng()}
+                  position={targetPos}
+                  draggable={true}
+                  onDrag={handleOnTargetDrag}
+                />
+              )}
             </Map>
             {
               highlightedMarker && (
