@@ -14,26 +14,20 @@ import {
 } from '@chakra-ui/react'
 import ZoomContext from '@shared/zoomContext'
 
+import { Category, CategoryDetails } from '@types/category'
+
 import { FC, useState, useContext, useEffect } from 'react'
+import { Offer } from '@types/app'
 
 import { BsHeart, BsHeartFill, BsTools } from 'react-icons/bs'
 
 type OfferPopUpProps = {
     width?: string | number
+    offer: Offer
 }
 
-export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
+export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%', offer }) => {
     const { zoomLevel } = useContext(ZoomContext)
-
-    const offer = {
-        image: 'https://lesveloselectriques.fr/wp-content/uploads/2023/03/VTT-electrique-occasion.jpg',
-        timeSince: '3 hours ago',
-        title: 'title',
-        description: 'description',
-        price: '4',
-        location: '12 rue des Maronniers, Prague',
-        author: 'Antoine',
-    }
 
     // const [heartFilled, setHeartFilled] = useState(false)
 
@@ -55,20 +49,23 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                     position="relative"
                     boxSizing="border-box"
                 >
-                    <Image
-                        src={offer.image}
-                        alt={offer.title}
-                        w="100%"
-                        h="100%"
-                        objectFit="cover"
-                        cursor="default"
-                    />
+                    {
+                        offer.images &&
+                        (<Image
+                            src={offer.images[0]}
+                            alt={offer.title}
+                            w="100%"
+                            h="100%"
+                            objectFit="cover"
+                            cursor="default"
+                        />)
+                    }
 
                     <Popover placement="top">
                         <PopoverTrigger>
                             <Box
                                 position="absolute"
-                                top={'15%'} 
+                                top={'15%'}
                                 right={'17%'}
                                 transform="translate(50%, -50%)"
                                 bg="white"
@@ -101,7 +98,6 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                         </PopoverTrigger>
                     </Popover>
                 </Box>
-
                 <Center
                     flexDirection="column"
                     textAlign="center"
@@ -115,7 +111,13 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                         w="100%"
                         alignItems={'center'}
                     >
-                        <BsTools size={18} color="gray" />
+                        {
+                            offer.category && (
+                                <Text fontSize="2xl" role="img" aria-label={CategoryDetails[offer.category].description}>
+                                    {CategoryDetails[offer.category].emoji}
+                                </Text>
+                            )
+                        }
                         <Text
                             fontSize={'lg'}
                             fontWeight="medium"
@@ -123,7 +125,7 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%' }) => {
                             width={'100%'}
                             pl={2}
                         >
-                            Babysitting
+                            {offer.title}
                         </Text>
                     </Flex>
                 </Center>

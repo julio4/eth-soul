@@ -101,7 +101,7 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
                   style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 }}
                   tw='hover:cursor-pointer'
                 >
-                  <OfferPopUp width={width} />
+                  <OfferPopUp width={width} offer={offer} />
                 </motion.div>
               )}
             </AnimatePresence>
