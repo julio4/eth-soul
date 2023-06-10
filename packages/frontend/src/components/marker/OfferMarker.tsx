@@ -16,16 +16,23 @@ interface OfferMarkerProps {
 
 const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const width = '15vw'
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setIsHovered(true);
-  }, []);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  };
 
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+  const handleMouseLeave = () => {
+    const timeoutId = setTimeout(() => {
+      setIsHovered(false);
+    }, 300);
+    setTimeoutId(timeoutId);
+  };
 
   const handleClick = useCallback(() => {
     onClick(offer);
@@ -79,8 +86,16 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
                     stiffness: 260,
                     damping: 20,
                   }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => {
+                    if (isHovered) {
+                      if (timeoutId) {
+                        clearTimeout(timeoutId);
+                      }
+                    }
+                  }}
+                  onMouseLeave={
+                    handleMouseLeave
+                  }
                   onClick={() => handleClick()}
 
                   style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 }}
