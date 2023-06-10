@@ -4,6 +4,7 @@ import Map from './Map'
 import { Offer } from '../../types/app'
 import OfferMarker from '../marker/OfferMarker'
 import ZoomContext from '@shared/zoomContext'
+import { DetailedOffer } from '../offer/DetailedOffer'
 
 import 'twin.macro'
 
@@ -69,6 +70,7 @@ const MarkedMap = ({
                 />
               ))}
             </Map>
+              <DetailedOffer offer={highlightedMarker} />
           </Wrapper>
         </main>
       </div>
