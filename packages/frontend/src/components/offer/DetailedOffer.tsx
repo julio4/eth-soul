@@ -43,7 +43,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader px={3} pr={8} mt={2} pb={1}>
+                    <DrawerHeader px={8} pr={0} mt={2} pb={1}>
                         <Box>
                             <Flex align="flex-start" flexDirection={'row'} alignItems="center">
                                 <Text width={"70%"}>
@@ -73,7 +73,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                             </Box>
                             <Flex
                                 position="absolute"
-                                left={5}
+                                left={8}
                                 bottom={-9}
                                 align="center"
                                 justify="center"
@@ -87,11 +87,10 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                                 </Box>
                             </Flex>
                         </Box>
-                        <Box px={5} mb={5}>
+                        <Box px={10} mb={5}>
                             <AuthorOffer offer={offer} />
-                        </Box>
-                        {/* <Divider mt={2} /> */}
                         <TabOffer offer={offer} />
+                        </Box>
 
                     </DrawerBody>
 
