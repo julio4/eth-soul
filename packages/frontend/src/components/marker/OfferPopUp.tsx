@@ -17,7 +17,6 @@ import ZoomContext from '@shared/zoomContext'
 import { FC, useState, useContext, useEffect } from 'react'
 
 import { BsHeart, BsHeartFill, BsTools } from 'react-icons/bs'
-import AvatarPhoto from 'public/images/people/personne1.jpeg'
 
 type OfferPopUpProps = {
     width?: string | number

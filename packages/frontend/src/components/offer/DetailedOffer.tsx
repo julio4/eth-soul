@@ -16,8 +16,8 @@ import {
 } from '@chakra-ui/react'
 import React, { FC } from 'react';
 import Image from 'next/image';
-import cover from 'public/images/cover_grenoble.jpeg';
-import avatarImage from 'public/images/people/personne1.jpeg';
+import defaultCover from 'public/images/cover_grenoble.jpeg';
+import defaultAvatar from 'public/images/people/avatar_default.jpeg';
 
 import { Offer } from '../../types/app';
 import { AuthorOffer } from './AuthorOffer';
@@ -65,10 +65,10 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                                 overflow="hidden"
                             >
                                 <Image
-                                    src={cover}
+                                    src={defaultCover}
                                     alt='offer'
                                     layout="fill"
-                                    objectFit="cover"
+                                    objectFit="defaultCover"
                                 />
                             </Box>
                             <Flex
@@ -83,7 +83,12 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                                 zIndex={1}
                             >
                                 <Box borderRadius="full" overflow="hidden">
-                                    <Image src={avatarImage} alt='avatar' width={84} height={84} />
+                                    {
+                                        offer.author.avatar ?
+                                        <Image src={offer.author.avatar} alt='avatar' width={84} height={84} />
+                                        :
+                                        <Image src={defaultAvatar} alt='avatar' width={84} height={84} />
+                                    }
                                 </Box>
                             </Flex>
                         </Box>
