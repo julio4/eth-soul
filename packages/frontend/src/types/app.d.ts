@@ -1,3 +1,5 @@
+import { Category } from './category'
+
 type Marker = {
     id: number
     location: {

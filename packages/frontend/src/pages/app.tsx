@@ -20,6 +20,7 @@ const AppPage: NextPage = () => {
       average: 4.5,
     },
   };
+
   const markers: Offer[] = [
     {
       id: 1,

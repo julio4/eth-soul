@@ -23,45 +23,37 @@ enum Category {
 
 interface CategoryInfo {
     description: string
-    icon: IconType
-    iconPin: StaticImageData
+    emoji: string
 }
 
 const CategoryDetails: Record<Category, CategoryInfo> = {
     [Category.REPAIR_MAINTENANCE]: {
         description: 'Repair & Maintenance Services',
-        icon: AiOutlineTool,
-        iconPin: bluePin,
+        emoji: '🔧',
     },
     [Category.LENDING_HOME_SERVICES]: {
         description: 'Lending & Home Services',
-        icon: RiHandHeartLine,
-        iconPin: greenPin,
+        emoji: '🏠',
     },
     [Category.EDUCATION_TUTORING]: {
         description: 'Education & Tutoring',
-        icon: IoSchoolOutline,
-        iconPin: yellowPin,
+        emoji: '📚',
     },
     [Category.TRANSPORT_SERVICES]: {
         description: 'Transport Services',
-        icon: AiOutlineCar,
-        iconPin: purplePin
+        emoji: '🚗',
     },
     [Category.PET_CARE]: {
         description: 'Pet Care',
-        icon: IoPawOutline,
-        iconPin: purplePin
+        emoji: '🐶',
     },
     [Category.EVENTS_CONSULTING]: {
         description: 'Events & Consulting',
-        icon: BiParty,
-        iconPin: cyanPin
+        emoji: '🎉',
     },
     [Category.TECHNOLOGY]: {
         description: 'Technology Services',
-        icon: RiComputerLine,
-        iconPin: cyanPin
+        emoji: '💻',
     },
 }
 
