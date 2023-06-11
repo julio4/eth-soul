@@ -4,14 +4,10 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import { cropTextInTheMiddle } from "../../utils/stringUtils";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { CONTRACT_ADDRESS, THE_GRAPH_URL } from "@utils/const";
-import { Offer, Author, RawOffer, PopulatedOffer } from '../types/app'
+import { Offer, Author, RawOffer, PopulatedOffer } from '../../types/app';
 import { offerDTOToOfferObject } from "@mapping/OfferMapping";
 import { useAccount, useContractWrite } from "wagmi";
 import contractABI from '@assets/abi/sel.json'
-
-export type ActivityProps = {
-
-}
 
 const ACCOUNT_OFFER_QUERY = `
 query ($offerer: Bytes)
@@ -43,10 +39,12 @@ const PROPOSITION_MADE_QUERY = `
 export type Proposition = {
     offerId: number,
     proposer: string,
-    date: Number,
+    date: number,
 }
 
-export const Activity = (props: ActivityProps) => {
+export type ActivityProps = Record<string, never>;
+
+export const RecentActivityModal = (props: ActivityProps) => {
     const [show, setShow] = useState(false);
     const { address, isConnected } = useAccount();
 
@@ -132,7 +130,6 @@ export const Activity = (props: ActivityProps) => {
             const results = {}
             for (let i = 0; i < offers.length; i++) {
                 const result = await queryProposalsForOffer(offers[i].id)
-                // @ts-ignore
                 results[offers[i].id] = result
             }
             setProposals(results)
@@ -156,44 +153,50 @@ export const Activity = (props: ActivityProps) => {
 
                 <CardBody display={show ? 'block' : 'none'}>
                     <Stack divider={<StackDivider />} spacing='4'>
-                        {
-                            populatedOffers.map((offer) => {
-                                const propositions = proposals[offer.id] ?? []
-                                return (
-                                    <Box>
-                                        <Card>
-                                            <CardBody>
-                                                <Heading size={'md'}>{offer.title} - {offer.price} tokens</Heading>
-                                            </CardBody>
-                                            <TableContainer>
-                                                <Table variant='simple'>
-                                                    <Tbody>
-                                                        {
-                                                            propositions.length > 0 ? propositions.map((proposition) => {
-                                                                return (
-                                                                    <Tr>
-                                                                        <Td><Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' /></Td>
-                                                                        <Td>Tob</Td>
-                                                                        <Td>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
-                                                                        <Td><Button onClick={() => acceptOfferClick(offer.id, proposition.proposer)}>Deal!</Button></Td>
-                                                                    </Tr>
-                                                                )
-                                                            }) : (
-                                                                <Tr>
-                                                                    <Td>No propositions yet</Td>
+                        {populatedOffers.map((offer) => {
+                            const propositions = proposals[offer.id] ?? [];
+                            return (
+                                <Box key={offer.id}> {/* Add key prop here */}
+                                    <Card>
+                                        <CardBody>
+                                            <Heading size={'md'}>
+                                                {offer.title} - {offer.price} tokens
+                                            </Heading>
+                                        </CardBody>
+                                        <TableContainer>
+                                            <Table variant='simple'>
+                                                <Tbody>
+                                                    {propositions.length > 0 ? (
+                                                        propositions.map((proposition) => {
+                                                            return (
+                                                                <Tr key={proposition.offerId}>
+                                                                    <Td>
+                                                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                                                                    </Td>
+                                                                    <Td>Tob</Td>
+                                                                    <Td>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
+                                                                    <Td>
+                                                                        <Button onClick={() => acceptOfferClick(offer.id, proposition.proposer)}>
+                                                                            Deal!
+                                                                        </Button>
+                                                                    </Td>
                                                                 </Tr>
-                                                            )
-                                                        }
-                                                    </Tbody>
-                                                </Table>
-                                            </TableContainer>
-                                        </Card>
-                                    </Box>
-                                )
-                            }
-                            )
-                        }
+                                                            );
+                                                        })
+                                                    ) : (
+                                                        <Tr>
+                                                            <Td>No propositions yet</Td>
+                                                        </Tr>
+                                                    )}
+                                                </Tbody>
+                                            </Table>
+                                        </TableContainer>
+                                    </Card>
+                                </Box>
+                            );
+                        })}
                     </Stack>
+
                 </CardBody>
                 <Button onClick={handleToggle}>
                     <Icon as={show ? MdKeyboardArrowUp : MdKeyboardArrowDown} boxSize={8} />

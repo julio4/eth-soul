@@ -6,7 +6,7 @@ import type { NextPage } from 'next'
 import { Offer, RawOffer, PopulatedOffer } from '../types/app'
 import { Category } from '../types/category'
 import { generateAuthor } from '../utils/randomAuthor'
-import { Activity } from '../components/activity/Activity'
+import { RecentActivityModal } from '../components/activity/RecentActivityModal'
 import toast from 'react-hot-toast'
 import contractABI from '@assets/abi/sel.json'
 
@@ -181,7 +181,7 @@ const AppPage: NextPage = () => {
         isButtonLoading={creationStatus === 'loading'}
         resetFields={resetFields}
       />
-      <Activity></Activity>
+      <RecentActivityModal />
     </>
   )
 }
