@@ -26,6 +26,7 @@ export const markers: Offer[] = [
 		price: 100,
 		location: {
 			latitude: 50.106576158326526,
+			// eslint-disable-next-line @typescript-eslint/no-loss-of-precision
 			longitude: 14.4458621243181541,
 		},
 		category: Category.LENDING_HOME_SERVICES,

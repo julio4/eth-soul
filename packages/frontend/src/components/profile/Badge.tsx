@@ -1,5 +1,4 @@
-import { ProBadgeDetails, CasualBadgeDetails, BadgeInfo } from '../../types/badge'
-import { Category } from '../../types/category'
+import { ProBadgeDetails, BadgeInfo } from '../../types/badge'
 import { Box, Text } from '@chakra-ui/react'
 
 interface CategoryBadgeProps {

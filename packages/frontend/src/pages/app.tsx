@@ -5,7 +5,6 @@ import MarkedMap from '@components/map'
 import type { NextPage } from 'next'
 import { Offer, RawOffer, PopulatedOffer } from '../types/app'
 import { Category } from '../types/category'
-import { generateAuthor } from '../utils/randomAuthor'
 import { RecentActivityModal } from '../components/activity/RecentActivityModal'
 import toast from 'react-hot-toast'
 import contractABI from '@assets/abi/sel.json'
@@ -18,7 +17,6 @@ import { CONTRACT_ADDRESS, THE_GRAPH_URL } from '@utils/const'
 import { useContractEvent, useContractRead, useContractWrite } from 'wagmi'
 import CreateModeModal from '../components/create-mode-modal/createModeModal'
 import { offerDTOToOfferObject } from '@mapping/OfferMapping'
-import { set } from 'nprogress'
 
 const OffersQuery = `query ($first: Int)
 {

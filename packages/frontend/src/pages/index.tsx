@@ -10,7 +10,6 @@ import { useAppoloClient } from '@hooks/AppoloClientHook/useAppoloClient'
 import { QueriesTypes } from '@hooks/AppoloClientHook/types'
 import MarkedMap from '@components/map/MarkedMap'
 import { Offer } from '@types/app'
-import { TopBanner } from '@components/top/TopBanner'
 
 const center = {
 	lat: 50.10340217817493,

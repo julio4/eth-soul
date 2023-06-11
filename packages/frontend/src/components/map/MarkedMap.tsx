@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import Map from './Map'
 import { Offer } from '../../types/app'
@@ -9,7 +9,6 @@ import { DetailedOffer } from '../offer/DetailedOffer'
 
 import 'twin.macro'
 import { useDisclosure } from '@chakra-ui/react'
-import { AnimatePresence } from 'framer-motion'
 
 interface MarkedMapProps {
 	onIdle?: (map: google.maps.Map) => void

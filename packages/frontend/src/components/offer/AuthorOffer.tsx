@@ -1,4 +1,4 @@
-import { Avatar, Flex, Text, Box } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import React, { FC } from 'react'
 import { Offer } from '../../types/app'
 import { Rating } from '@components/profile/Rating'

@@ -7,12 +7,9 @@ import {
 	DrawerContent,
 	DrawerCloseButton,
 	Button,
-	Input,
 	Text,
-	useDisclosure,
 	Box,
 	Flex,
-	Divider,
 } from '@chakra-ui/react'
 
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'

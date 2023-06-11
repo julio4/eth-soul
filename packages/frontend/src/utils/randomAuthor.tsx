@@ -1,12 +1,6 @@
 import { Author } from '../types/app'
 import { Category } from '../types/category'
 import { ProBadgeDetails, CasualBadgeDetails, BadgeInfo } from '../types/badge'
-import { StaticImageData } from 'next/image'
-import person1 from '../../public/images/people/person-1.jpeg'
-import person2 from '../../public/images/people/person-2.jpeg'
-import person3 from '../../public/images/people/person-3.jpeg'
-import person4 from '../../public/images/people/person-4.jpeg'
-import person5 from '../../public/images/people/person-5.jpeg'
 
 const randomBoolean = (): boolean => {
 	return Math.random() < 0.5

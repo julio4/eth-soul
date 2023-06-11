@@ -3,37 +3,21 @@ import {
 	Button,
 	Card,
 	CardBody,
-	CardHeader,
 	Heading,
-	Text,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
 	Stack,
 	StackDivider,
-	useDisclosure,
-	Icon,
-	Collapse,
 	TableContainer,
 	Table,
-	TableCaption,
-	Thead,
 	Tr,
-	Th,
 	Tbody,
 	Td,
-	Tfoot,
 	Avatar,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { cropTextInTheMiddle } from '../../utils/stringUtils'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { CONTRACT_ADDRESS, THE_GRAPH_URL } from '@utils/const'
-import { Offer, Author, RawOffer, PopulatedOffer } from '../../types/app'
+import { Offer, RawOffer, PopulatedOffer } from '../../types/app'
 import { offerDTOToOfferObject } from '@mapping/OfferMapping'
 import { useAccount, useContractWrite } from 'wagmi'
 import contractABI from '@assets/abi/sel.json'
@@ -71,9 +55,9 @@ export type Proposition = {
 	date: number
 }
 
-type currentActivityProps = {}
+type currentActivityProps = Record<string, never>
 
-export const CurrentActivity = (props: currentActivityProps) => {
+export const CurrentActivity = () => {
 	const { address, isConnected } = useAccount()
 
 	const client = new ApolloClient({
@@ -88,12 +72,7 @@ export const CurrentActivity = (props: currentActivityProps) => {
 	}>({})
 
 	// Call makeProposition function
-	const {
-		data,
-		isLoading,
-		isSuccess,
-		write: acceptOffer,
-	} = useContractWrite({
+	const { write: acceptOffer } = useContractWrite({
 		address: CONTRACT_ADDRESS,
 		abi: contractABI,
 		functionName: 'acceptOffer',

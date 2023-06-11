@@ -1,25 +1,10 @@
-import {
-	Box,
-	Flex,
-	Center,
-	Image,
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-	Text,
-	Divider,
-	useColorModeValue,
-	Card,
-	CardBody,
-} from '@chakra-ui/react'
+import { Box, Flex, Center, Image, Popover, PopoverTrigger, Text, useColorModeValue } from '@chakra-ui/react'
 import ZoomContext from '@utils/zoomContext'
 
-import { Category, CategoryDetails } from '@types/category'
+import { CategoryDetails } from '@types/category'
 
-import { FC, useState, useContext, useEffect } from 'react'
+import { FC, useContext } from 'react'
 import { Offer } from '@types/app'
-
-import { BsHeart, BsHeartFill, BsTools } from 'react-icons/bs'
 
 type OfferPopUpProps = {
 	width?: string | number
@@ -66,25 +51,6 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%', offer }) => {
 								p={2}
 								cursor="pointer"
 							>
-								{/* {heartFilled ? (
-                                    <BsHeartFill
-                                        size={
-                                            zoomLevel >= 15 ? 24 :
-                                                zoomLevel == 14 ? 20 : 12
-                                        }
-                                        color="red"
-                                        onClick={() => setHeartFilled(false)}
-                                    />
-                                ) : (
-                                    <BsHeart
-                                        size={
-                                            zoomLevel >= 15 ? 24 :
-                                                zoomLevel == 14 ? 20 : 12
-                                        }
-                                        color="grey"
-                                        onClick={() => setHeartFilled(true)}
-                                    />
-                                )} */}
 								{offer.price}
 							</Box>
 						</PopoverTrigger>

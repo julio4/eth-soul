@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { AiFillStar } from 'react-icons/ai'
-import { useColorModeValue, Flex, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { RatingType } from '@types/app'
 
 type RatingProps = {

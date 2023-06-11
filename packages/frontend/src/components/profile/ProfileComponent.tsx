@@ -1,25 +1,7 @@
-import {
-	Heading,
-	Avatar,
-	Box,
-	Center,
-	Text,
-	Stack,
-	Button,
-	Link,
-	useColorModeValue,
-	ChakraProvider,
-	Divider,
-	Card,
-	CardBody,
-	Image,
-	Icon,
-	Flex,
-} from '@chakra-ui/react'
+import { Heading, Box, Text, useColorModeValue, Divider, Icon, Flex } from '@chakra-ui/react'
 
 import { BadgeList } from './BadgeList'
 import { Author } from '@types/app'
-import { RecentActivityModal } from '@components/activity/RecentActivityModal'
 import { AvatarAndCover } from './AvatarAndCover'
 import { Rating } from './Rating'
 import { AiOutlinePhone } from 'react-icons/ai'

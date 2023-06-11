@@ -2,31 +2,16 @@ import {
 	Drawer,
 	DrawerBody,
 	DrawerFooter,
-	DrawerHeader,
 	DrawerOverlay,
 	DrawerContent,
 	DrawerCloseButton,
 	Button,
-	Input,
 	Text,
-	useDisclosure,
-	Box,
-	Flex,
-	Divider,
-	Heading,
 } from '@chakra-ui/react'
 
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import React, { FC } from 'react'
-import { Image } from '@chakra-ui/react'
-import defaultCover from 'public/images/default-cover-offer.jpg'
-import defaultAvatar from 'public/images/people/avatar_default.jpeg'
-import { CONTRACT_ADDRESS } from '@utils/const'
-import abiContract from '@assets/abi/sel.json'
 import { ProfileComponent } from './ProfileComponent'
 
-import { Offer } from '../../types/app'
-import { AbiItem } from 'viem'
 import { generateAuthor } from '@utils/randomAuthor'
 
 type ProfileDrawerProps = {

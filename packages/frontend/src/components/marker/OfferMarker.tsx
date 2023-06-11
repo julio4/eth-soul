@@ -3,8 +3,6 @@ import OverlayView from '../map/OverlayView'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Offer } from '../../types/app'
 import { OfferPopUp } from './OfferPopUp'
-
-import tw from 'twin.macro'
 import { Category, CategoryDetails } from '@types/category'
 
 interface OfferMarkerProps {

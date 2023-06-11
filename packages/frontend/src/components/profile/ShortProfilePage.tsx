@@ -1,22 +1,6 @@
-import {
-	Heading,
-	Avatar,
-	Box,
-	Center,
-	Text,
-	Stack,
-	Button,
-	Link,
-	Badge,
-	useColorModeValue,
-	Divider,
-	Card,
-	CardBody,
-	Icon,
-} from '@chakra-ui/react'
+import { Box, Center, Text, Divider } from '@chakra-ui/react'
 
 import { Author } from '@types/app'
-import { CategoryBadge } from './Badge'
 import { BadgeList } from './BadgeList'
 
 type ShortProfilePageProps = {
