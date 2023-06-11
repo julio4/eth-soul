@@ -17,7 +17,7 @@ import {
 
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import React, { FC } from 'react';
-import Image from 'next/image';
+import { Image } from '@chakra-ui/react'
 import defaultCover from 'public/images/default-cover-offer.jpg';
 import defaultAvatar from 'public/images/people/avatar_default.jpeg';
 import { CONTRACT_ADDRESS } from '@utils/const';

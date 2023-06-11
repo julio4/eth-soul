@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box } from '@chakra-ui/react';
 import { Offer } from '@types/app';
-import Image from 'next/image';
+import { Image } from '@chakra-ui/react';
 import CarouselPictures from '@components/image/carouselPictures';
 import { ShortProfilePage } from '@components/profile/ShortProfilePage';
 import noImage from 'public/images/no-images.png';
