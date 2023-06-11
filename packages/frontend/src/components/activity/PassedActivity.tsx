@@ -3,7 +3,9 @@ import {
 	Button,
 	Card,
 	CardBody,
+	Text,
 	Heading,
+	Input,
 	Stack,
 	StackDivider,
 	TableContainer,
@@ -57,6 +59,8 @@ export type Proposition = {
 
 export const PassedActivity = () => {
 	const { address, isConnected } = useAccount()
+	const [isRating, setIsRating] = useState(false)
+	const [rating, setRating] = useState('')
 
 	const client = new ApolloClient({
 		uri: THE_GRAPH_URL,
@@ -75,6 +79,38 @@ export const PassedActivity = () => {
 		abi: contractABI,
 		functionName: 'acceptOffer',
 	})
+
+	const { write: rateUser } = useContractWrite({
+		address: CONTRACT_ADDRESS,
+		abi: contractABI,
+		functionName: 'rateUser',
+	})
+
+	const sendRate = async() => {
+		rateUser({
+			args: [addressToBeFeteched, rating],	//todo
+		})
+	}
+
+	const handleRate = async (offerId: number) => {
+		if (isNaN(parseInt(rating))) {
+			alert('Please enter a number')
+			return
+		}
+		if (rating === '') {
+			alert('Please enter a rating')
+			return
+		}
+		else if (parseInt(rating) < 1 || parseInt(rating) > 5) {
+			alert('Please enter a rating between 1 and 5')
+			return
+		}
+		else {
+			setIsRating(false)
+			sendRate()
+		}
+	}
+
 
 	const queryOffers = async () => {
 		await client
@@ -141,7 +177,7 @@ export const PassedActivity = () => {
 	}, [populatedOffers])
 
 	return (
-		<Stack  spacing="3" zIndex={9000}>
+		<Stack spacing="3" zIndex={9000}>
 			{populatedOffers.map((offer) => {
 				const propositions = proposals[offer.id] ?? []
 				return (
@@ -162,14 +198,48 @@ export const PassedActivity = () => {
 														<Td pb={2} pt={0}>
 															<Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
 														</Td>
-														<Td pb={2} pt={0}>Tob</Td>
-														<Td pb={2} pt={0}>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
+														<Td pb={2} pt={0} px={0}>
+															<Text fontSize="md" fontWeight="bold" color="gray.800">
+																Tob
+															</Text>
+														</Td>
+														<Td pb={2} pt={0}>
+															{cropTextInTheMiddle(proposition.proposer, 10)}
+														</Td>
+														{isRating ? (
+															<>
+																<Input
+																	value={rating}
+																	onChange={(e) => setRating(e.target.value)}
+																	placeholder="/5"
+																	backgroundColor={"white"}
+																	width={"50px"}
+																	borderRadius={"lg"}
+																	mr={2}
+																/>
+
+																<Button backgroundColor={"yellow.100"}
+																	_hover={{ backgroundColor: "yellow.200" }} onClick={() => handleRate(rating)}>Rate</Button>
+															</>
+														) : (
+															<Td>
+																<Button
+																	backgroundColor={"yellow.100"}
+																	_hover={{ backgroundColor: "yellow.200" }}
+																	onClick={() => setIsRating(true)}
+																>
+																	⭐ Rate It
+																</Button>
+															</Td>
+														)}
 													</Tr>
 												)
 											})
 										) : (
 											<Tr>
-												<Td pb={2} pt={0}>No propositions yet</Td>
+												<Td pb={2} pt={0}>
+													No propositions yet
+												</Td>
 											</Tr>
 										)}
 									</Tbody>

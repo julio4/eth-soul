@@ -3,6 +3,7 @@ import {
 	Button,
 	Card,
 	CardBody,
+	Text,
 	Heading,
 	Stack,
 	StackDivider,
@@ -45,6 +46,7 @@ const PROPOSITION_MADE_QUERY = `
         proposer
         tokens
         hash
+		blockTimestamp
     }
     }
 `
@@ -147,8 +149,9 @@ export const CurrentActivity = () => {
 	}, [populatedOffers])
 
 	return (
-		<Stack  spacing="3" zIndex={9000}>
+		<Stack spacing="3" zIndex={9000}>
 			{populatedOffers.map((offer) => {
+				console.log('AAAAAAAAAAAAAAADSOFOIQZIOFHEOIZQHFOIQZEIOZ', offer.since)
 				const propositions = proposals[offer.id] ?? []
 				return (
 					<Box key={offer.id}>
@@ -168,17 +171,25 @@ export const CurrentActivity = () => {
 														<Td pb={2} pt={0}>
 															<Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
 														</Td>
-														<Td pb={2} pt={0}>Tob</Td>
-														<Td pb={2} pt={0}>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
+														<Td pb={2} pt={0} px={0}>
+															<Text fontSize="md" fontWeight="bold" color="gray.800">
+															Tob
+															</Text>
+														</Td>
+														<Td pb={2} pt={0}>
+															{cropTextInTheMiddle(proposition.proposer, 10)}
+														</Td>
 														<Td pb={2} pt={0}>
 															<Button onClick={() => acceptOfferClick(offer.id, proposition.proposer)}>Deal!</Button>
-														</Td >
+														</Td>
 													</Tr>
 												)
 											})
 										) : (
 											<Tr>
-												<Td pb={2} pt={0}>No propositions yet</Td>
+												<Td pb={2} pt={0}>
+													No propositions yet
+												</Td>
 											</Tr>
 										)}
 									</Tbody>

@@ -21,7 +21,9 @@ export const RecentActivityModal = () => {
 				}}
 			>
 				<CardHeader pb={0}>
-					<Heading size="md" p={0}>Recent Activity</Heading>
+					<Heading size="md" p={0}>
+						Recent Activity
+					</Heading>
 				</CardHeader>
 
 				<CardBody display={show ? 'block' : 'none'}>

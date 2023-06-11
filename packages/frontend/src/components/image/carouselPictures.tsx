@@ -27,14 +27,13 @@ const CarouselPictures: React.FC<CarouselPicturesProps> = ({ images }) => {
 
 	return (
 		<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
-			{
-				images.length > 1 && (<AiOutlineArrowLeft
+			{images.length > 1 && (
+				<AiOutlineArrowLeft
 					onClick={prevImage}
 					style={{ fontSize: '2rem', cursor: 'pointer', marginRight: '1rem' }}
 					size={30}
 				/>
-				)}
+			)}
 			{typeof images[currentIndex] === 'string' && (
 				<Image
 					alt="Offer Image"
@@ -44,14 +43,13 @@ const CarouselPictures: React.FC<CarouselPicturesProps> = ({ images }) => {
 					style={{ width: '80%', borderRadius: '8px' }}
 				/>
 			)}
-			{
-				images.length > 1 && (
-					<AiOutlineArrowRight
-						onClick={nextImage}
-						style={{ fontSize: '2rem', cursor: 'pointer', marginLeft: '1rem' }}
-						size={30}
-					/>
-				)}
+			{images.length > 1 && (
+				<AiOutlineArrowRight
+					onClick={nextImage}
+					style={{ fontSize: '2rem', cursor: 'pointer', marginLeft: '1rem' }}
+					size={30}
+				/>
+			)}
 		</div>
 	)
 }

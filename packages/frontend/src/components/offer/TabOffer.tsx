@@ -44,8 +44,16 @@ export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
 					<Text mb={2}>{renderDescription(offer.description)}</Text>
 					<Flex justifyContent="center" mt={4}>
 						<Box
-							backgroundColor="#white" borderRadius={"full"} px={4} py={2} display="inline-block" border="3px solid #3182ce" >
-							<Text fontWeight={"extrabold"} color={'#3182ce'} fontSize="md">{offer.price} SEL</Text>
+							backgroundColor="#white"
+							borderRadius={'full'}
+							px={4}
+							py={2}
+							display="inline-block"
+							border="3px solid #3182ce"
+						>
+							<Text fontWeight={'extrabold'} color={'#3182ce'} fontSize="md">
+								{offer.price} SEL
+							</Text>
 						</Box>
 					</Flex>
 				</TabPanel>
