@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Flex, Spacer, Box } from '@chakra-ui/react'
+import { Flex, Spacer, Box, useDisclosure } from '@chakra-ui/react'
 import 'twin.macro'
 
 import { useAccount } from 'wagmi'
@@ -16,6 +16,8 @@ import { CONTRACT_ADDRESS } from "@utils/const"
 export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
   const { address, isConnected } = useAccount();
   const [balance, setBalance] = useState<bigint | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
 
   useEffect(() => {
     if (address && isConnected) {
@@ -31,48 +33,51 @@ export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
   }, [address]);
 
   return (
-    <div tw='sticky top-0 left-0 z-10 bg-transparent backdrop-blur-lg'
-      css={{
-        backdropFilter: hideBg ? "none" : "blur(16px)"
-      }}
-    >
-      <Flex
-        tw="items-center whitespace-pre-wrap py-2 px-2 text-center font-semibold text-sm text-black/75 hover:text-black"
+    <>
+      <div tw='sticky top-0 left-0 z-10 bg-transparent backdrop-blur-lg'
+        css={{
+          backdropFilter: hideBg ? "none" : "blur(16px)"
+        }}
       >
-        <Link
-          href={'/'}
-          className="group"
-          tw="cursor-pointer ml-4 rounded-xl"
-        >
-          <Image
-            priority
-            src={logo}
-            alt="Sould"
-            height={40}
-          />
-        </Link>
-
-        <Spacer />
-
         <Flex
-          tw="items-center text-center gap-4"
+          tw="items-center whitespace-pre-wrap py-2 px-2 text-center font-semibold text-sm text-black/75 hover:text-black"
         >
-          <Box backgroundColor="white" tw="rounded-xl p-2">
-            <CgProfile tw="text-gray-500 cursor-pointer" size={28} color={"#2D3748"} onClick={() => ProfileDrawer.open()} />
-          </Box>
-          {balance != null && (
-            <button
-              tw="rounded-xl bg-white p-2.5 hover:scale-105 transition-all duration-200 ease-in-out"
-            >
-              <p>{balance.toString()} SEL</p>
-            </button>
-          )}
+          <Link
+            href={'/'}
+            className="group"
+            tw="cursor-pointer ml-4 rounded-xl"
+          >
+            <Image
+              priority
+              src={logo}
+              alt="Sould"
+              height={40}
+            />
+          </Link>
 
-          {/* Rainbowkit Connect Button */}
-          <ConnectButton showBalance={false} chainStatus={"icon"} />
+          <Spacer />
+
+          <Flex
+            tw="items-center text-center gap-4"
+          >
+            <Box backgroundColor="white" tw="rounded-xl p-2">
+              <CgProfile tw="text-gray-500 cursor-pointer" size={28} color={"#2D3748"} onClick={onOpen} />
+            </Box>
+            {balance != null && (
+              <button
+                tw="rounded-xl bg-white p-2.5 hover:scale-105 transition-all duration-200 ease-in-out"
+              >
+                <p>{balance.toString()} SEL</p>
+              </button>
+            )}
+
+            {/* Rainbowkit Connect Button */}
+            <ConnectButton showBalance={false} chainStatus={"icon"} />
+          </Flex>
+
         </Flex>
-
-      </Flex>
-    </div>
+      </div>
+      <ProfileDrawer isOpen={isOpen} onClose={onClose} isConnected={isConnected} />
+    </>
   )
 }
