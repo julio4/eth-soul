@@ -5,6 +5,8 @@ import { Offer } from '../../types/app'
 import { OfferPopUp } from './OfferPopUp'
 import { Category, CategoryDetails } from '@types/category'
 
+import 'twin.macro'
+
 interface OfferMarkerProps {
 	offer: Offer
 	map?: google.maps.Map
@@ -36,6 +38,7 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
 		onClick(offer)
 	}, [onClick, offer])
 
+  console.log(offer.category)
 	const categoryEmoji = offer.category ? CategoryDetails[offer.category as Category].emoji : '🏠'
 
 	return (
@@ -70,7 +73,7 @@ const OfferMarker = ({ offer, map, onClick, highlight }: OfferMarkerProps) => {
 							tw="rounded-full border border-gray-200 bg-white p-0.5 shadow-lg"
 						>
 							<div tw="h-6 w-6">
-								<span tw="text-xl leading-tight">{categoryEmoji}</span>
+								<span tw="text-lg leading-tight">{categoryEmoji}</span>
 							</div>
 						</button>
 						<AnimatePresence>
