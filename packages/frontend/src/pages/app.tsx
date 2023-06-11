@@ -45,12 +45,6 @@ const AppPage: NextPage = () => {
   //   console.log(data);
   // }, [data]);
 
-  const { data, isLoading, isSuccess, write: createNewOffer } = useContractWrite({
-    address: CONTRACT_ADDRESS,
-    abi: contractABI,
-    functionName: 'createOffer',
-  });
-
   const client = new ApolloClient({
     uri: THE_GRAPH_URL,
     cache: new InMemoryCache()
@@ -65,8 +59,31 @@ const AppPage: NextPage = () => {
   const [price, setPrice] = useState<number>(100)
   const [file, setFile] = useState<File | null>(null)
 
+  const { data, isLoading, isSuccess, write: createNewOffer, status: creationStatus } = useContractWrite({
+    address: CONTRACT_ADDRESS,
+    abi: contractABI,
+    functionName: 'createOffer',
+  });
+
+  useEffect(() => {
+    if (creationStatus === 'success') {
+      toast.success('Service request created!');
+      resetFields();
+    }
+    else if (creationStatus === 'error') toast.error('Error while creating service request');
+  }, [creationStatus]);
+
+  const resetFields = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setCategory(Category.EDUCATION_TUTORING);
+    setPrice(100);
+    setFile(null);
+    setCreateMode(false);
+  }, [])
+
   const confirm = async () => {
-    console.log("title", title, "description", description, "category", category, "price", price, "targetPos", targetPos)
+    // console.log("title", title, "description", description, "category", category, "price", price, "targetPos", targetPos)
 
     if (!title.length || file === null) toast.error('You have to set a title and an image in order to create a proposition');
 
@@ -87,7 +104,7 @@ const AppPage: NextPage = () => {
     const hash2 = "0x" + hash2_pre.slice(2, 64).padStart(122 - hash2_pre.length - 2, "0")
 
     createNewOffer({
-      args: [price, [hash1, hash2]]
+      args: [price, [hash1, hash2]],
     });
   }
 
@@ -180,6 +197,8 @@ const AppPage: NextPage = () => {
         price={price} setPrice={setPrice}
         confirm={confirm}
         file={file} setFile={setFile}
+        isButtonLoading={creationStatus === 'loading'}
+        resetFields={resetFields}
       />
       <Activity></Activity>
     </>
