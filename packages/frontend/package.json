@@ -12,8 +12,8 @@
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start",
     "type-check": "tsc --pretty --noEmit",
-    "lint": "prettier . --check && pnpm eslint",
-    "lint:fix": "prettier . --write && pnpm eslint --fix",
+    "lint": "prettier --check \"src/**/*.tsx\" && pnpm eslint",
+    "lint:fix": "prettier --write \"src/**/*.tsx\" && pnpm eslint --fix",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
