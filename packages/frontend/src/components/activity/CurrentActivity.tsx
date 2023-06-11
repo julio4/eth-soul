@@ -74,7 +74,7 @@ export const CurrentActivity = () => {
 	// Call makeProposition function
 	const { write: acceptOffer } = useContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: contractABI,
+		abi: contractABI.abi,
 		functionName: 'acceptOffer',
 	})
 

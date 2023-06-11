@@ -22,7 +22,7 @@ export const RecentActivityModal = () => {
 			>
 				<CardHeader pb={0}>
 					<Heading size="md" p={0}>
-						You offers
+						Your offers
 					</Heading>
 				</CardHeader>
 

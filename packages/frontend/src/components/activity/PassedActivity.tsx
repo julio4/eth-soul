@@ -76,13 +76,13 @@ export const PassedActivity = () => {
 	// Call makeProposition function
 	const { write: acceptOffer } = useContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: contractABI,
+		abi: contractABI.abi,
 		functionName: 'acceptOffer',
 	})
 
 	const { write: rateUser } = useContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: contractABI,
+		abi: contractABI.abi,
 		functionName: 'rateUser',
 	})
 
