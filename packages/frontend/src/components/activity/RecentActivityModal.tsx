@@ -20,14 +20,14 @@ export const RecentActivityModal = () => {
 					left: '1.5rem',
 				}}
 			>
-				<CardHeader>
-					<Heading size="md">Recent Activity</Heading>
+				<CardHeader pb={0}>
+					<Heading size="md" p={0}>Recent Activity</Heading>
 				</CardHeader>
 
 				<CardBody display={show ? 'block' : 'none'}>
 					<CurrentActivity />
 				</CardBody>
-				<Button onClick={handleToggle}>
+				<Button onClick={handleToggle} mt={show ? 0 : 4}>
 					<Icon as={show ? MdKeyboardArrowUp : MdKeyboardArrowDown} boxSize={8} />
 				</Button>
 			</Card>

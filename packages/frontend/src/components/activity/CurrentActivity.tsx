@@ -149,15 +149,13 @@ export const CurrentActivity = () => {
 	}, [populatedOffers])
 
 	return (
-		<Stack divider={<StackDivider />} spacing="4" zIndex={9000}>
+		<Stack divider={<StackDivider />} spacing="1" zIndex={9000}>
 			{populatedOffers.map((offer) => {
 				const propositions = proposals[offer.id] ?? []
 				return (
 					<Box key={offer.id}>
-						{' '}
-						{/* Add key prop here */}
-						<Card>
-							<CardBody>
+						<Card backgroundColor="#B1FBCE">
+							<CardBody px={6} py={2}>
 								<Heading size={'md'}>
 									{offer.title} - {offer.price} tokens
 								</Heading>
@@ -169,20 +167,20 @@ export const CurrentActivity = () => {
 											propositions.map((proposition) => {
 												return (
 													<Tr key={proposition.offerId}>
-														<Td>
+														<Td pb={2} pt={0}>
 															<Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
 														</Td>
-														<Td>Tob</Td>
-														<Td>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
-														<Td>
+														<Td pb={2} pt={0}>Tob</Td>
+														<Td pb={2} pt={0}>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
+														<Td pb={2} pt={0}>
 															<Button onClick={() => acceptOfferClick(offer.id, proposition.proposer)}>Deal!</Button>
-														</Td>
+														</Td >
 													</Tr>
 												)
 											})
 										) : (
 											<Tr>
-												<Td>No propositions yet</Td>
+												<Td pb={2} pt={0}>No propositions yet</Td>
 											</Tr>
 										)}
 									</Tbody>
