@@ -26,7 +26,7 @@ export const RecentActivityModal = () => {
 					</Heading>
 				</CardHeader>
 
-				<CardBody display={show ? 'block' : 'none'}>
+				<CardBody display={show ? 'block' : 'none'} style={{maxHeight: 500, overflowY: 'auto'}}>
 					<CurrentActivity />
 				</CardBody>
 				<Button onClick={handleToggle} mt={show ? 0 : 4}>

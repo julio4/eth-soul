@@ -39,7 +39,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
 		write: createMakeProposition,
 	} = useContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: abiContract,
+		abi: abiContract.abi,
 		functionName: 'makeProposition',
 	})
 
