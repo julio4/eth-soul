@@ -22,7 +22,6 @@ dataSources:
         - PropositionMade
         - Offer
         - Transfer
-        - Offer
       abis:
         - name: Sel
           file: Sel/abis/Sel.json

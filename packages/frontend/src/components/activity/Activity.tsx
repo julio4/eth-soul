@@ -3,11 +3,11 @@ import { use, useEffect, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import { cropTextInTheMiddle } from "../../utils/stringUtils";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { THE_GRAPH_URL } from "@utils/const";
-import Web3 from "web3";
+import { CONTRACT_ADDRESS, THE_GRAPH_URL } from "@utils/const";
 import { Offer, Author, RawOffer, PopulatedOffer } from '../types/app'
-import map from "@components/map";
 import { offerDTOToOfferObject } from "@mapping/OfferMapping";
+import { useAccount, useContractWrite } from "wagmi";
+import contractABI from '@assets/abi/sel.json'
 
 export type ActivityProps = {
 
@@ -48,6 +48,7 @@ export type Proposition = {
 
 export const Activity = (props: ActivityProps) => {
     const [show, setShow] = useState(false);
+    const { address, isConnected } = useAccount();
 
     const handleToggle = () => setShow(!show);
 
@@ -62,12 +63,25 @@ export const Activity = (props: ActivityProps) => {
         [key: number]: Proposition[]
     }>({})
 
+    // Call makeProposition function
+    const { data, isLoading, isSuccess, write: acceptOffer } = useContractWrite({
+        address: CONTRACT_ADDRESS,
+        abi: contractABI,
+        functionName: 'acceptOffer',
+    });
+
+    const acceptOfferClick = async (offerId: number, proposer: string) => {
+        acceptOffer({
+            args: [offerId, proposer]
+        });
+    }
+
     const queryOffers = async () => {
         await client
             .query({
                 query: gql(ACCOUNT_OFFER_QUERY),
                 variables: {
-                    offerer: "0xa70A96B0487bA89510916f772D79561F599A7eA3"
+                    offerer: address
                 }
             })
             .then((data) => {
@@ -97,8 +111,9 @@ export const Activity = (props: ActivityProps) => {
     }
 
     useEffect(() => {
-        queryOffers()
-    }, [])
+        if (isConnected && address)
+            queryOffers()
+    }, [address])
 
     useEffect(() => {
         async function setOffers(offers: RawOffer[]) {
@@ -160,7 +175,7 @@ export const Activity = (props: ActivityProps) => {
                                                                         <Td><Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' /></Td>
                                                                         <Td>Tob</Td>
                                                                         <Td>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
-                                                                        <Td><Button>Deal!</Button></Td>
+                                                                        <Td><Button onClick={() => acceptOfferClick(offer.id, proposition.proposer)}>Deal!</Button></Td>
                                                                     </Tr>
                                                                 )
                                                             }) : (
