@@ -14,7 +14,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import Web3 from 'web3'
 import { retrieveOffer, storeOffer } from '@service/web3storage'
 import { CONTRACT_ADDRESS, THE_GRAPH_URL } from '@utils/const'
-import { useContractEvent, useContractRead, useContractWrite } from 'wagmi'
+import { useAccount, useContractEvent, useContractRead, useContractWrite } from 'wagmi'
 import CreateModeModal from '../components/create-mode-modal/createModeModal'
 import { offerDTOToOfferObject } from '@mapping/OfferMapping'
 
@@ -35,7 +35,7 @@ const AppPage: NextPage = () => {
 		uri: THE_GRAPH_URL,
 		cache: new InMemoryCache(),
 	})
-
+	const { address, isConnected } = useAccount()
 	const [rawOffers, setRawOffers] = useState<RawOffer[]>([])
 	const [markers, setMarkers] = useState<Offer[]>([])
 
@@ -44,6 +44,7 @@ const AppPage: NextPage = () => {
 	const [category, setCategory] = useState<Category>(Category.EDUCATION_TUTORING)
 	const [price, setPrice] = useState<number>(100)
 	const [file, setFile] = useState<File | null>(null)
+	const [ipfsLoading, setIpfsLoading] = useState<number>(0)
 
 	const [createLoading, setCreateLoading] = useState<boolean>(false)
 
@@ -106,7 +107,8 @@ const AppPage: NextPage = () => {
 				pseudo: 'pseudo',
 				imageLink: '',
 			},
-			file!
+			file!,
+			setIpfsLoading
 		)
 
 		const hash1 = Web3.utils.asciiToHex(cid.slice(0, 32))
@@ -211,6 +213,9 @@ const AppPage: NextPage = () => {
 				setFile={setFile}
 				isButtonLoading={isLoading || createLoading}
 				resetFields={resetFields}
+				ipfsPercentage={ipfsLoading}
+				txLoading={isLoading}
+				isConnected={isConnected}
 			/>
 			<RecentActivityModal />
 		</>
