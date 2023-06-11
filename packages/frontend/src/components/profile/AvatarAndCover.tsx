@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react'
-import { Image } from '@chakra-ui/react'
+import Image from 'next/image'
 import { Author } from '@types/app'
 
 type AvatarAndCoverProps = {
