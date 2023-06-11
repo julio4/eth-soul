@@ -86,13 +86,13 @@ export const PassedActivity = () => {
 		functionName: 'rateUser',
 	})
 
-	const sendRate = async() => {
+	const sendRate = async (target) => {
 		rateUser({
-			args: [addressToBeFeteched, rating],	//todo
+			args: [target, rating],
 		})
 	}
 
-	const handleRate = async (offerId: number) => {
+	const handleRate = async (offerId: number, targetAddress: string) => {
 		if (isNaN(parseInt(rating))) {
 			alert('Please enter a number')
 			return
@@ -106,8 +106,7 @@ export const PassedActivity = () => {
 			return
 		}
 		else {
-			setIsRating(false)
-			sendRate()
+			sendRate(targetAddress)
 		}
 	}
 
@@ -179,7 +178,9 @@ export const PassedActivity = () => {
 	return (
 		<Stack spacing="3" zIndex={9000}>
 			{populatedOffers.map((offer) => {
-				const propositions = proposals[offer.id] ?? []
+				const propositions = proposals[offer.id] ?? [];
+				const uniquePropositions = [...new Set(propositions)]; // Élimine les duplicatas des propositions
+
 				return (
 					<Box key={offer.id}>
 						<Card backgroundColor="#B1FBCE">
@@ -191,8 +192,8 @@ export const PassedActivity = () => {
 							<TableContainer>
 								<Table variant="simple">
 									<Tbody>
-										{propositions.length > 0 ? (
-											propositions.map((proposition) => {
+										{uniquePropositions.length > 0 ? (
+											uniquePropositions.map((proposition) => {
 												return (
 													<Tr key={proposition.offerId}>
 														<Td pb={2} pt={0}>
@@ -200,7 +201,7 @@ export const PassedActivity = () => {
 														</Td>
 														<Td pb={2} pt={0} px={0}>
 															<Text fontSize="md" fontWeight="bold" color="gray.800">
-																Tob
+																Armald
 															</Text>
 														</Td>
 														<Td pb={2} pt={0}>
@@ -218,8 +219,13 @@ export const PassedActivity = () => {
 																	mr={2}
 																/>
 
-																<Button backgroundColor={"yellow.100"}
-																	_hover={{ backgroundColor: "yellow.200" }} onClick={() => handleRate(rating)}>Rate</Button>
+																<Button
+																	backgroundColor={"yellow.100"}
+																	_hover={{ backgroundColor: "yellow.200" }}
+																	onClick={() => handleRate(rating, proposition.proposer)}
+																>
+																	Rate
+																</Button>
 															</>
 														) : (
 															<Td>
@@ -233,7 +239,7 @@ export const PassedActivity = () => {
 															</Td>
 														)}
 													</Tr>
-												)
+												);
 											})
 										) : (
 											<Tr>
@@ -247,7 +253,7 @@ export const PassedActivity = () => {
 							</TableContainer>
 						</Card>
 					</Box>
-				)
+				);
 			})}
 		</Stack>
 	)
