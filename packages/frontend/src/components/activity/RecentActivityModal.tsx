@@ -28,7 +28,7 @@ export const RecentActivityModal = () => {
 					<CurrentActivity />
 				</CardBody>
 				<Button onClick={handleToggle} mt={show ? 0 : 4}>
-					<Icon as={show ? MdKeyboardArrowUp : MdKeyboardArrowDown} boxSize={8} />
+					<Icon as={!show ? MdKeyboardArrowUp : MdKeyboardArrowDown} boxSize={8} />
 				</Button>
 			</Card>
 		</>

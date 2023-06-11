@@ -25,7 +25,7 @@ import contractABI from '@assets/abi/sel.json'
 const ACCOUNT_OFFER_QUERY = `
 query ($offerer: Bytes)
 {
-  offers(where: { offerer: $offerer, isActive: true }) {
+  offers(where: { offerer: $offerer, isActive: false }) {
     id
     offerId
     offerer
@@ -55,7 +55,7 @@ export type Proposition = {
 	date: number
 }
 
-export const CurrentActivity = () => {
+export const PassedActivity = () => {
 	const { address, isConnected } = useAccount()
 
 	const client = new ApolloClient({
@@ -75,12 +75,6 @@ export const CurrentActivity = () => {
 		abi: contractABI,
 		functionName: 'acceptOffer',
 	})
-
-	const acceptOfferClick = async (offerId: number, proposer: string) => {
-		acceptOffer({
-			args: [offerId, proposer],
-		})
-	}
 
 	const queryOffers = async () => {
 		await client
@@ -170,9 +164,6 @@ export const CurrentActivity = () => {
 														</Td>
 														<Td pb={2} pt={0}>Tob</Td>
 														<Td pb={2} pt={0}>{cropTextInTheMiddle(proposition.proposer, 25)}</Td>
-														<Td pb={2} pt={0}>
-															<Button onClick={() => acceptOfferClick(offer.id, proposition.proposer)}>Deal!</Button>
-														</Td >
 													</Tr>
 												)
 											})
