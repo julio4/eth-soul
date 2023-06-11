@@ -14,7 +14,7 @@ export const offerDTOToOfferObject = async (offer: RawOffer) => {
     try {
         const data = await retrieveOffer(cid)
         const offer: PopulatedOffer = {
-            id: Number(id),
+            id: offerId,
             offerer,
             isActive,
             location: data.coordinates,
