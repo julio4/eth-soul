@@ -8,9 +8,9 @@ import { HardhatExport } from 'src/types/hardhat'
 export type DeploymentsType = { [_: number]: Promise<HardhatExport> }
 
 export const deployments: DeploymentsType = env.supportedChains.reduce(
-  (acc: DeploymentsType, chainId: number) => ({
-    ...acc,
-    [chainId]: import(`../../../contracts/deployments/${chainId}.json`),
-  }),
-  {},
+	(acc: DeploymentsType, chainId: number) => ({
+		...acc,
+		[chainId]: import(`../../../contracts/deployments/${chainId}.json`),
+	}),
+	{}
 )

@@ -1,11 +1,10 @@
-query ($first: Int)
-{
-  offers(where: { isActive: true }, first: $first) {
-    id
-    offerId
-    offerer
-    isActive
-    hash
-    tokens
-  }
+query ($first: Int) {
+	offers(where: { isActive: true }, first: $first) {
+		id
+		offerId
+		offerer
+		isActive
+		hash
+		tokens
+	}
 }

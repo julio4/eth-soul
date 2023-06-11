@@ -1,10 +1,9 @@
-query ($offerId: BigInt)
-{
-  propositionMades(where: { offerId: $offerId }) {
-    id
-    offerId
-    proposer
-    tokens
-    hash
-  }
+query ($offerId: BigInt) {
+	propositionMades(where: { offerId: $offerId }) {
+		id
+		offerId
+		proposer
+		tokens
+		hash
+	}
 }

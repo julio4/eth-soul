@@ -1,13 +1,13 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react'
 
 interface ZoomContextType {
-  zoomLevel: number;
-  setZoomLevel: Dispatch<SetStateAction<number>> | null;
+	zoomLevel: number
+	setZoomLevel: Dispatch<SetStateAction<number>> | null
 }
 
 const ZoomContext = React.createContext<ZoomContextType>({
-    zoomLevel: 15,
-    setZoomLevel: null,
-});
+	zoomLevel: 15,
+	setZoomLevel: null,
+})
 
-export default ZoomContext;
+export default ZoomContext

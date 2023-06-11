@@ -13,55 +13,51 @@ import { Offer } from '@types/app'
 import { TopBanner } from '@components/top/TopBanner'
 
 const center = {
-  lat: 50.10340217817493,
-  lng: 14.450536191137255
+	lat: 50.10340217817493,
+	lng: 14.450536191137255,
 }
 
 const HomePage: NextPage = () => {
-  const { address, isConnected } = useAccount();
+	const { address, isConnected } = useAccount()
 
-  // const { queries } = useAppoloClient();
-  // queries[QueriesTypes.Offers]({ first: 10 });
+	// const { queries } = useAppoloClient();
+	// queries[QueriesTypes.Offers]({ first: 10 });
 
-  return (
-    <>
-      {/* Top banner ? */}
-      {/* <TopBanner /> */}
+	return (
+		<>
+			{/* Top banner ? */}
+			{/* <TopBanner /> */}
 
-      <TopBar hideBg={true}/>
+			<TopBar hideBg={true} />
 
-      <MarkedMap
-        zoom={15}
-        center={center}
-        markers={[]} onMarkerClick={function (payload: Offer): void {
-          throw new Error('Function not implemented.')
-        }}
-        tw='z-0'
-      />
+			<MarkedMap
+				zoom={15}
+				center={center}
+				markers={[]}
+				onMarkerClick={function (payload: Offer): void {
+					throw new Error('Function not implemented.')
+				}}
+				tw="z-0"
+			/>
 
+			<CenterBody tw="absolute min-h-screen w-full backdrop-blur-lg">
+				{/* Title */}
+				<HomePageTitle />
 
-      <CenterBody tw="absolute w-full backdrop-blur-lg min-h-screen">
-        {/* Title */}
-        <HomePageTitle />
+				{/* Go to app */}
+				{isConnected && (
+					<div tw="mt-4">
+						<Link href="/app">
+							<Button colorScheme="green">Go to app</Button>
+						</Link>
+					</div>
+				)}
 
-        {/* Go to app */}
-        {isConnected && (
-          <div tw='mt-4'>
-            <Link href="/app">
-              <Button
-                colorScheme='green'
-              >
-                Go to app
-              </Button>
-            </Link>
-          </div>
-        )}
-
-        {/* Greeter.sol Contract Interactions */}
-        {/* <GreeterContractInteractions /> */}
-      </CenterBody>
-    </>
-  )
+				{/* Greeter.sol Contract Interactions */}
+				{/* <GreeterContractInteractions /> */}
+			</CenterBody>
+		</>
+	)
 }
 
 export default HomePage

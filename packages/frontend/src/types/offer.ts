@@ -1,12 +1,11 @@
-
-type Coordinates = { latitude: number, longitude: number };
+type Coordinates = { latitude: number; longitude: number }
 
 interface Offer {
-  coordinates: Coordinates;
-  title: string;
-  description: string;
-  category: string
-  pseudo: string;
-  imageLink: string;
-  // author: string;
+	coordinates: Coordinates
+	title: string
+	description: string
+	category: string
+	pseudo: string
+	imageLink: string
+	// author: string;
 }

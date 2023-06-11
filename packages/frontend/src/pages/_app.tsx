@@ -21,58 +21,63 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      {/* TODO SEO */}
-      <DefaultSeo
-        dangerouslySetAllPagesToNoFollow={!env.isProduction}
-        dangerouslySetAllPagesToNoIndex={!env.isProduction}
-        defaultTitle="EthPrague" // TODO
-        titleTemplate="%s | EthPrague" // TODO
-        description="EthPrague" // TODO
-        openGraph={{
-          type: 'website',
-          locale: 'en',
-          url: env.url,
-          site_name: 'EthPrague', // TODO
-          images: [
-            {
-              url: `${env.url}/images/cover.jpg`, // TODO
-              width: 1200,
-              height: 670,
-            },
-          ],
-        }}
-        twitter={{
-          handle: '@julio4__',
-        }}
-      />
+	return (
+		<>
+			{/* TODO SEO */}
+			<DefaultSeo
+				dangerouslySetAllPagesToNoFollow={!env.isProduction}
+				dangerouslySetAllPagesToNoIndex={!env.isProduction}
+				defaultTitle="EthPrague" // TODO
+				titleTemplate="%s | EthPrague" // TODO
+				description="EthPrague" // TODO
+				openGraph={{
+					type: 'website',
+					locale: 'en',
+					url: env.url,
+					site_name: 'EthPrague', // TODO
+					images: [
+						{
+							url: `${env.url}/images/cover.jpg`, // TODO
+							width: 1200,
+							height: 670,
+						},
+					],
+				}}
+				twitter={{
+					handle: '@julio4__',
+				}}
+			/>
 
-      <Head>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+			<Head>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 
-      <CacheProvider value={cache}>
-        <ChakraProvider>
-          <GlobalStyles />
+			<CacheProvider value={cache}>
+				<ChakraProvider>
+					<GlobalStyles />
 
-          <WagmiConfig config={wagmiConfig}>
-            <RainbowKitProvider chains={chains} coolMode={true} showRecentTransactions={true} appInfo={{
-              appName: 'EthPrague', // TODO
-              learnMoreUrl: 'https://ethprague.com/images/cover.jpg', // TODO
-              disclaimer: undefined,
-            }}>
-              <BaseLayout>
-                <Component {...pageProps} />
-              </BaseLayout>
-            </RainbowKitProvider>
-          </WagmiConfig>
+					<WagmiConfig config={wagmiConfig}>
+						<RainbowKitProvider
+							chains={chains}
+							coolMode={true}
+							showRecentTransactions={true}
+							appInfo={{
+								appName: 'EthPrague', // TODO
+								learnMoreUrl: 'https://ethprague.com/images/cover.jpg', // TODO
+								disclaimer: undefined,
+							}}
+						>
+							<BaseLayout>
+								<Component {...pageProps} />
+							</BaseLayout>
+						</RainbowKitProvider>
+					</WagmiConfig>
 
-          <HotToastConfig />
-        </ChakraProvider>
-      </CacheProvider>
-    </>
-  )
+					<HotToastConfig />
+				</ChakraProvider>
+			</CacheProvider>
+		</>
+	)
 }
 
 export default MyApp
