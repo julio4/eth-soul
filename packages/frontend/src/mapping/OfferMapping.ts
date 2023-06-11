@@ -20,7 +20,7 @@ export const offerDTOToOfferObject = async (offer: RawOffer) => {
 			price: tokens,
 			title: data.title,
 			description: data.description,
-			category: data.category ? Category[data.category] : Category.REPAIR_MAINTENANCE,
+			category: data.category ? Category[data.category.slice(1, -1)] : Category.REPAIR_MAINTENANCE,
 			images: [data.imageLink],
 			author: generateAuthor(),
 		}

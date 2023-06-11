@@ -23,6 +23,12 @@ import {
 	NumberDecrementStepper,
 	Spacer,
 	FormHelperText,
+	Progress,
+	Divider,
+	Card,
+	CardBody,
+	Text,
+	Heading
 } from '@chakra-ui/react'
 
 const CreateModeModal = ({
@@ -43,6 +49,9 @@ const CreateModeModal = ({
 	setFile,
 	isButtonLoading,
 	resetFields,
+	ipfsPercentage,
+	txLoading,
+	isConnected
 }: {
 	createMode: boolean
 	setCreateMode: (createMode: boolean) => void
@@ -61,6 +70,9 @@ const CreateModeModal = ({
 	setFile: (file: File | null) => void
 	isButtonLoading: boolean
 	resetFields: () => void
+	ipfsPercentage: number
+	txLoading: boolean
+	isConnected: boolean
 }) => {
 	const onToggleCreateMode = useCallback(() => {
 		if (createMode) resetFields()
@@ -104,7 +116,7 @@ const CreateModeModal = ({
 	}
 
 	const isConfirmButtonDisabled = () => {
-		return !title.length || !file
+		return !title.length || !file || !isConnected || txLoading
 	}
 
 	const confirmOfferCreation = () => {
@@ -191,6 +203,7 @@ const CreateModeModal = ({
 											)
 										})}
 									</Select>
+									
 									<FormLabel htmlFor="images">Images</FormLabel>
 									<Input type="file" accept=".jpg,.png" onChange={setChosenFile} />
 
@@ -199,7 +212,19 @@ const CreateModeModal = ({
 											The title and image must be provided
 										</FormHelperText>
 									)}
-									<Button
+
+									<Card display={
+										isButtonLoading ? "block" : "none"
+									} marginTop={"1rem"} marginBottom={"5rem"}>
+										<CardBody>
+											<Heading size={"xs"} >IPFS</Heading>
+											<Progress value={ipfsPercentage} size='xs' colorScheme='pink' marginY={"1rem"} />
+											<Heading size={"xs"} >Transaction</Heading>
+											<Progress size='xs' isIndeterminate={txLoading} marginY={"1rem"} />
+										</CardBody>
+									</Card>
+
+									<Button marginTop={"1rem"}
 										colorScheme="green"
 										position="fixed"
 										bottom="4"

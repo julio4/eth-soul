@@ -21,7 +21,7 @@ const makeFilesFromOffer = (offer: Offer, image: File): File[] => {
 	return files
 }
 
-const storeWithProgress = async (files: File[]) => {
+const storeWithProgress = async (files: File[], setProgress: (p: number) => void) => {
 	// show the root cid as soon as it's ready
 	const onRootCidReady = (cid: string) => {
 		console.log('uploading files with cid:', cid)
@@ -35,6 +35,7 @@ const storeWithProgress = async (files: File[]) => {
 		uploaded += size
 		const pct = 100 * (uploaded / totalSize)
 		console.log(`Uploading... ${Math.trunc(pct)}% complete`)
+		setProgress(pct)
 	}
 
 	// storage.put will invoke our callbacks during the upload
@@ -42,10 +43,10 @@ const storeWithProgress = async (files: File[]) => {
 	return await storage.put(files, { onRootCidReady, onStoredChunk })
 }
 
-export const storeOffer = async (offer: Offer, image: File) => {
+export const storeOffer = async (offer: Offer, image: File, setProgress: (p: number) => void) => {
 	const filesToUpload = makeFilesFromOffer(offer, image)
 
-	return await storeWithProgress(filesToUpload)
+	return await storeWithProgress(filesToUpload, setProgress)
 }
 
 export const retrieveOffer = async (cid: string) => {
