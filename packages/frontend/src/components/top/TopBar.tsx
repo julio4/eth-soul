@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Flex, Spacer } from '@chakra-ui/react'
+import { Flex, Spacer, Box } from '@chakra-ui/react'
 import 'twin.macro'
 
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
 import { fetchBalance } from '@wagmi/core'
+import { CgProfile } from 'react-icons/cg'
+import { ProfileDrawer } from '../profile/ProfileDrawer'
 
 import logo from "../../../public/images/Logo.svg"
 
@@ -53,6 +55,9 @@ export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
         <Flex
           tw="items-center text-center gap-4"
         >
+          <Box backgroundColor="white" tw="rounded-xl p-2">
+            <CgProfile tw="text-gray-500 cursor-pointer" size={28} color={"#2D3748"} onClick={() => ProfileDrawer.open()} />
+          </Box>
           {balance != null && (
             <button
               tw="rounded-xl bg-white p-2.5 hover:scale-105 transition-all duration-200 ease-in-out"
