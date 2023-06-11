@@ -18,6 +18,10 @@ export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
 	const [balance, setBalance] = useState<bigint | null>(null)
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
+	const parseTokensDecimals = (tokens: bigint, decimals: number) => {
+		return tokens / BigInt(10 ** decimals)
+	}
+
 	useEffect(() => {
 		if (address && isConnected) {
 			fetchBalance({
@@ -25,7 +29,7 @@ export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
 				token: CONTRACT_ADDRESS,
 			})
 				.then((result) => {
-					setBalance(result.value)
+					setBalance(parseTokensDecimals(result.value, 18))
 				})
 				.catch((error) => {
 					// If the contract call fails, we display a custom message
