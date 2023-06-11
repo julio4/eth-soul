@@ -22,6 +22,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Spacer,
+  FormHelperText,
 } from '@chakra-ui/react'
 
 const CreateModeModal = ({
@@ -94,12 +95,12 @@ const CreateModeModal = ({
     else console.log('must upload a file')
   }
 
-  const isDisabled = () => {
+  const isConfirmButtonDisabled = () => {
     return !title.length || !file;
   }
 
   const confirmOfferCreation = () => {
-    if (!isDisabled()) confirm();
+    if (!isConfirmButtonDisabled()) confirm();
   }
 
   return (
@@ -148,6 +149,7 @@ const CreateModeModal = ({
                   <NumberInput step={10} defaultValue={100} min={1} value={price ? price : 1} onChange={(event) => {
                     setPrice(parseInt(event))
                   }}>
+
                     <NumberInputField />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -187,6 +189,13 @@ const CreateModeModal = ({
                   </Select>
                   <FormLabel htmlFor="images">Images</FormLabel>
                   <Input type='file' accept=".jpg,.png" onChange={setChosenFile} />
+
+                  {
+                    isConfirmButtonDisabled() &&
+                    <FormHelperText position='fixed' bottom='16'>
+                      The title and image must be provided
+                    </FormHelperText>
+                  }
                   <Button
                     colorScheme="green"
                     position="fixed"
@@ -194,8 +203,8 @@ const CreateModeModal = ({
                     right="4"
                     width={"46%"}
                     onClick={confirmOfferCreation}
-                    disabled={isDisabled()}
-                    opacity={isDisabled() ? 0.2 : 1}
+                    disabled={isConfirmButtonDisabled()}
+                    opacity={isConfirmButtonDisabled() ? 0.2 : 1}
                   >
                     Confirm
                   </Button>

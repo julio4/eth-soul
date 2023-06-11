@@ -11,6 +11,7 @@ import { CgProfile } from 'react-icons/cg'
 import { ProfileDrawer } from '../profile/ProfileDrawer'
 
 import logo from "../../../public/images/Logo.svg"
+import { CONTRACT_ADDRESS } from "@utils/const"
 
 export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
   const { address, isConnected } = useAccount();
@@ -18,12 +19,13 @@ export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
 
   useEffect(() => {
     if (address && isConnected) {
-      // fetchBalance({
-      //   address,
-      //   token: TOKEN_ADDRESS,
-      // }).then((result) => {
-      //   setBalance(result.value);
-      // });
+      fetchBalance({
+        address,
+        token: CONTRACT_ADDRESS,
+      }).then((result) => {
+        setBalance(result.value);
+      });
+
       setBalance(BigInt(10000));
     }
   }, [address]);

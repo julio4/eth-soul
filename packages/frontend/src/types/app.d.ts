@@ -16,6 +16,7 @@ type Offer = Marker & {
     title: string
     description: string
     images?: string[]
+    id: number
 }
 
 type RawOffer = {

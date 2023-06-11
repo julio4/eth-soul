@@ -16,7 +16,7 @@ export type ActivityProps = {
 const ACCOUNT_OFFER_QUERY = `
 query ($offerer: Bytes)
 {
-  offers(where: { offerer: $offerer, isActive: true }, first: 1) {
+  offers(where: { offerer: $offerer, isActive: true }) {
     id
     offerId
     offerer
@@ -105,7 +105,6 @@ export const Activity = (props: ActivityProps) => {
             const populatedOffers = await Promise.all(offers.map(offerDTOToOfferObject))
             const filteredOffers = populatedOffers.filter((offer) => offer) as Offer[]
 
-            console.log("filteredOffers", filteredOffers)
             setPopulatedOffers(filteredOffers)
         }
         if (rawOffers && rawOffers.length > 0) {
@@ -114,30 +113,25 @@ export const Activity = (props: ActivityProps) => {
     }, [rawOffers])
 
     useEffect(() => {
-        async function getProposers(offers: RawOffer[]) {
-            console.log("offers", offers)
+        async function getProposers(offers: PopulatedOffer[]) {
             const results = {}
             for (let i = 0; i < offers.length; i++) {
-                const element = offers[i];
+                const result = await queryProposalsForOffer(offers[i].id)
                 // @ts-ignore
-                results[offers[i].offerId] = await queryProposalsForOffer(element.offerId)
+                results[offers[i].id] = result
             }
             setProposals(results)
         }
-        console.log("populatedOffers", populatedOffers)
         if (populatedOffers && populatedOffers.length > 0) {
             getProposers(populatedOffers)
         }
     }, [populatedOffers])
 
-    useEffect(() => {
-        console.log("proposals", proposals)
-    }, [proposals])
-
     return (
         <>
             <Card sx={{
                 position: 'absolute',
+                minWidth: '30rem',
                 bottom: '1.5rem',
                 left: '1.5rem',
             }}>
@@ -149,7 +143,7 @@ export const Activity = (props: ActivityProps) => {
                     <Stack divider={<StackDivider />} spacing='4'>
                         {
                             populatedOffers.map((offer) => {
-                                const propositions = proposals[offer.offerId]
+                                const propositions = proposals[offer.id] ?? []
                                 return (
                                     <Box>
                                         <Card>
@@ -160,7 +154,7 @@ export const Activity = (props: ActivityProps) => {
                                                 <Table variant='simple'>
                                                     <Tbody>
                                                         {
-                                                            propositions.map((proposition) => {
+                                                            propositions.length > 0 ? propositions.map((proposition) => {
                                                                 return (
                                                                     <Tr>
                                                                         <Td><Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' /></Td>
@@ -169,7 +163,11 @@ export const Activity = (props: ActivityProps) => {
                                                                         <Td><Button>Deal!</Button></Td>
                                                                     </Tr>
                                                                 )
-                                                            })
+                                                            }) : (
+                                                                <Tr>
+                                                                    <Td>No propositions yet</Td>
+                                                                </Tr>
+                                                            )
                                                         }
                                                     </Tbody>
                                                 </Table>
