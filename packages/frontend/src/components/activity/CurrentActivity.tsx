@@ -150,7 +150,7 @@ export const CurrentActivity = () => {
 
 	return (
 		<Stack spacing="3" zIndex={9000}>
-			{populatedOffers.map((offer) => {
+			{populatedOffers.length > 0 ? populatedOffers.map((offer) => {
 				const propositions = proposals[offer.id] ?? []
 				return (
 					<Box key={offer.id}>
@@ -172,7 +172,7 @@ export const CurrentActivity = () => {
 														</Td>
 														<Td pb={2} pt={0} px={0}>
 															<Text fontSize="md" fontWeight="bold" color="gray.800">
-															Tob
+																Tob
 															</Text>
 														</Td>
 														<Td pb={2} pt={0}>
@@ -197,7 +197,9 @@ export const CurrentActivity = () => {
 						</Card>
 					</Box>
 				)
-			})}
+			})
+				: <Text>No offers yet</Text>
+			}
 		</Stack>
 	)
 }
