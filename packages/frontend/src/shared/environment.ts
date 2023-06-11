@@ -20,7 +20,7 @@ export const env = {
 		1: process.env.NEXT_PUBLIC_RPC_1!, // Ethereum Mainnet
 		11155111: process.env.NEXT_PUBLIC_RPC_11155111!, // Sepolia
 
-		10: process.env.NEXT_PUBLIC_RPC_10!, // Optimism Mainnet
+		420: process.env.NEXT_PUBLIC_RPC_420!, // Optimism Mainnet
 		534353: process.env.NEXT_PUBLIC_RPC_534353!, // Scroll Testnet
 	},
 }

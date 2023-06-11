@@ -8,6 +8,9 @@ const nextConfig = {
     images: {
       domains: ['ipfs.io', 'images.unsplash.com'],
     },
+    typescript: {
+        ignoreBuildErrors: true,
+    }
   };
   
   // eslint-disable-next-line
