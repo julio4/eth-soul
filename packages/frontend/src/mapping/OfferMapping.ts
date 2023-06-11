@@ -12,7 +12,6 @@ export const offerDTOToOfferObject = async (offer: RawOffer) => {
 
 	try {
 		const data = await retrieveOffer(cid)
-        console.log('data: ', data.category.slice(1, -1))
 		const offer: PopulatedOffer = {
 			id: offerId,
 			offerer,

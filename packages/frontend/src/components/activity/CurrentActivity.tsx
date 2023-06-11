@@ -151,7 +151,6 @@ export const CurrentActivity = () => {
 	return (
 		<Stack spacing="3" zIndex={9000}>
 			{populatedOffers.map((offer) => {
-				console.log('AAAAAAAAAAAAAAADSOFOIQZIOFHEOIZQHFOIQZEIOZ', offer.since)
 				const propositions = proposals[offer.id] ?? []
 				return (
 					<Box key={offer.id}>
