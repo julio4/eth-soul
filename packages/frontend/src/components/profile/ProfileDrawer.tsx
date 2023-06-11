@@ -22,9 +22,11 @@ import defaultCover from 'public/images/default-cover-offer.jpg';
 import defaultAvatar from 'public/images/people/avatar_default.jpeg';
 import { CONTRACT_ADDRESS } from '@utils/const';
 import abiContract from '@assets/abi/sel.json'
+import {ProfileComponent } from './ProfileComponent';
 
 import { Offer } from '../../types/app';
 import { AbiItem } from 'viem';
+import { generateAuthor } from '@utils/randomAuthor';
 
 type ProfileDrawerProps = {
     isOpen: boolean;
@@ -60,34 +62,7 @@ export const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, isConne
                             </DrawerHeader>
 
                             <DrawerBody px={0}>
-                                <Box position="relative" mb={12} height={"20%"}>
-                                    <Box
-                                        width="100%"
-                                        height="100%"
-                                        position="relative"
-                                        overflow="hidden"
-                                    >
-                                        <Image
-                                            src={defaultCover}
-                                            alt='offer'
-                                            layout="fill"
-                                            objectFit="defaultCover"
-                                        />
-                                    </Box>
-                                    <Flex
-                                        position="absolute"
-                                        left={8}
-                                        bottom={-9}
-                                        align="center"
-                                        justify="center"
-                                        borderRadius="full"
-                                        bg="white"
-                                        p={1}
-                                        zIndex={1}
-                                    >
-                                    </Flex>
-                                </Box>
-
+                                <ProfileComponent author={generateAuthor()} />
                             </DrawerBody>
 
                             <DrawerFooter>

@@ -28,8 +28,6 @@ const generateBadges = (): BadgeInfo[] => {
 };
 
 const generateAuthor = (): Author => {
-  const hasAvatar = Math.random() < 0.7;
-  const avatarNumber = Math.floor(Math.random() * 5) + 1;
   const average = (Math.random() * (5 - 3.5)) + 3.5;
   const badges = generateBadges();
 
@@ -43,27 +41,11 @@ const generateAuthor = (): Author => {
       numberOfReviews: Math.floor(Math.random() * 100),
       average: Math.round(average * 10) / 10,
     },
-    avatar: hasAvatar ? getAvatar(avatarNumber) : undefined,
+    avatar: undefined,
     badges
 
   };
 };
 
-const getAvatar = (avatarNumber: number): StaticImageData => {
-  switch (avatarNumber) {
-    case 1:
-      return person1;
-    case 2:
-      return person2;
-    case 3:
-      return person3;
-    case 4:
-      return person4;
-    case 5:
-      return person5;
-    default:
-      return person1;
-  }
-};
 
 export { generateAuthor };

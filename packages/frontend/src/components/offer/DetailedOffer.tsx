@@ -17,16 +17,14 @@ import {
 
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import React, { FC } from 'react';
-import { Image } from '@chakra-ui/react'
-import defaultCover from 'public/images/default-cover-offer.jpg';
-import defaultAvatar from 'public/images/people/avatar_default.jpeg';
 import { CONTRACT_ADDRESS } from '@utils/const';
 import abiContract from '@assets/abi/sel.json'
 
 import { Offer } from '../../types/app';
 import { AuthorOffer } from './AuthorOffer';
 import { TabOffer } from './TabOffer';
-import { AbiItem } from 'viem';
+import { AvatarAndCover } from '../profile/AvatarAndCover';
+
 
 type DetailedOfferProps = {
     offer: Offer;
@@ -78,41 +76,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
                     </DrawerHeader>
 
                     <DrawerBody px={0}>
-                        <Box position="relative" mb={12} height={"20%"}>
-                            <Box
-                                width="100%"
-                                height="100%"
-                                position="relative"
-                                overflow="hidden"
-                            >
-                                <Image
-                                    src={defaultCover}
-                                    alt='offer'
-                                    layout="fill"
-                                    objectFit="defaultCover"
-                                />
-                            </Box>
-                            <Flex
-                                position="absolute"
-                                left={8}
-                                bottom={-9}
-                                align="center"
-                                justify="center"
-                                borderRadius="full"
-                                bg="white"
-                                p={1}
-                                zIndex={1}
-                            >
-                                <Box borderRadius="full" overflow="hidden">
-                                    {
-                                        offer.author.avatar ?
-                                            <Image src={offer.author.avatar} alt='avatar' width={84} height={84} />
-                                            :
-                                            <Image src={defaultAvatar} alt='avatar' width={84} height={84} />
-                                    }
-                                </Box>
-                            </Flex>
-                        </Box>
+                        <AvatarAndCover author={offer.author} />
                         <Box px={10} mb={5}>
                             <AuthorOffer offer={offer} />
                             <TabOffer offer={offer} />
