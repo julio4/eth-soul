@@ -15,9 +15,10 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import Web3 from 'web3'
 import { retrieveOffer, storeOffer } from '@service/web3storage'
 import { CONTRACT_ADDRESS, THE_GRAPH_URL } from '@utils/const'
-import { useContractRead, useContractWrite } from "wagmi"
+import { useContractEvent, useContractRead, useContractWrite } from "wagmi"
 import CreateModeModal from "../components/create-mode-modal/createModeModal"
 import { offerDTOToOfferObject } from '@mapping/OfferMapping'
+import { set } from 'nprogress'
 
 const OffersQuery = `query ($first: Int)
 {
@@ -46,11 +47,23 @@ const AppPage: NextPage = () => {
   const [price, setPrice] = useState<number>(100)
   const [file, setFile] = useState<File | null>(null)
 
+  const [createLoading, setCreateLoading] = useState<boolean>(false)
+
   const { data, isLoading, isSuccess, write: createNewOffer, status: creationStatus } = useContractWrite({
     address: CONTRACT_ADDRESS,
     abi: contractABI,
     functionName: 'createOffer',
   });
+
+  // useContractEvent({
+  //   address: CONTRACT_ADDRESS,
+  //   abi: contractABI,
+  //   eventName: 'OfferCreated',
+  //   listener(data) {
+  //     console.log(data[0])
+  //     // setRawOffers((prev) => [...prev, data[0]);
+  //   },
+  // })
 
   useEffect(() => {
     if (creationStatus === 'success') {
@@ -59,6 +72,11 @@ const AppPage: NextPage = () => {
     }
     else if (creationStatus === 'error') toast.error('Error while creating service request');
   }, [creationStatus]);
+
+  // useEffect(() => {
+  //   if (isSuccess && !createLoading)
+  //     toast.loading('Transaction in progress...');
+  // }, [isSuccess]);
 
   const resetFields = useCallback(() => {
     setTitle('');
@@ -71,7 +89,7 @@ const AppPage: NextPage = () => {
 
   const confirm = async () => {
     if (!title.length || file === null) toast.error('You have to set a title and an image in order to create a proposition');
-
+    setCreateLoading(true)
     const cid = await storeOffer({
       coordinates: {
         latitude: targetPos?.lat() as number,
@@ -88,6 +106,7 @@ const AppPage: NextPage = () => {
     const hash2_pre = Web3.utils.asciiToHex(cid.slice(32, 64))
     const hash2 = "0x" + hash2_pre.slice(2, 64).padStart(122 - hash2_pre.length - 2, "0")
 
+    setCreateLoading(false)
     // Await to create an offer
     createNewOffer({
       args: [price, [hash1, hash2]],
@@ -178,7 +197,7 @@ const AppPage: NextPage = () => {
         price={price} setPrice={setPrice}
         confirm={confirm}
         file={file} setFile={setFile}
-        isButtonLoading={creationStatus === 'loading'}
+        isButtonLoading={isLoading || createLoading}
         resetFields={resetFields}
       />
       <RecentActivityModal />

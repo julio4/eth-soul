@@ -48,8 +48,6 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
         });
     }
 
-
-
     return (
         <>
             <Drawer
@@ -84,8 +82,12 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
 
                     </DrawerBody>
 
-                    <DrawerFooter>
-                        <Button colorScheme='blue' onClick={sendOffer}>
+                    <DrawerFooter sx={{
+                        width: '100%',
+                    }}>
+                        <Button colorScheme='blue' onClick={sendOffer} sx={{
+                            width: '100%',
+                        }}>
                             Propose Your Help</Button>
                     </DrawerFooter>
                 </DrawerContent>
