@@ -38,6 +38,8 @@ const CreateModeModal = ({
   confirm,
   file,
   setFile,
+  isButtonLoading,
+  resetFields,
 }: {
   createMode: boolean,
   setCreateMode: (createMode: boolean) => void,
@@ -54,8 +56,11 @@ const CreateModeModal = ({
   confirm: () => void,
   file: File | null,
   setFile: (file: File | null) => void,
+  isButtonLoading: boolean,
+  resetFields: () => void,
 }) => {
   const onToggleCreateMode = useCallback(() => {
+    if (createMode) resetFields();
     if (!createMode) {
       setTargetPos(null)
       toast.success('Click on the map to create a new offer')
@@ -205,6 +210,7 @@ const CreateModeModal = ({
                     onClick={confirmOfferCreation}
                     disabled={isConfirmButtonDisabled()}
                     opacity={isConfirmButtonDisabled() ? 0.2 : 1}
+                    isLoading={isButtonLoading}
                   >
                     Confirm
                   </Button>
