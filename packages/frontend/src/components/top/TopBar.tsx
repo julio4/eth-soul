@@ -11,7 +11,7 @@ import { fetchBalance } from '@wagmi/core'
 import logo from "../../../public/images/Logo.svg"
 import { CONTRACT_ADDRESS } from "@utils/const"
 
-export const TopBar = ({ hideBg = false}: { hideBg?: boolean }) => {
+export const TopBar = ({ hideBg = false }: { hideBg?: boolean }) => {
   const { address, isConnected } = useAccount();
   const [balance, setBalance] = useState<bigint | null>(null);
 
@@ -64,7 +64,7 @@ export const TopBar = ({ hideBg = false}: { hideBg?: boolean }) => {
           )}
 
           {/* Rainbowkit Connect Button */}
-          <ConnectButton showBalance={false} chainStatus={"icon"}/>
+          <ConnectButton showBalance={false} chainStatus={"icon"} />
         </Flex>
 
       </Flex>

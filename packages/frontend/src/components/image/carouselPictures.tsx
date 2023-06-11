@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
+import { Image } from '@chakra-ui/react'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 
