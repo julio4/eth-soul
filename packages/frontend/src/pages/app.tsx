@@ -32,19 +32,6 @@ const OffersQuery = `query ($first: Int)
 }`
 
 const AppPage: NextPage = () => {
-
-  // const { data, isError, isLoading } = useContractRead({
-  //   address: '0xb4ab8C36c53E036d3eB222a6af4E1DdF97e6ABe9',
-  //   abi: contractABI,
-  //   functionName: 'getOffer',
-  //   args: [1]
-  // });
-
-  // useEffect(() => {
-  //   console.log('displays data------------');
-  //   console.log(data);
-  // }, [data]);
-
   const client = new ApolloClient({
     uri: THE_GRAPH_URL,
     cache: new InMemoryCache()
@@ -83,8 +70,6 @@ const AppPage: NextPage = () => {
   }, [])
 
   const confirm = async () => {
-    // console.log("title", title, "description", description, "category", category, "price", price, "targetPos", targetPos)
-
     if (!title.length || file === null) toast.error('You have to set a title and an image in order to create a proposition');
 
     const cid = await storeOffer({
@@ -103,6 +88,7 @@ const AppPage: NextPage = () => {
     const hash2_pre = Web3.utils.asciiToHex(cid.slice(32, 64))
     const hash2 = "0x" + hash2_pre.slice(2, 64).padStart(122 - hash2_pre.length - 2, "0")
 
+    // Await to create an offer
     createNewOffer({
       args: [price, [hash1, hash2]],
     });
@@ -113,7 +99,7 @@ const AppPage: NextPage = () => {
       .query({
         query: gql(OffersQuery),
         variables: {
-          first: 20
+          first: 200
         }
       })
       .then((data) => {
@@ -140,10 +126,6 @@ const AppPage: NextPage = () => {
     }
   }, [rawOffers])
 
-  useEffect(() => {
-    console.log(markers)
-  }, [markers])
-
   const [center, setCenter] = useState<google.maps.LatLngLiteral>({
     lat: 50.10340217817493,
     lng: 14.450536191137255
@@ -168,7 +150,6 @@ const AppPage: NextPage = () => {
   const onMapClick = useCallback(
     (event: google.maps.MapMouseEvent) => {
       if (event.latLng === null) return;
-      console.log("Map clicked to ", event.latLng.toString());
       setTargetPos(event.latLng);
     },
     [setTargetPos]
