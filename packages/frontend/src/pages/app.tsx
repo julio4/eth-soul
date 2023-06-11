@@ -60,15 +60,27 @@ const AppPage: NextPage = () => {
 		functionName: 'createOffer',
 	})
 
-	// useContractEvent({
-	//   address: CONTRACT_ADDRESS,
-	//   abi: contractABI,
-	//   eventName: 'OfferCreated',
-	//   listener(data) {
-	//     console.log(data[0])
-	//     // setRawOffers((prev) => [...prev, data[0]);
-	//   },
-	// })
+	useContractEvent({
+	  address: CONTRACT_ADDRESS,
+	  abi: contractABI.abi,
+	  eventName: 'OfferCreated',
+	  listener(data) {
+      const newData = (data[0] as any).args;
+
+      const rawOffer: RawOffer = {
+        id: '',
+        hash: newData.hash,
+        offerId: parseInt(newData.offerId, 10),
+        offerer: newData.offerer,
+        tokens: parseInt(newData.tokens, 10),
+        isActive: true,
+      }
+      const IdHex = Web3.utils.numberToHex(rawOffer.offerId);
+      rawOffer.id = IdHex.padEnd(10, '0');
+
+	    setRawOffers((prev) => [...prev, rawOffer]);
+	  },
+	})
 
 	useEffect(() => {
 		if (creationStatus === 'success') {
