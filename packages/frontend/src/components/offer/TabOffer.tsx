@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box, Flex, Divider } from '@chakra-ui/react'
 import { Offer } from '@types/app'
 import { Image } from '@chakra-ui/react'
 import CarouselPictures from '@components/image/carouselPictures'
@@ -42,6 +42,12 @@ export const TabOffer: FC<TabOfferProps> = ({ offer }) => {
 			<TabPanels>
 				<TabPanel px={4}>
 					<Text mb={2}>{renderDescription(offer.description)}</Text>
+					<Flex justifyContent="center" mt={4}>
+						<Box
+							backgroundColor="#white" borderRadius={"full"} px={4} py={2} display="inline-block" border="3px solid #3182ce" >
+							<Text fontWeight={"extrabold"} color={'#3182ce'} fontSize="md">{offer.price} SEL</Text>
+						</Box>
+					</Flex>
 				</TabPanel>
 				<TabPanel style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 					{offer.images ? (

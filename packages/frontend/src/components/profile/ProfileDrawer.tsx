@@ -34,10 +34,6 @@ export const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, isConne
 							<DrawerBody px={0}>
 								<ProfileComponent author={generateAuthor()} />
 							</DrawerBody>
-
-							<DrawerFooter>
-								<Button colorScheme="blue">Propose Your Help</Button>
-							</DrawerFooter>
 						</DrawerContent>
 					</>
 				) : (

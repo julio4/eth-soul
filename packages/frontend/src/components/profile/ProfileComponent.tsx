@@ -7,6 +7,7 @@ import { Rating } from './Rating'
 import { AiOutlinePhone } from 'react-icons/ai'
 import { FiMapPin } from 'react-icons/fi'
 import { CurrentActivity } from '@components/activity/CurrentActivity'
+import { PassedActivity } from '@components/activity/PassedActivity'
 
 type ProfileComponentProps = {
 	author: Author
@@ -49,8 +50,17 @@ export function ProfileComponent({ author }: ProfileComponentProps) {
 						</Flex>
 					</Flex>
 
-					<Divider mt={5} />
+					<Divider my={5} />
+					<Heading as="h6" size="xs" mt={5} color={'gray.800'} mb={1}>
+						Ongoing Services
+					</Heading>
 					<CurrentActivity />
+
+					<Divider my={5} />
+					<Heading as="h6" size="xs" mt={5} color={'gray.800'} mb={1}>
+						Completed Services
+					</Heading>
+					<PassedActivity />
 				</Box>
 			</Box>
 		</Box>

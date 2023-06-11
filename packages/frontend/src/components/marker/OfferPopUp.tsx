@@ -1,4 +1,4 @@
-import { Box, Flex, Center, Image, Popover, PopoverTrigger, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Flex, Center, Image, Text, useColorModeValue } from '@chakra-ui/react'
 import ZoomContext from '@utils/zoomContext'
 
 import { CategoryDetails } from '@types/category'
@@ -12,10 +12,6 @@ type OfferPopUpProps = {
 }
 
 export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%', offer }) => {
-	const { zoomLevel } = useContext(ZoomContext)
-
-	// const [heartFilled, setHeartFilled] = useState(false)
-
 	return (
 		<Box
 			borderRadius={16}
@@ -37,24 +33,6 @@ export const OfferPopUp: FC<OfferPopUpProps> = ({ width = '100%', offer }) => {
 					{offer.images && (
 						<Image src={offer.images[0]} alt={offer.title} w="100%" h="100%" objectFit="cover" cursor="default" />
 					)}
-
-					<Popover placement="top">
-						<PopoverTrigger>
-							<Box
-								position="absolute"
-								top={'15%'}
-								right={'17%'}
-								transform="translate(50%, -50%)"
-								bg="white"
-								borderRadius="lg"
-								boxShadow="lg"
-								p={2}
-								cursor="pointer"
-							>
-								{offer.price}
-							</Box>
-						</PopoverTrigger>
-					</Popover>
 				</Box>
 				<Center flexDirection="column" textAlign="center" h="100%" px={4} py={3} cursor="pointer">
 					<Flex justifyContent="flex-start" w="100%" alignItems={'center'}>
