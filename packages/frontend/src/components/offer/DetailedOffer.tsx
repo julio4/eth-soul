@@ -61,7 +61,7 @@ export const DetailedOffer: FC<DetailedOfferProps> = ({ offer, isOpen, onClose }
 								<Text width={'70%'}>{offer.title}</Text>
 								<Flex flexDirection={'column'} alignItems="flex-end">
 									<Text fontWeight="light" fontSize="sm" color="gray.500">
-										2 days ago
+										yesterday
 									</Text>
 								</Flex>
 							</Flex>
