@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = '0xb4ab8C36c53E036d3eB222a6af4E1DdF97e6ABe9'
-const THE_GRAPH_URL = 'https://api.studio.thegraph.com/query/48177/selsubgraph/version/latest'
+const CONTRACT_ADDRESS = '0x627665fE893314D4e18ed87F2510EaF85CaF8530'
+const THE_GRAPH_URL = 'https://api.studio.thegraph.com/query/48177/sepoliafinal/0.1.1'
 
 export { CONTRACT_ADDRESS, THE_GRAPH_URL }

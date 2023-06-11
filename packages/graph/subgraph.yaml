@@ -6,7 +6,7 @@ dataSources:
     name: Sel
     network: sepolia
     source:
-      address: "0xb4ab8C36c53E036d3eB222a6af4E1DdF97e6ABe9"
+      address: "0x627665fE893314D4e18ed87F2510EaF85CaF8530"
       abi: Sel
       startBlock: 3658032
     mapping:

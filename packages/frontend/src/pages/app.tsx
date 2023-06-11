@@ -56,7 +56,7 @@ const AppPage: NextPage = () => {
 		status: creationStatus,
 	} = useContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: contractABI,
+		abi: contractABI.abi,
 		functionName: 'createOffer',
 	})
 
