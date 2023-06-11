@@ -149,13 +149,15 @@ export const Activity = (props: ActivityProps) => {
                 minWidth: '30rem',
                 bottom: '1.5rem',
                 left: '1.5rem',
+                overflow: 'scroll',
+                maxHeight: '60vh',
             }}>
                 <CardHeader>
                     <Heading size='md'>Recent Activity</Heading>
                 </CardHeader>
 
                 <CardBody display={show ? 'block' : 'none'}>
-                    <Stack divider={<StackDivider />} spacing='4'>
+                <Stack divider={<StackDivider />} spacing='4'>
                         {
                             populatedOffers.map((offer) => {
                                 const propositions = proposals[offer.id] ?? []
