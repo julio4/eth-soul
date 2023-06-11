@@ -1,5 +1,5 @@
 {
-  "name": "@ethathon/contracts",
+  "name": "contracts",
   "license": "MIT",
   "version": "0.0.1",
   "scripts": {
@@ -15,12 +15,10 @@
     "eslint": "eslint . --ext .js,.ts",
     "solhint": "solhint 'contracts/**/*.sol'",
     "deploy": "pnpm hardhat node --export './deployments/1337.json' --write true",
-    "deploy:mumbai": "pnpm hardhat deploy --network mumbai --export './deployments/80001.json' --write true",
-    "deploy:goerli": "pnpm hardhat deploy --network goerli --export './deployments/5.json' --write true",
     "deploy:sepolia": "pnpm hardhat deploy --network sepolia --export './artifacts/contracts/Sel.sol/Sel.json' --write true",
     "verify:sepolia": "pnpm hardhat etherscan-verify --network sepolia",
-    "verify:mumbai": "source .env && pnpm hardhat etherscan-verify --network mumbai --api-key $POLYGONSCAN_API_KEY",
-    "verify:goerli": "pnpm hardhat etherscan-verify --network goerli"
+    "deploy:scroll": "pnpm hardhat deploy --network scrollAlpha --export './artifacts/contracts/Sel.sol/Sel.json' --write true",
+    "deploy:optimism": "pnpm hardhat deploy --network optimismGoerli --export './artifacts/contracts/Sel.sol/Sel.json' --write true"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",
